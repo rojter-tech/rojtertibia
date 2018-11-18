@@ -1,4 +1,6 @@
 # User-specific files
+*.zip
+*.rar
 *.suo
 *.user
 *.sln.docstates
