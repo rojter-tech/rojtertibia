@@ -4,7 +4,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   pugixml-dev \
   crypto++-dev
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.4/main/ \
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   boost-dev \
   binutils \
   build-base \
