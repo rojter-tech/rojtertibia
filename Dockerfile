@@ -15,7 +15,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   pugixml-dev
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-  boost-dev
+  boost-dev=1.66.0-r0
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
