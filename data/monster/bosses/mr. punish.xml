@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Mr. Punish" nameDescription="Mr. Punish" race="undead" experience="5500" speed="470" manacost="0">
+	<health now="12000" max="12000" />
+	<look type="234" corpse="6331" />
+	<targetchange interval="2000" chance="5" />
+	<flags>
+		<flag summonable="0" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="0" />
+		<flag convinceable="0" />
+		<flag pushable="0" />
+		<flag canpushitems="1" />
+		<flag staticattack="50" />
+		<flag lightlevel="0" />
+		<flag lightcolor="0" />
+		<flag targetdistance="1" />
+		<flag runonhealth="2000" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="-660" max="-1280" />
+	</attacks>
+	<defenses armor="64" defense="72" />
+	<immunities>
+		<immunity energy="1" />
+		<immunity fire="1" />
+		<immunity poison="1" />
+		<immunity invisible="1" />
+	</immunities>
+	<loot>
+	<item id="2152" countmax="5" chance="35000" /> <!-- Platinum Coin -->
+	<item id="2148" countmax="125" chance="35000" /> <!-- Gold Coin -->	
+	<item id="6500" chance="8000" /> <!-- Demonic Essence -->
+	<item id="5944" chance="6000" /> <!-- Soul Orb -->	
+	<item id="2145" chance="6000" /> <!-- Small Diamond -->
+	<item id="2443" chance="1000" /> <!-- Ravager's Axe -->
+	<item id="5801" chance="1000" /> <!-- Jewelled Backpack -->
+	<item id="9971" chance="3000" /> <!-- Gold Ingot -->
+	<item id="7590" chance="6000" /> <!-- Great Mana Potion -->
+	<item id="7591" chance="6000" /> <!-- Great Health Potion -->
+	<item id="2387" chance="6000" /> <!-- Double Axe -->
+	<item id="5480" chance="6000" /> <!-- Cat's Paw -->
+	<item id="6492" chance="3000" /> <!-- Bat Decoration -->
+	<item id="7368" countmax="3" chance="6000" /> <!-- Assassin Star -->	
+		<item id="6537" chance="100000" /><!-- mr punish's handcuffs -->
+	</loot>
+</monster>
