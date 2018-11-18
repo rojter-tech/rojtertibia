@@ -635,7 +635,6 @@ function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHot
 
 	local targetId = target.itemid
 
-	-- by vikingtibia
 	if targetId == 2992 then
 		--if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
 			--if player:getStorageValue(cid, 41600) >= 0  then

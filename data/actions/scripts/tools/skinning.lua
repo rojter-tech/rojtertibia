@@ -1,7 +1,7 @@
 local config = {
 	[5908] = {
 	
-	-- rabbits vikingtibia
+	-- rabbits rOjterTibiaServer
 		[2992] = {value = 25000, newItem = 13159, after = 2993},
 		
 		

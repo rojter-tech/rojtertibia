@@ -12,7 +12,6 @@ function creatureSayCallback(cid, type, msg)
 	if(not(npcHandler:isFocused(cid))) then
 		return false
 	end
-	-- www.vikingtibia.com.br
 	
 	if(msgcontains(msg, "abandoned sewers")) then
 		if(getPlayerStorageValue(cid, 20062) < 21) then

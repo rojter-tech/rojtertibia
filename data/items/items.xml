@@ -24615,12 +24615,12 @@
 		<attribute key="weight" value="1560" />
 	</item>
 	<item id="24317" name="midnight panther doll">
-	<attribute key="description" value="It is said to be a symbol of perseverance and luck. Awarded by Vikingtibia.com.br ." />
+	<attribute key="description" value="It is said to be a symbol of perseverance and luck. " />
 		<attribute key="weight" value="1560" />
 	</item>
 	
 	<item id="24777" name="little adventurer doll">
-	<attribute key="description" value="This little fellow has faced many dangers. He will follow you anywhere. Awarded by Vikingtibia.com.br ." />
+	<attribute key="description" value="This little fellow has faced many dangers. He will follow you anywhere. " />
 		<attribute key="weight" value="1560" />
 	</item>
 	
@@ -26010,7 +26010,7 @@
 		<attribute key="weaponType" value="shield" />
 	</item>
 	<item fromid="16105" toid="16106" article="a" name="medusa skull">
-		<attribute key="description" value="You see a medusa skull. Her hair's snakes are still alive. Awarded only on Vikingtibia.com.br ." />
+		<attribute key="description" value="You see a medusa skull. Her hair's snakes are still alive." />
 		<attribute key="weight" value="1000" />
 	</item>
 	<item fromid="16107" toid="16108" article="a" name="doll of Durin The Almighty">
@@ -35514,7 +35514,7 @@
 	</item>
 	<item id="23807" article="a" name="black knight doll">
 		<attribute key="weight" value="1800" />
-			<attribute key="description" value="Awarded by Vikingtibia.com.br . My sad story is told by few living humans but many dead warriors." />
+			<attribute key="description" value=" My sad story is told by few living humans but many dead warriors." />
 	</item>
 	<item id="23810" name="The Lion's Heart">
 		<attribute key="weight" value="200" />

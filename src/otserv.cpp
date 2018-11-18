@@ -146,8 +146,8 @@ void mainLoader(int, char*[], ServiceManager* services)
 #endif
 	std::cout << std::endl;
 
-	std::cout << "O server foi programado por " << STATUS_SERVER_DEVELOPERS << std::endl;
-	std::cout << "Datapack feito por VikingTibia, contato Skype: viking.mu Whatsapp: 021966697227." << std::endl;
+	std::cout << "The server is developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
+	std::cout << "Modified by rOjter." << std::endl;
 	std::cout << std::endl;
 
 	// read global config
