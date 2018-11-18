@@ -2,9 +2,7 @@ FROM alpine:edge AS build
 # pugixml-dev is in edge/testing
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
   pugixml-dev \
-  crypto++-dev
-
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+  crypto++-dev \
   boost-dev \
   binutils \
   build-base \
