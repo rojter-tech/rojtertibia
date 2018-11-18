@@ -1,6 +1,10 @@
 FROM alpine:edge AS build
 # pugixml-dev is in edge/testing
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
+  pugixml-dev
+
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.4/main/ \
+  boost-dev \
   binutils \
   build-base \
   clang \
@@ -11,11 +15,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   luajit-dev \
   lua-dev \
   make \
-  mariadb-connector-c-dev \
-  pugixml-dev
-
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-  boost-dev=1.66.0-r0
+  mariadb-connector-c-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
