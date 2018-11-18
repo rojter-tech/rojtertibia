@@ -10,6 +10,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   gcc \
   gmp-dev \
   luajit-dev \
+  lua-dev \
   make \
   mariadb-connector-c-dev \
   pugixml-dev
