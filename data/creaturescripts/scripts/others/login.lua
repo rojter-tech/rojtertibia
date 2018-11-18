@@ -160,7 +160,7 @@ elseif Game.getStorageValue(GlobalStorage.FuryGates, (9711)) == 2 then -- for ab
       end
      
    
-    player:sendTextMessage(MESSAGE_STATUS_CONSOLE_BLUE, '[PROMOÇÃO 23/09 ATÉ 30/09] Doações acima de R$ 40,00 o player poderá escolher uma das novas montarias (White/Black/Winter Wolf) ou o Outfit Lupine Warden, envie o comprovante para nosso email com sua escolha.')
+    player:sendTextMessage(MESSAGE_STATUS_CONSOLE_BLUE, '[VIKTIGT MEDDELANDE] Glom inte att jag ser allt du gor, sa passa dig javla noga.. ')
    	player:sendTextMessage(MESSAGE_STATUS_CONSOLE_ORANGE, '[GUILD LEADER COMMAND] Will change all outfits from members !outfit.')
    
     -- Events
