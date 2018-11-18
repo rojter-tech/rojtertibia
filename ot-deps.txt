@@ -1,0 +1,56 @@
+apt-get update && apt-get install -y \
+g++ \
+git-core \
+wget \
+cmake \
+make \
+autoconf \
+automake \
+pkg-config \
+libxml2-dev \
+lua-sql-mysql \
+lua-sql-mysql-dev \
+liblua5.1-0-dev \
+libgmp3-dev \
+libboost-all-dev \
+libmysqlclient-dev
+
+
+
+## The deps
+build-essential
+cmake
+git-core
+libboost-all-dev
+libgmp3-dev
+liblua5.1-dev
+libxml2-dev
+libmysqlclient-dev
+mysql-server
+libsqlite3-dev
+libpq-dev
+libsqlite3-dev
+cmake 
+build-essential
+liblua5.2-dev 
+libgmp3-dev
+libmysqlclient-dev
+libboost-system-dev
+libpugixml-dev
+libboost-iostreams-dev
+
+## Installing deps
+sudo apt-get install build-essential cmake git-core
+sudo apt-get install libboost-all-dev libgmp3-dev liblua5.1-dev libxml2-dev
+sudo apt-get install libmysqlclient-dev mysql-server libsqlite3-dev
+sudo apt-get install libpq-dev libsqlite3-dev
+
+
+## Build procedure
+git clone git://github.com/opentibia/server.git
+mkdir build
+cd build
+cmake ..
+make -j4
+cd ..
+./build/otserv
