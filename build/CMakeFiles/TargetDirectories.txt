@@ -1,3 +1,0 @@
-/mnt/c/Users/dreut/Github/rojter-tech/rOjterTibia/LUMINA/build/CMakeFiles/edit_cache.dir
-/mnt/c/Users/dreut/Github/rojter-tech/rOjterTibia/LUMINA/build/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/dreut/Github/rojter-tech/rOjterTibia/LUMINA/build/CMakeFiles/tfs.dir
