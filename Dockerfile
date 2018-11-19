@@ -1,6 +1,6 @@
-FROM debian:wheezy AS build
-RUN apt update
-RUN apt install \
+FROM debian:jessie AS build
+RUN apt-get update
+RUN apt-get install \
 cmake \
 build-essential \
 liblua5.2-dev \
@@ -17,7 +17,7 @@ COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
 
-FROM debian:wheezy
+FROM debian:jessie
 RUN apt-get update && apt-get install -y \
 libboost-iostreams \
 libboost-system \
