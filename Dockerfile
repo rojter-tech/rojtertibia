@@ -1,15 +1,15 @@
 FROM debian:wheezy AS build
 RUN apt-get update && apt-get install -y \
-  git \
-  cmake \
-  build-essential \
-  liblua5.2-dev \
-  libgmp3-dev \
-  libmysqlclient-dev \
-  libboost-system-dev \
-  libboost-iostreams-dev \
-  libpugixml-dev \
-  libcrypto++-dev
+git \
+cmake \
+build-essential \
+liblua5.2-dev \
+libgmp3-dev \
+libmysqlclient-dev \
+libboost-system-dev \
+libboost-iostreams-dev \
+libpugixml-dev \
+libcrypto++-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
@@ -19,13 +19,13 @@ RUN cmake .. && make -j8
 
 FROM debian:wheezy
 RUN apt-get update && apt-get install -y \
-  libboost-iostreams \
-  libboost-system \
-  libcrypto++ \
-  libgmp3 \
-  liblua5.2 \
-  libmysqlclient \
-  libpugixml
+libboost-iostreams \
+libboost-system \
+libcrypto++ \
+libgmp3 \
+liblua5.2 \
+libmysqlclient \
+libpugixml
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
