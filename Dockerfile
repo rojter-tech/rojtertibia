@@ -18,9 +18,10 @@ RUN cmake .. && make -j8
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY data /usr/src/rojtertibia/data/
-COPY LICENSE README.md *.dist *.sql key.pem /srv/
+COPY LICENSE README.md *.dist *.sql key.pem /usr/src/rojtertibia/
+COPY config.lua.dist /usr/src/rojtertibia/config.lua
 
 EXPOSE 7173 7174
-WORKDIR /srv
-VOLUME /srv
+WORKDIR /usr/src/rojtertibia/
+VOLUME /usr/src/rojtertibia/
 ENTRYPOINT ["/usr/src/rojtertibia/build/tfs"]
