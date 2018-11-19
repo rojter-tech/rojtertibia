@@ -16,16 +16,6 @@ COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
 
-FROM debian:jessie
-RUN apt-get update && apt-get install -y \
-libboost-iostreams1.62.0 \
-libboost-system1.62.0 \
-libcrypto++6 \
-libgmp3-dev \
-liblua5.2-0 \
-libmysqlclient-dev \
-libpugixml1v5
-
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
 COPY data /srv/data/
