@@ -1,6 +1,5 @@
 FROM debian:jessie AS build
-RUN apt-get update
-RUN apt-get install \
+RUN apt-get update && apt-get install -y \
 cmake \
 build-essential \
 liblua5.2-dev \
