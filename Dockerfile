@@ -1,6 +1,6 @@
 FROM debian:wheezy AS build
-RUN apt-get update
-RUN apt-get install \
+RUN apt update
+RUN apt install \
 cmake \
 build-essential \
 liblua5.2-dev \
