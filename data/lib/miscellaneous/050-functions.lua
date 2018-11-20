@@ -22,16 +22,6 @@ function getMoneyCount(string)
 	return -1
 end
 
---function getBankMoney(cid, amount)
- --local player = Player(cid)
- --if player:getBankBalance() >= amount then
- -- player:setBankBalance(player:getBankBalance() - amount)
- -- player:sendTextMessage(MESSAGE_INFO_DESCR, "Paid " .. amount .. " gold from bank account. Your account balance is now " .. player:getBankBalance() .. " gold.")
- -- return true
--- end
- --return false
---end
-
 function getMoneyWeight(money)
 	local gold = money
 	local crystal = math.floor(gold / 10000)

@@ -21,7 +21,6 @@ local function creatureSayCallback(cid, type, msg)
 				"It belonged to my father and before that to my grandfather. That helmet is at least 600 years old! I need it back. Are you willing to help me?"
 			}, cid)
 			npcHandler.topic[cid] = 1
-			
 		elseif player:getStorageValue(Storage.toOutfoxAFoxQuest) == 1 then
 			if player:removeItem(7497, 1) then
 				player:setStorageValue(Storage.toOutfoxAFoxQuest, 2)
@@ -31,65 +30,14 @@ local function creatureSayCallback(cid, type, msg)
 				npcHandler:say("We presume the hideout of The Horned Fox is somewhere in the south-west near the coast, good luck finding my mining helmet!", cid)
 			end
 			npcHandler.topic[cid] = 0
-			else npcHandler:say("Hum... what, {task}?", cid)
 		end
 	elseif msgcontains(msg, "yes") then
 		if npcHandler.topic[cid] == 1 then
 			player:setStorageValue(Storage.toOutfoxAFoxQuest, 1)
 			npcHandler:say("I knew you have the guts for that task! We presume the hideout of The Horned Fox somewhere in the south-west near the coast. Good luck!", cid)
 			npcHandler.topic[cid] = 0
-			
-			elseif npcHandler.topic[cid] == 2 then
-			npcHandler:say("Hussah! Let's bring war to those hoof-legged, dirt-necked, bull-headed minotaurs!! Come back to me when you are done with your mission.", cid)
-			player:setStorageValue(JOIN_STOR, 1)
-			player:setStorageValue(Storage.KillingInTheNameOf.BudrikMinos, 1)
-			player:setStorageValue(Storage.KillingInTheNameOf.BudrikMinosCount, 0)
-			npcHandler.topic[cid] = 0
-				
-		
-			else npcHandler:say("Zzz...", cid)
-			
-		end
-		elseif msgcontains(msg, "task") then		
-		-- AQUI 
-		if player:getStorageValue(Storage.KillingInTheNameOf.BudrikMinos) <= 0 and player:getStorageValue(Storage.toOutfoxAFoxQuest) == 2 then
-			npcHandler:say({
-				"I am so angry I could spit grit! That damn Horned Fox and his attacks! Let's show those bull-heads that they have messed with the wrong people....",
-				"I want you to kill {5000 minotaurs} - no matter where - for me and all the dwarfs of Kazordoon! Are you willing to do that?"
-			}, cid)
-			npcHandler.topic[cid] = 2
-		elseif player:getStorageValue(Storage.KillingInTheNameOf.BudrikMinos) == 1 then
-			if player:getStorageValue(Storage.KillingInTheNameOf.BudrikMinosCount) >= 5000 then
-				npcHandler:say({
-					"By all that is holy! You are a truly great warrior! With much patience! I have just found out the location the hideout of {The Horned Fox}! I have marked the spot on your map so you can find it. Go there and slay him!! Good luck!"
-				}, cid)
-				player:setStorageValue(17522, 1)
-				player:setStorageValue(Storage.KillingInTheNameOf.BudrikMinos, 2)
-			else
-				npcHandler:say("Come back when you have slain {5000 minotaurs!}", cid)
-			end
-		elseif player:getStorageValue(Storage.KillingInTheNameOf.BudrikMinos) == 2 then
-			npcHandler:say({
-				"It was very decent of you to help me, and I am thankful, really I am, but now I have to get back to my duties as a foreman."
-			}, cid)
-			player:setStorageValue(Storage.KillingInTheNameOf.BudrikMinos, 3)
-		elseif player:getStorageValue(Storage.KillingInTheNameOf.BudrikMinos) == 3 then
-			npcHandler:say("You already done this task.", cid)
-			npcHandler.topic[cid] = 0
-			else npcHandler:say("You need to do the {To Outfox a Fox Quest} before.", cid)
-		end
-		-- AQUI
-		
-		-- YES AQUI 		
-		
-	elseif msgcontains(msg, "no") then
-		if npcHandler.topic[cid] > 1 then
-			npcHandler:say("Then no.", cid)
-			npcHandler.topic[cid] = 0
 		end
 	end
-		-- YES AQUI 
-		
 	return true
 end
 

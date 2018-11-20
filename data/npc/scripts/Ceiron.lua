@@ -63,17 +63,17 @@ local function creatureSayCallback(cid, type, msg)
 			}, cid)
 			npcHandler.topic[cid] = 10
 		end
-	elseif msgcontains(msg, "waterskin") or msgcontains(msg, "water skin") then
+	elseif msgcontains(msg, "waterskin") then
 		if player:getStorageValue(Storage.OutfitQuest.DruidHatAddon) == 3 then
 			npcHandler:say("Did you bring me a sample of water from the hydra cave?", cid)
 			npcHandler.topic[cid] = 7
 		end
-	elseif msgcontains(msg, "dust") or msgcontains(msg, "demon dust") then
+	elseif msgcontains(msg, "dust") then
 		if player:getStorageValue(Storage.OutfitQuest.DruidHatAddon) == 5 then
 			npcHandler:say("Were you really able to collect 100 ounces of demon dust?", cid)
 			npcHandler.topic[cid] = 9
 		end
-	elseif msgcontains(msg, "chain") or msgcontains(msg, "wolf tooth chain") then
+	elseif msgcontains(msg, "chain") then
 		if player:getStorageValue(Storage.OutfitQuest.DruidHatAddon) == 7 then
 			npcHandler:say("Have you really found my wolf tooth chain??", cid)
 			npcHandler.topic[cid] = 11
@@ -121,7 +121,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:setStorageValue(Storage.OutfitQuest.DruidHatAddon, 5)
 			npcHandler.topic[cid] = 0
 		elseif npcHandler.topic[cid] == 9 then
-			if player:removeItem(5906, 100) then
+			if player:removeItem(6550, 100) then
 				npcHandler:say("I'm very impressed, |PLAYERNAME|. With this task you have proven that you are on the right side and are powerful as well. If you are ready to help me again, just ask me for a {task}.", cid)
 				player:setStorageValue(Storage.OutfitQuest.DruidHatAddon, 6)
 				npcHandler.topic[cid] = 0

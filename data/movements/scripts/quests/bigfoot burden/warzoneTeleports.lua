@@ -14,8 +14,8 @@ function onStepIn(creature, item, position, fromPosition)
 	if not destination then
 		return true
 	end
-	
-	if player:getStorageValue(destination.storage) > os.time() then -- add luanluciano
+
+	if player:getStorageValue(destination.storage) ~= destination.value then
 		player:teleportTo(fromPosition)
 		return true
 	end

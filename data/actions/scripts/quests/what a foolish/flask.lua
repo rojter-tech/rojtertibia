@@ -1,5 +1,5 @@
 local config = {
-	[8062] = {text = 'This mission stinks ... and now you do as well!', condition = true, transformId = 7477},
+	[1496] = {text = 'This mission stinks ... and now you do as well!', condition = true, transformId = 7477},
 	[6065] = {text = 'You carefully gather the quara ink', transformId = 7489},
 	[20514] = {text = 'You carefully gather the stalker blood.', transformId = 7488}
 }

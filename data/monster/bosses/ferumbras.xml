@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <monster name="Ferumbras" nameDescription="Ferumbras" race="venom" experience="12000" speed="320" manacost="0">
-	<health now="100000" max="100000" />
+	<health now="50000" max="50000" />
 	<look type="229" corpse="6078" />
 	<targetchange interval="5000" chance="8" />
 	<flags>
-        <flag rewardboss="1" />
 		<flag summonable="0" />
 		<flag attackable="1" />
 		<flag hostile="1" />
@@ -17,7 +16,6 @@
 		<flag staticattack="90" />
 		<flag runonhealth="2500" />
 	</flags>
-	
 	<attacks>
 		<attack name="melee" interval="2000" min="0" max="-350" />
 		<attack name="manadrain" interval="2000" chance="20" range="7" min="-500" max="-700">
@@ -71,10 +69,10 @@
 		<voice sentence="Even in my weakened state I will crush you all!" />
 	</voices>
 	<loot>
-		<item id="5903" chance="100000" unique="1" />				<!-- ferumbras' hat -->
+		<item id="5903" chance="100000" />				<!-- ferumbras' hat -->
 		<item id="2148" countmax="184" chance="98000" />	<!-- gold coin -->
 		<item id="9971" countmax="2" chance="75000" />	<!-- gold ingot -->
-		<item id="2522" chance="26000" unique="1" />				<!-- great shield -->
+		<item id="2522" chance="26000" />				<!-- great shield -->
 		<item id="8903" chance="26000" />				<!-- spellbook of lost souls -->
 		<item id="2466" chance="24000" />				<!-- golden armor -->
 		<item id="2470" chance="22000" />				<!-- golden legs -->
@@ -101,7 +99,6 @@
 		<item id="7417" chance="14000" />				<!-- runed sword -->
 		<item id="8904" chance="14000" />				<!-- spellscroll of prophecies -->
 		<item id="7427" chance="12000" />				<!-- chaos mace -->
-		<item id="8926" chance="12000" />				<!-- demonwing axe -->
 		<item id="8869" chance="12000" />				<!-- greenwood coat -->
 		<item id="2146" countmax="98" chance="12000" />	<!-- small sapphire -->
 		<item id="2143" countmax="88" chance="12000" />	<!-- white pearl -->
@@ -115,7 +112,6 @@
 		<item id="7382" chance="8000" />					<!-- demonrage sword -->
 		<item id="7422" chance="8000" />					<!-- jade hammer -->
 		<item id="2152" countmax="58" chance="8000" />	<!-- platinum coin -->
-		<item id="7423" chance="8000" />					<!-- skullcrusher -->
 		<item id="5944" countmax="9" chance="8000" />	<!-- soul orb -->
 	</loot>
 </monster>

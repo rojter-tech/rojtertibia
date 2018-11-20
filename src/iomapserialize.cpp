@@ -20,7 +20,6 @@
 #include "otpch.h"
 
 #include "iomapserialize.h"
-#include "house.h"
 #include "game.h"
 #include "bed.h"
 
@@ -227,7 +226,7 @@ void IOMapSerialize::saveItem(PropWriteStream& stream, const Item* item)
 		// Hack our way into the attributes
 		stream.write<uint8_t>(ATTR_CONTAINER_ITEMS);
 		stream.write<uint32_t>(container->size());
-		for (ItemDeque::const_reverse_iterator it = container->getReversedItems(), end = container->getReversedEnd(); it != end; ++it) {
+		for (auto it = container->getReversedItems(), end = container->getReversedEnd(); it != end; ++it) {
 			saveItem(stream, *it);
 		}
 	}

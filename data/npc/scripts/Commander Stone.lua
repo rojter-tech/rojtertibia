@@ -22,7 +22,6 @@ local function creatureSayCallback(cid, type, msg)
 			npcHandler:say("For your {rank} there are four missions avaliable: {crystal keeper}, {spark hunting}, {monster extermination} and {mushroom digging}. By the way, you {rank} now allows you to take aditional missions from {Gnomeral} in {Gnomebase Alpha}. ... ", cid)
 			npcHandler:say("If you lose a mission item you can probably buy it from Gnomally. ", cid)
 			npcHandler.topic[cid] = 0
-				
 		end
 	-- Crystal Keeper
 	elseif(msgcontains(msg, "keeper")) then
@@ -39,15 +38,13 @@ local function creatureSayCallback(cid, type, msg)
 				player:addItem(18422, 1)
 				player:addItem(18215, 1)
 				player:setStorageValue(Storage.BigfootBurden.MissionCrystalKeeper, 0)
-				player:setStorageValue(Storage.BigfootBurden.CrystalKeeperTimout, os.time() + 20 * 60 * 60)
+				player:setStorageValue(Storage.BigfootBurden.CrystalKeeperTimout, os.time() + 72000)
 				player:setStorageValue(Storage.BigfootBurden.RepairedCrystalCount, -1)
 				player:addAchievement('Crystal Keeper')
 				player:checkGnomeRank()
 				npcHandler:say("You did well. That will help us a lot. Take your token and this gnomish supply package as a reward. ", cid)
 				npcHandler.topic[cid] = 0
-				else npcHandler:say("You did not repaired enough crystal or you have not asked for this task.", cid)
 			end
-			else npcHandler:say("You have already completed/asked/still in that mission or just try again in a few hours or your rank is not suitable for this mission.", cid)
 		end
 	-- Crystal Keeper
 
@@ -67,14 +64,12 @@ local function creatureSayCallback(cid, type, msg)
 				player:addItem(18215, 1)
 				player:setStorageValue(Storage.BigfootBurden.MissionCrystalKeeper, 0)
 				player:setStorageValue(Storage.BigfootBurden.ExtractedCount, -1)
-				player:setStorageValue(Storage.BigfootBurden.RaidersOfTheLostSparkTimeout, os.time() + 20 * 60 * 60)
+				player:setStorageValue(Storage.BigfootBurden.RaidersOfTheLostSparkTimeout, os.time() + 72000)
 				player:addAchievement('Call Me Sparky')
 				player:checkGnomeRank()
 				npcHandler:say("You did well. That will help us a lot. Take your token and this gnomish supply package as a reward. ", cid)
 				npcHandler.topic[cid] = 0
-				else npcHandler:say("You did not draw enough energy from Crystal Crushers or you have not asked for this task.", cid)
 			end
-			else npcHandler:say("You have already completed/asked/still in that mission or just try again in a few hours or your rank is not suitable for this mission.", cid)
 		end
 	-- Raiders of the Lost Spark
 
@@ -92,14 +87,12 @@ local function creatureSayCallback(cid, type, msg)
 				player:addItem(18215, 1)
 				player:setStorageValue(Storage.BigfootBurden.MissionExterminators, 0)
 				player:setStorageValue(Storage.BigfootBurden.ExterminatedCount, -1)
-				player:setStorageValue(Storage.BigfootBurden.ExterminatorsTimeout, os.time() + 20 * 60 * 60)
+				player:setStorageValue(Storage.BigfootBurden.ExterminatorsTimeout, os.time() + 72000)
 				player:addAchievement('One Foot Vs. Many')
 				player:checkGnomeRank()
 				npcHandler:say("You did well. That will help us a lot. Take your token and this gnomish supply package as a reward. ", cid)
 				npcHandler.topic[cid] = 0
-				else npcHandler:say("You did not killed enough wigglers or you have not asked for this task.", cid)
 			end
-			else npcHandler:say("You have already completed/asked/still in that mission or just try again in a few hours or your rank is not suitable for this mission.", cid)
 		end
 	-- Exterminators
 
@@ -123,14 +116,12 @@ local function creatureSayCallback(cid, type, msg)
 				player:addItem(18215, 1)
 				player:setStorageValue(Storage.BigfootBurden.MissionMushroomDigger, 0)
 				player:setStorageValue(Storage.BigfootBurden.MushroomCount, -1)
-				player:setStorageValue(Storage.BigfootBurden.MushroomDiggerTimeout, os.time() + 20 * 60 * 60)
+				player:setStorageValue(Storage.BigfootBurden.MushroomDiggerTimeout, os.time() + 72000)
 				player:addAchievement('The Picky Pig')
 				player:checkGnomeRank()
 				npcHandler:say("You did well. That will help us a lot. Take your token and this gnomish supply package as a reward. ", cid)
 				npcHandler.topic[cid] = 0
-				else npcHandler:say("You did not completed this task yet or you have not asked for this task.", cid)
 			end
-			else npcHandler:say("You have already completed/asked/still in that mission or just try again in a few hours or your rank is not suitable for this mission.", cid)
 		end
 	-- Mushroom Digger
 
@@ -138,11 +129,9 @@ local function creatureSayCallback(cid, type, msg)
 		if player:getStorageValue(Storage.BigfootBurden.QuestLine) >= 14 and player:getStorageValue(Storage.BigfootBurden.QuestLine) < 15 then
 			npcHandler:say("Which mission do you want to report: {crystal keeper}, {spark hunting}?", cid)
 			npcHandler.topic[cid] = 1
-			--npcHandler:say("There you are.", cid)
 		elseif player:getStorageValue(Storage.BigfootBurden.QuestLine) >= 15 then
 			npcHandler:say("Which mission do you want to report: {crystal keeper}, {spark hunting}, {extermination} or {mushroom digging}?", cid)
 			npcHandler.topic[cid] = 2
-			--npcHandler:say("There you are.", cid)
 		end
 	end
 	return true

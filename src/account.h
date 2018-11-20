@@ -25,19 +25,13 @@
 struct Account {
 	std::vector<std::string> characters;
 	std::string name;
-	time_t lastDay;
-	uint32_t id;
-	uint16_t premiumDays;
-	uint32_t coinBalance;
-	AccountType_t accountType;
+	std::string key;
+	time_t lastDay = 0;
+	uint32_t id = 0;
+	uint16_t premiumDays = 0;
+	AccountType_t accountType = ACCOUNT_TYPE_NORMAL;
 
-	Account() : lastDay(0), id(0), premiumDays(0), coinBalance(0), accountType(ACCOUNT_TYPE_NORMAL) {}
-};
-
-class IOAccount {
-	public:
-		static uint32_t getCoinBalance(uint32_t accountId);
-		static void addCoins(uint32_t accountId, int32_t coins);
+	Account() = default;
 };
 
 #endif

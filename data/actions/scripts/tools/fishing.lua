@@ -1,12 +1,8 @@
-local waterIds = {493, 4608, 4609, 4610, 4611, 13550, 13552, 4612, 4613, 4614, 4615, 4616, 4617, 4618, 4619, 4620, 4621, 4622, 4623, 4624, 4625, 7236, 10499, 15401, 15402, 13549}
+local waterIds = {493, 4608, 4609, 4610, 4611, 4612, 4613, 4614, 4615, 4616, 4617, 4618, 4619, 4620, 4621, 4622, 4623, 4624, 4625, 7236, 10499, 15401, 15402}
 local lootTrash = {2234, 2238, 2376, 2509, 2667}
 local lootCommon = {2152, 2167, 2168, 2669, 7588, 7589}
 local lootRare = {2143, 2146, 2149, 7158, 7159}
 local lootVeryRare = {7632, 7633, 10220}
-local lootVeryRare1 = {7632, 13546}
-local lootRare1 = {2143, 13546}
-local lootCommon1 = {2152, 7589, 13546}
-
 local useWorms = true
 
 function onUse(player, item, fromPosition, target, toPosition, isHotkey)
@@ -37,33 +33,6 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		end
 		return true
 	end
-	
-	
-	-- COMEÇO
-	if targetId == 13549 then
-		--local owner = target:getAttribute(ITEM_ATTRIBUTE_CORPSEOWNER)
-		--if owner ~= 0 and owner ~= player.uid then
-		--	player:sendTextMessage(MESSAGE_STATUS_SMALL, "You are not the owner.")
-		--	return true
-		--end
-
-		toPosition:sendMagicEffect(CONST_ME_WATERSPLASH)
-		--target:remove()
-
-		local rareChance = math.random(100)
-		if rareChance == 1 then
-			player:addItem(lootVeryRare1[math.random(#lootVeryRare1)], 1)
-	    elseif rareChance <= 3 then
-			player:addItem(lootRare1[math.random(#lootRare1)], 1)
-		elseif rareChance <= 10 then
-			player:addItem(lootCommon1[math.random(#lootCommon1)], 1)
-		else
-			player:addItem(lootTrash[math.random(#lootTrash)], 1)
-		end
-		return true
-	end
-	
-	-- FIM
 
 	if targetId ~= 7236 then
 		toPosition:sendMagicEffect(CONST_ME_LOSEENERGY)

@@ -4,7 +4,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		return false
 	end
 
-	if target.itemid == 18307 or target.itemid == 18228 then
+	if target.itemid == 18307 then
 		player:setStorageValue(Storage.BigfootBurden.RepairedCrystalCount, repairedCount + 1)
 		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'You have repaired a damaged crystal.')
 		target:transform(18311)

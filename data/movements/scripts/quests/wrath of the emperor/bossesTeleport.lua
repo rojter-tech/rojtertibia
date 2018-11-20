@@ -26,7 +26,6 @@ function onStepIn(creature, item, position, fromPosition)
 
 	if player:getStorageValue(Storage.WrathoftheEmperor.BossStatus) ~= item.uid - 3188 then
 		player:teleportTo(fromPosition)
-			player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'Go to another Teleport or take mission with Zizzle.')
 		return true
 	end
 
@@ -34,8 +33,7 @@ function onStepIn(creature, item, position, fromPosition)
 		player:teleportTo(teleport.destination)
 		teleport.destination:sendMagicEffect(CONST_ME_TELEPORT)
 	else
-		player:teleportTo(teleport.destination)
-			--player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'Go to another Teleport or take mission with Zizzle.')
+		player:teleportTo(fromPosition)
 	end
 	return true
 end

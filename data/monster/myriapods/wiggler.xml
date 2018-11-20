@@ -48,7 +48,6 @@
 	</voices>
 	<loot>
 		<item id="2148" countmax="100" chance="100000" />	<!-- gold coin -->
-		<item id="18304" countmax="5" chance="15540" />		<!-- crystalline arrow -->
 		<item id="18436" countmax="5" chance="15260" />		<!-- drill bolt -->
 		<item id="2152" chance="14790" />					<!-- platinum coin -->
 		<item id="2787" countmax="5" chance="7142" />		<!-- white mushroom -->

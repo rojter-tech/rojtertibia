@@ -13,10 +13,10 @@ local function creatureSayCallback(cid, type, msg)
 	end
 	local player = Player(cid)
 	if msgcontains(msg, "looking") then
-		if player:getStorageValue(Storage.BigfootBurden.QuestLine) <= 12 then
+		if player:getStorageValue(Storage.BigfootBurden.QuestLine) == 11 then
 			npcHandler:say("I'm the gnomish musical supervisor!", cid)
 			npcHandler.topic[cid] = 1
-		elseif player:getStorageValue(Storage.BigfootBurden.QuestLine) >= 13 then
+		elseif player:getStorageValue(Storage.BigfootBurden.QuestLine) == 13 then
 			npcHandler:say("I'm the gnomish musical supervisor!", cid)
 			npcHandler.topic[cid] = 2
 		end

@@ -19,7 +19,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:setStorageValue(Storage.InServiceofYalahar.Questline, player:getStorageValue(Storage.InServiceofYalahar.Questline) + 1)
 			player:setStorageValue(Storage.InServiceofYalahar.Mission02, player:getStorageValue(Storage.InServiceofYalahar.Mission02) + 1) -- StorageValue for Questlog 'Mission 02: Watching the Watchmen'
 		end
-	--[[elseif msgcontains(msg, 'pass') then
+	elseif msgcontains(msg, 'pass') then
 		npcHandler:say('You can {pass} either to the {Alchemist Quarter} or {Cemetery Quarter}. Which one will it be?', cid)
 		npcHandler.topic[cid] = 1
 	elseif npcHandler.topic[cid] == 1 then
@@ -33,7 +33,7 @@ local function creatureSayCallback(cid, type, msg)
 			Player(cid):teleportTo(destination)
 			destination:sendMagicEffect(CONST_ME_TELEPORT)
 			npcHandler.topic[cid] = 0
-		end--]]
+		end
 	end
 	return true
 end

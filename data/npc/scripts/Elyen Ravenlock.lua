@@ -45,18 +45,17 @@ local function creatureSayCallback(cid, type, msg)
 		player:setStorageValue(Storage.GravediggerOfDrefia.Mission61, 1)
 		player:addItem(21249, 1)
 		npcHandler.topic[cid] = 0
-	elseif msgcontains(msg, 'mission') and player:getStorageValue(Storage.GravediggerOfDrefia.Mission66) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission67) < 1 then
+	elseif(msgcontains(msg, 'mission') or msgcontains(msg, 'yes')) and player:getStorageValue(Storage.GravediggerOfDrefia.Mission62) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission63) < 1 then
 		npcHandler:say("Hello, brother. You have finished the dance?", cid)
 		npcHandler.topic[cid] = 4
-	elseif(msgcontains(msg, 'yes')) and npcHandler.topic[cid] == 4 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission66) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission67) < 1 then
+	elseif(msgcontains(msg, 'yes')) and npcHandler.topic[cid] == 4 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission62) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission63) < 1 then
 		npcHandler:say({
 			"You have indeed. The shrines have sung back to you. Well done, brother. Not many men take such an interest in our art. ...",
 			"I will take the flute back. Our bargain stands. You may take the scroll."
 		}, cid)
 		player:removeItem(21249, 1)
-		player:setStorageValue(Storage.GravediggerOfDrefia.Mission67, 1)
+		player:setStorageValue(Storage.GravediggerOfDrefia.Mission63, 1)
 		npcHandler.topic[cid] = 0
-		else npcHandler:say({"Time is money, hurry."}, cid)
 	end
 	return true
 end

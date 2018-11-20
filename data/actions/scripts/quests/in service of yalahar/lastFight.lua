@@ -40,7 +40,7 @@ local function doChangeAzerus()
 		spectator = spectators[i]
 		if spectator:isMonster() and spectator:getName():lower() == "azerus" then
 			spectator:say("No! I am losing my energy!", TALKTYPE_MONSTER_SAY)
-			Game.createMonster("Azerus", spectator:getPosition(), false, true)
+			Game.createMonster("Azerus", spectator:getPosition())
 			spectator:remove()
 			return true
 		end
@@ -49,12 +49,11 @@ local function doChangeAzerus()
 end
 
 local function summonMonster(name, position)
-Game.createMonster(name, position, false, true)
-	--Game.createMonster(name, position)
+	Game.createMonster(name, position)
 	position:sendMagicEffect(CONST_ME_TELEPORT)
 end
 
-function onUse(player, item, fromPosition, target, toPosition, isHotkey) 
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	if Game.getStorageValue(GlobalStorage.InServiceOfYalahar.LastFight) == 1 then
 		player:say('You have to wait some time before this globe charges.', TALKTYPE_MONSTER_SAY)
 		return true
@@ -70,8 +69,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	end
 
 	Game.setStorageValue(GlobalStorage.InServiceOfYalahar.LastFight, 1)
-	addEvent(Game.createMonster, 18 * 1000, "Azerus2", Position(32783, 31167, 10), false, true)
-	--addEvent(Game.createMonster, 18 * 1000, "Azerus2", Position(32783, 31167, 10))
+	addEvent(Game.createMonster, 18 * 1000, "Azerus2", Position(32783, 31167, 10))
 
 	local azeruswavemonster
 	for i = 1, #creatureNames do

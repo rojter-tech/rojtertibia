@@ -60,11 +60,8 @@ function onStepIn(creature, item, position, fromPosition)
 	end
 
 	if not sacrificeItems then
-		--player:teleportTo(fromPosition)
-		--fromPosition:sendMagicEffect(CONST_ME_TELEPORT)
-		player:teleportTo(Position(32920, 32296, 13))
-	player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
-	item:transform(1355)
+		player:teleportTo(fromPosition)
+		fromPosition:sendMagicEffect(CONST_ME_TELEPORT)
 		return true
 	end
 

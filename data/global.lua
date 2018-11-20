@@ -1,14 +1,6 @@
 dofile('data/lib/libs.lua')
 
-ropeSpots = {384, 418, 8278, 8592, 13189, 14435, 14436, 15635, 19518, 26019}
-
--- AutoLoot config
-    AUTO_LOOT_MAX_ITEMS = 15
-
-    -- Reserved storage
-    AUTOLOOT_STORAGE_START = 10000
-    AUTOLOOT_STORAGE_END = AUTOLOOT_STORAGE_START + AUTO_LOOT_MAX_ITEMS
--- AutoLoot config end
+ropeSpots = {384, 418, 8278, 8592, 13189, 14435, 14436, 15635, 19518}
 
 doors = {
 	[1209] = 1211, [1210] = 1211, [1212] = 1214, [1213] = 1214, [1219] = 1220, [1221] = 1222, [1231] = 1233, [1232] = 1233, [1234] = 1236,
@@ -68,10 +60,6 @@ levelDoors = {
 	9281, 9283, 10282, 10284, 10473, 10482, 10780, 10789, 10780, 12095, 12195, 19845, 19985, 20278, 10789, 12102, 12193, 12202, 19854, 19994, 20287
 }
 
---questDoors = {1223, 1225, 1241, 1243, 1255, 1257, 3542, 3551, 5105, 5114, 5123, 5132, 5288, 5290, 5745, 5748, 6202, 6204, 6259, 6261, 6898, 6907, 7040, 7049, 8551, --8553, 9175, 9177, 9277, 9279, 10278, 10280, 10475, 10484, 10782, 10791, 12097, 12104, 12193, 12202, 19847, 19856, 19987, 19996, 20280, 20289}
-
---levelDoors = {1227, 1229, 1245, 1247, 1259, 1261, 3540, 3549, 5103, 5112, 5121, 5130, 5292, 5294, 6206, 6208, 6263, 6265, 6896, 6905, 7038, 7047, 8555, 8557, 9179, --9181, 9281, 9283, 10282, 10284, 10473, 10482, 10780, 10789, 10780, 12095, 12102, 12204, 12195, 19845, 19854, 19985, 19994, 20278, 20287}
-
 keys = {2086, 2087, 2088, 2089, 2090, 2091, 2092, 10032}
 
 function doCreatureSayWithRadius(cid, text, type, radiusx, radiusy, position)
@@ -128,71 +116,4 @@ end
 -- Stamina
 if nextUseStaminaTime == nil then
 	nextUseStaminaTime = {}
-end
-
-
--- CASAMENTO MARRY 
-
-PROPOSED_STATUS = 1
-MARRIED_STATUS = 2
-PROPACCEPT_STATUS = 3
-LOOK_MARRIAGE_DESCR = TRUE
-ITEM_WEDDING_RING = 2121
-ITEM_ENGRAVED_WEDDING_RING = 10502
-
-function getPlayerSpouse(id)
-    local resultQuery = db.storeQuery("SELECT `marriage_spouse` FROM `players` WHERE `id` = " .. db.escapeString(id))
-    if resultQuery ~= false then
-        local ret = result.getDataInt(resultQuery, "marriage_spouse")
-        result.free(resultQuery)
-        return ret
-    end
-    return -1
-end
-
-function setPlayerSpouse(id, val)
-    db.query("UPDATE `players` SET `marriage_spouse` = " .. val .. " WHERE `id` = " .. id)
-end
-
-function getPlayerMarriageStatus(id)
-    local resultQuery = db.storeQuery("SELECT `marriage_status` FROM `players` WHERE `id` = " .. db.escapeString(id))
-    if resultQuery ~= false then
-        local ret = result.getDataInt(resultQuery, "marriage_status")
-        result.free(resultQuery)
-        return ret
-    end
-    return -1
-end
-
-function setPlayerMarriageStatus(id, val)
-    db.query("UPDATE `players` SET `marriage_status` = " .. val .. " WHERE `id` = " .. id)
-end
-
-function Player:getMarriageDescription(thing)
-    local descr = ""
-    if getPlayerMarriageStatus(thing:getGuid()) == MARRIED_STATUS then
-        playerSpouse = getPlayerSpouse(thing:getGuid())
-        if self == thing then
-            descr = descr .. " You are "
-        elseif thing:getSex() == PLAYERSEX_FEMALE then
-            descr = descr .. " She is "
-        else
-            descr = descr .. " He is "
-        end
-        descr = descr .. "married to " .. getPlayerNameById(playerSpouse) .. '.'
-    end
-    return descr
-end
-
--- The following 2 functions can be used for delayed shouted text
-
-function say(param)
-selfSay(text)
-doCreatureSay(param.cid, param.text, 1)
-end
-
-function delayedSay(text, delay)
-local delay = delay or 0
-local cid = getNpcCid()
-addEvent(say, delay, {cid = cid, text = text})
 end

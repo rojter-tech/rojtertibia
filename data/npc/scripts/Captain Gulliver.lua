@@ -7,7 +7,7 @@ function onCreatureDisappear(cid)		npcHandler:onCreatureDisappear(cid)			end
 function onCreatureSay(cid, type, msg)		npcHandler:onCreatureSay(cid, type, msg)		end
 function onThink()		npcHandler:onThink()		end
 
-local voices = { {text = 'Passages to Thais and Krailos! Visit the strange lands!'} }
+local voices = { {text = 'Passages to Thais! Visit the strange lands!'} }
 npcHandler:addModule(VoiceModule:new(voices))
 
 -- Travel
@@ -17,11 +17,7 @@ local function addTravelKeyword(keyword, cost, destination, action)
 		travelKeyword:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, text = 'We would like to serve you some time.', reset = true})
 end
 
-addTravelKeyword('thais', 150, Position(32311, 32210, 6))
-addTravelKeyword('krailos', 140, Position(33493, 31712, 6))
-
--- Kick
-keywordHandler:addKeyword({'kick'}, StdModule.kick, {npcHandler = npcHandler, destination = {Position(33487, 31986, 7), Position(33486, 31984, 7)}})
+addTravelKeyword('thais', 140, Position(32311, 32210, 6))
 
 -- Basic
 keywordHandler:addKeyword({'name'}, StdModule.say, {npcHandler = npcHandler, text = 'Ah, you may not have heard of me. I am Captain Gulliver, the first Oramondian for a hundred years to have sailed through the mist to your strange lands.'})
@@ -32,13 +28,13 @@ keywordHandler:addKeyword({'tibia'}, StdModule.say, {npcHandler = npcHandler, te
 keywordHandler:addKeyword({'good'}, StdModule.say, {npcHandler = npcHandler, text = 'I will gladly take on board everything you wish to transport. No pets, though.'})
 keywordHandler:addKeyword({'passenger'}, StdModule.say, {npcHandler = npcHandler, text = '<bows> I would be delighted to have you on board.'})
 
-keywordHandler:addKeyword({'sail'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
-keywordHandler:addKeyword({'route'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
-keywordHandler:addKeyword({'trip'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
-keywordHandler:addKeyword({'passage'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
-keywordHandler:addKeyword({'town'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
-keywordHandler:addKeyword({'destination'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
-keywordHandler:addKeyword({'go'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais} or {Krailos}?'})
+keywordHandler:addKeyword({'sail'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
+keywordHandler:addKeyword({'route'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
+keywordHandler:addKeyword({'trip'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
+keywordHandler:addKeyword({'passage'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
+keywordHandler:addKeyword({'town'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
+keywordHandler:addKeyword({'destination'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
+keywordHandler:addKeyword({'go'}, StdModule.say, {npcHandler = npcHandler, text = 'You would like to book a passage for {Thais}?'})
 
 keywordHandler:addKeyword({'oramond'}, StdModule.say, {npcHandler = npcHandler, text = 'This is the only safe landing place on Oramond. The cliffs surrounding the isle are too dangerous, you see.'})
 

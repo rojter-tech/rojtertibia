@@ -5,7 +5,6 @@
 	<parameters>
 		<parameter key="module_shop" value="1" />
 		<parameter key="shop_buyable" value="
-		    wine,2006,10,15;
 			cocktail glass of beer,10150,52,3;
 			cocktail glass of fruit juice,10150,52,21;
 			cocktail glass of lemonade,10150,52,5;

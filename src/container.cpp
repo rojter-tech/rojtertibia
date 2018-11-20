@@ -25,25 +25,17 @@
 
 extern Game g_game;
 
-Container::Container(uint16_t _type) : Item(_type)
-{
-	maxSize = items[_type].maxItems;
-	totalWeight = 0;
-	serializationCount = 0;
-	unlocked = true;
-	pagination = false;
-}
+Container::Container(uint16_t type) :
+	Container(type, items[type].maxItems) {}
 
-Container::Container(uint16_t _type, uint16_t _size) : Item(_type)
-{
-	maxSize = _size;
-	totalWeight = 0;
-	serializationCount = 0;
-	unlocked = true;
-	pagination = false;
-}
+Container::Container(uint16_t type, uint16_t size, bool unlocked /*= true*/, bool pagination /*= false*/) :
+	Item(type),
+	maxSize(size),
+	unlocked(unlocked),
+	pagination(pagination)
+{}
 
-Container::Container(Tile* tile) : Item(ITEM_BROWSEFIELD)
+Container::Container(Tile* tile) : Container(ITEM_BROWSEFIELD, 30, false, true)
 {
 	TileItemVector* itemVector = tile->getItemList();
 	if (itemVector) {
@@ -55,11 +47,6 @@ Container::Container(Tile* tile) : Item(ITEM_BROWSEFIELD)
 		}
 	}
 
-	maxSize = 30;
-	totalWeight = 0;
-	serializationCount = 0;
-	unlocked = false;
-	pagination = true;
 	setParent(tile);
 }
 
@@ -437,7 +424,7 @@ Cylinder* Container::queryDestination(int32_t& index, const Thing &thing, Item**
 	if (index == 255 /*add wherever*/) {
 		index = INDEX_WHEREEVER;
 		*destItem = nullptr;
-	} else if ((index >= static_cast<int32_t>(capacity()) && !pagination) || index >= static_cast<int32_t>(size())) {
+	} else if (index >= static_cast<int32_t>(capacity())) {
 		/*
 		if you have a container, maximize it to show all 20 slots
 		then you open a bag that is inside the container you will have a bag with 8 slots
@@ -479,9 +466,6 @@ Cylinder* Container::queryDestination(int32_t& index, const Thing &thing, Item**
 			index = INDEX_WHEREEVER;
 			*destItem = nullptr;
 			return subCylinder;
-		} else if (pagination) {
-			*destItem = nullptr;
-			index = INDEX_WHEREEVER;
 		}
 	}
 	return this;
@@ -639,7 +623,7 @@ uint32_t Container::getItemTypeCount(uint16_t itemId, int32_t subType/* = -1*/) 
 	return count;
 }
 
-std::map<uint32_t, uint32_t>& Container::getAllItemTypeCount(std::map<uint32_t, uint32_t> &countMap) const
+std::map<uint32_t, uint32_t>& Container::getAllItemTypeCount(std::map<uint32_t, uint32_t>& countMap) const
 {
 	for (Item* item : itemlist) {
 		countMap[item->getID()] += item->getItemCount();

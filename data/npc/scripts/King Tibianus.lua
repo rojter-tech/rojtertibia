@@ -7,18 +7,14 @@ function onCreatureDisappear(cid)		npcHandler:onCreatureDisappear(cid)			end
 function onCreatureSay(cid, type, msg)		npcHandler:onCreatureSay(cid, type, msg)		end
 function onThink()				npcHandler:onThink()					end
 
---[[ Promotion
-local promoteKeyword = keywordHandler:addKeyword({'promot'}, StdModule.say, {npcHandler = npcHandler, text = '{Log out and log in} to be promoted. No need to buy, it is automatic at level 20.'})
+-- Promotion
+local promoteKeyword = keywordHandler:addKeyword({'promot'}, StdModule.say, {npcHandler = npcHandler, text = 'Do you want to be promoted in your vocation for 20000 gold?'})
 	promoteKeyword:addChildKeyword({'yes'}, StdModule.promotePlayer, {npcHandler = npcHandler, level = 20, cost = 20000})
 	promoteKeyword:addChildKeyword({''}, StdModule.say, {npcHandler = npcHandler, text = 'Ok, whatever.', reset = true})
-]]--
-	 
-local node1 = keywordHandler:addKeyword({'promot'}, StdModule.say, {npcHandler = npcHandler, onlyFocus = true, text = 'I can promote you for 20000 gold coins. Do you want me to promote you?'})
-	node1:addChildKeyword({'yes'}, StdModule.promotePlayer, {npcHandler = npcHandler, cost = 20000, level = 20, text = 'Congratulations! You are now promoted.'})
-	node1:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, onlyFocus = true, text = 'Alright then, come back when you are ready.', reset = true})
+
 -- The New Frontier
 -- Incorrect
-local bribeKeyword = keywordHandler:addKeyword({'farmine'}, StdModule.say, {npcHandler = npcHandler, text = 'Ah, I vaguely remember that our little allies were eager to build some base. So speak up, what do you want?'}, function(player) return player:getStorageValue(Storage.TheNewFrontier.Questline) <= 15 end)
+local bribeKeyword = keywordHandler:addKeyword({'farmine'}, StdModule.say, {npcHandler = npcHandler, text = 'Ah, I vaguely remember that our little allies were eager to build some base. So speak up, what do you want?'}, function(player) return player:getStorageValue(Storage.TheNewFrontier.Questline) == 15 end)
 	bribeKeyword:addChildKeyword({'flatter'}, StdModule.say, {npcHandler = npcHandler, text = 'Indeed, indeed. Without the help of Thais, our allies stand no chance! Well, I\'ll send some money to support their cause.', reset = true},
 		function(player) return player:getStorageValue(Storage.TheNewFrontier.BribeKing) ~= 1 end,
 		function(player) player:setStorageValue(Storage.TheNewFrontier.BribeKing, 1) player:setStorageValue(Storage.TheNewFrontier.Mission05, player:getStorageValue(Storage.TheNewFrontier.Mission05) + 1) end

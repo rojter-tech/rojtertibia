@@ -14,9 +14,6 @@
 		<parameter key="module_shop" value="1" />
 		<parameter key="shop_buyable" value="
 			avalanche rune,2274,45;
-			ultimate mp,26029,350;
-			Supreme Health Potion,26031,500;
-			ultimate spirit potion,26030,350;
 			stone shower rune,2288,37;
 			thunderstorm rune,2315,37;
 			blank rune,2260,10;

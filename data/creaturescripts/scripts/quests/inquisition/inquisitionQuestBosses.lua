@@ -27,8 +27,8 @@ function onKill(player, target)
 	Game.setStorageValue(bossStorage, newValue)
 
 	if newValue == 2 then
-		player:say('You now have 10 minutes to exit this room through the teleporter. It will bring you to the next room.', TALKTYPE_MONSTER_SAY)
-		addEvent(Game.setStorageValue, 10 * 60 * 1000, bossStorage, 0)
+		player:say('You now have 3 minutes to exit this room through the teleporter. It will bring you to the next room.', TALKTYPE_MONSTER_SAY)
+		addEvent(Game.setStorageValue, 3 * 60 * 1000, bossStorage, 0)
 	end
 	return true
 end

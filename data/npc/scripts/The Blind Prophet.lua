@@ -23,7 +23,12 @@ keywordHandler:addKeyword({'excalibug'}, StdModule.say, {npcHandler = npcHandler
 keywordHandler:addKeyword({'port hope'}, StdModule.say, {npcHandler = npcHandler, text = 'Hairless apes strange people are. '})
 
 local function greetCallback(cid)
-	npcHandler:setMessage(MESSAGE_GREET, "Be greeted, friend of the apes.")
+	if Player(cid):getStorageValue(Storage.TheApeCity.Questline) > 14 then
+		npcHandler:setMessage(MESSAGE_GREET, "Be greeted, friend of the apes.")
+	else
+		npcHandler:say("You not should be {here}! You go! You go!", cid)
+		return false
+	end
 	return true
 end
 
@@ -33,7 +38,7 @@ local function creatureSayCallback(cid, type, msg)
 	end
 
 	local player = Player(cid)
-	if msgcontains(msg, "transport") or msgcontains(msg, "passage") then
+	if msgcontains(msg, "transport") then
 		npcHandler:say("You want me to transport you to forbidden land?", cid)
 		npcHandler.topic[cid] = 1
 	elseif npcHandler.topic[cid] == 1 then

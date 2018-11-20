@@ -54,7 +54,6 @@ local function creatureSayCallback(cid, type, msg)
 					"Deep under Drefia, a necromancer called Necropharus is hiding in the Halls of Sacrifice. I'll place a spell on you with which you will be able to pass his weak protective gate. ...",
 					"Know that this will be your only chance to enter his room. If you leave it or die, you won't be able to return. We'll see if you really dare enter those halls."
 				}, cid)
-				player:setStorageValue(17521, 1)
 				player:setStorageValue(Storage.KillingInTheNameOf.LugriNecromancers, 2)
 			else
 				npcHandler:say("Come back when you have slain {4000 necromancers and priestesses!}", cid)
@@ -119,10 +118,6 @@ local function creatureSayCallback(cid, type, msg)
 				"What is left are mainly pseudo-dark pretenders, the old wisdom and power being far beyond their grasp. They think they have the right to tap that dark power, but they don't. ...",
 				"I want you to eliminate them. As many as you can. All of the upstart necromancer orders, and those priestesses. And as I said, don't expect a reward - this is what has to be done to cleanse Tibia of its false dark prophets."
 			}, cid)
-			
-			-- aqui
-			player:setStorageValue(JOIN_STOR, 1)
-			-- aqui
 			player:setStorageValue(Storage.KillingInTheNameOf.LugriNecromancers, 1)
 			player:setStorageValue(Storage.KillingInTheNameOf.LugriNecromancerCount, 0)
 		elseif npcHandler.topic[cid] == 8 then

@@ -38,7 +38,6 @@ local function getTable()
 		{name = "bell", id = 18343, buy = 50},
 		{name = "gnomish crystal package", id = 18313, buy = 1000},
 		{name = "gnomish extraction crystal", id = 18213, buy = 50},
-		{name = "gnomish repair crystal", id = 18219, buy = 50},
 		{name = "gnomish spore gatherer", id = 18328, buy = 50},
 		{name = "little pig", id = 18339, buy = 150}
 	}

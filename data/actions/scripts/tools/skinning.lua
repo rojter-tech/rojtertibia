@@ -1,43 +1,38 @@
 local config = {
 	[5908] = {
-	
-	-- rabbits rOjterTibiaServer
-		[2992] = {value = 25000, newItem = 13159, after = 2993},
-		
-		
 		-- Minotaurs
-		[2830] = {value = 25000, newItem = 5878}, -- minotaur
-		[2871] = {value = 25000, newItem = 5878}, -- mino archer
-		[2866] = {value = 25000, newItem = 5878}, -- mino mage
-		[2876] = {value = 25000, newItem = 5878}, -- mino guard
-		[3090] = {value = 25000, newItem = 5878}, -- minotaur 
-		[23463] = {value = 25000, newItem = 5878}, -- mooh'tah warrior 
-		[23467] = {value = 25000, newItem = 5878}, -- minotaur hunter 
-		[23471] = {value = 25000, newItem = 5878}, -- worm priestess
+		[2830] = {value = 25000, newItem = 5878},
+		[2871] = {value = 25000, newItem = 5878},
+		[2866] = {value = 25000, newItem = 5878},
+		[2876] = {value = 25000, newItem = 5878},
+		[3090] = {value = 25000, newItem = 5878},
+		[23463] = {value = 25000, newItem = 5878},
+		[23467] = {value = 25000, newItem = 5878},
+		[23471] = {value = 25000, newItem = 5878},
 
 		-- Low Class Lizards
-		[4259] = {value = 25000, newItem = 5876}, -- lizard sentinel 
-		[4262] = {value = 25000, newItem = 5876}, -- lizard snakecharmer 
-		[4256] = {value = 25000, newItem = 5876}, -- lizard templar
+		[4259] = {value = 25000, newItem = 5876},
+		[4262] = {value = 25000, newItem = 5876},
+		[4256] = {value = 25000, newItem = 5876},
 
 		-- High Class Lizards
-		[11285] = {value = 25000, newItem = 5876}, -- lizard chosen
-		[11277] = {value = 25000, newItem = 5876}, -- lizard dragon priest 
-		[11269] = {value = 25000, newItem = 5876}, -- lizard high guard 
-		[11281] = {value = 25000, newItem = 5876}, -- lizard zaogun 
+		[11288] = {value = 25000, newItem = 5876},
+		[11280] = {value = 25000, newItem = 5876},
+		[11272] = {value = 25000, newItem = 5876},
+		[11284] = {value = 25000, newItem = 5876},
 
 		-- Dragons
-		[3104] = {value = 25000, newItem = 5877}, -- dragon
-		[2844] = {value = 25000, newItem = 5877}, -- dragon 
+		[3104] = {value = 25000, newItem = 5877},
+		[2844] = {value = 25000, newItem = 5877},
 
 		-- Dragon Lords
-		[2881] = {value = 25000, newItem = 5948}, -- dragon lord 
+		[2881] = {value = 25000, newItem = 5948},
 
 		-- Behemoths
-		[2931] = {value = 35000, newItem = 5893}, -- behemoth
+		[2931] = {value = 35000, newItem = 5893},
 
 		-- Bone Beasts
-		[3031] = {value = 25000, newItem = 5925}, -- bonebeast
+		[3031] = {value = 25000, newItem = 5925},
 
 		-- The Mutated Pumpkin
 		[8961] = { { value = 5000, newItem = 7487 }, { value = 10000, newItem = 7737 }, { value = 20000, 6492 }, { value = 30000, newItem = 8860 }, { value = 45000, newItem = 2683 }, { value = 60000, newItem = 2096 }, { value = 90000, newItem = 9005, amount = 50 } },
@@ -46,20 +41,20 @@ local config = {
 		[11343] = { {value = 10000, newItem = 11345, desc = "This shoddy work was made by |PLAYERNAME|." }, {value = 35000, newItem = 11345, desc = "This little figurine made by |PLAYERNAME| has some room for improvement." }, { value = 60000, newItem = 11346, desc = "This little figurine of Tibiasula was masterfully sculpted by |PLAYERNAME|." } },
 
 		-- Ice Cube
-		[7441] = {value = 25000, newItem = 7444},
+		[7441] = {value = 25000, newItem = 7442},
 		[7442] = {value = 25000, newItem = 7444},
 		[7444] = {value = 25000, newItem = 7445},
 		[7445] = {value = 25000, newItem = 7446},
 	},
 	[5942] = {
 		-- Demon
-		[2916] = {value = 25000, newItem = 5906}, -- demon
+		[2916] = {value = 25000, newItem = 5906},
 
 		-- Vampires
-		[2956] = {value = 25000, newItem = 5905}, -- vampire
-		[9654] = {value = 25000, newItem = 5905, after = 9658}, -- vampire bride
-		[8938] = {value = 25000, newItem = 5905}, -- vampire lord 
-		[21275] = {value = 25000, newItem= 5905} -- vampire viscount 
+		[2956] = {value = 25000, newItem = 5905},
+		[9654] = {value = 25000, newItem = 5905, after = 9658},
+		[8938] = {value = 25000, newItem = 5905},
+		[21275] = {value = 25000, newItem= 5905}
 	}
 }
 
@@ -77,16 +72,6 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	elseif item.itemid == 5908 and target.itemid == 11653 and player:getItemCount(12655) > 0 and player:getStorageValue(Storage.TibiaTales.AnInterestInBotany) == 2 then
 		player:say("You cut a leaf from a branch and put it in the almanach. It smells strangely sweet and awfully bitter at the same time.", TALKTYPE_MONSTER_SAY)
 		player:setStorageValue(Storage.TibiaTales.AnInterestInBotany, 3)
-		
-		elseif item.itemid == 5908 and target.itemid == 9009 and player:getStorageValue(789100) <= 1 then
-		player:say("You got Neutral matter.", TALKTYPE_MONSTER_SAY)
-		player:addItem(8310, 1)
-		player:setStorageValue(789100, 1)
-		
-		elseif item.itemid == 5908 and target.itemid == 9010 and player:getStorageValue(789100) <= 1 then
-		player:say("You got Neutral matter.", TALKTYPE_MONSTER_SAY)
-		player:addItem(8310, 1)
-		player:setStorageValue(789100, 2)
 	end
 
 	if not skin then
@@ -144,17 +129,14 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		if isInArray({7441, 7442, 7444, 7445}, target.itemid) then
 			player:say('The attempt of sculpting failed miserably.', TALKTYPE_MONSTER_SAY)
 			effect = CONST_ME_HITAREA
-			
 		else
 			effect = CONST_ME_POFF
 		end
 	end
-	-- SE BUGAR, PEGAR SCRIPT ANTIGO
+
 	toPosition:sendMagicEffect(effect)
-	if transform and not isInArray({7442}, target.itemid) then
+	if transform then
 		target:transform(skin.after or target.itemid + 1)
-		else 
-		target:remove()		
 	end
 
 	return true

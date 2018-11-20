@@ -43,7 +43,7 @@ local function creatureSayCallback(cid, type, msg)
 			npcHandler:say('Sorry, but without the permission of Gregor I cannot help you with this matter.', cid)
 		end
 
-	elseif msgcontains(msg, "old backpack") or msgcontains(msg, "backpack") then
+	elseif msgcontains(msg, "old backpack") then
 		if player:getStorageValue(Storage.SamsOldBackpack) < 1 then
 			npcHandler:say("What? Are you telling me you found my old adventurer's backpack that I lost years ago??", cid)
 			npcHandler.topic[cid] = 1

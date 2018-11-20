@@ -59,7 +59,6 @@
 		<item id="7588" countmax="2" chance="13840" /><!-- SHP -->
 		<item id="10549" chance="12850" /><!-- ancient stone -->
 		<item id="8748" chance="11360" /><!-- coal -->
-		<item id="18304" countmax="10" chance="9940" /><!-- crystalline arrows -->
 		<item id="18416" chance="6960" /><!-- green crystal splinter -->
 		<item id="18419" chance="6810" /><!-- cyan crystal fragment -->
 		<item id="7454" chance="3340" /><!-- glorious axe -->

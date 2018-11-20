@@ -20,7 +20,7 @@ local function creatureSayCallback(cid, type, msg)
 		end
 	--The New Frontier
 	elseif msgcontains(msg, "farmine") then
-		if player:getStorageValue(Storage.TheNewFrontier.Questline) <= 15 and player:getStorageValue(Storage.TheNewFrontier.BribeExplorerSociety) < 1 then
+		if player:getStorageValue(Storage.TheNewFrontier.Questline) == 15 then
 			npcHandler:say("Oh yes, an interesting topic. We had vivid discussions about this discovery. But what is it that you want?", cid)
 			npcHandler.topic[cid] = 30
 		end

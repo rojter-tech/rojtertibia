@@ -47,10 +47,10 @@
 		<item id="2458" chance="10440" /><!-- chain helmet -->
 		<item id="2378" chance="6000" /><!-- battle axe -->
 		<item id="2464" chance="10290" /><!-- chain armor -->
-		<item id="5911" chance="230" /><!-- red piece of cloth -->
+		<item id="5911" chance="530" /><!-- red piece of cloth -->
 		<item id="7618" chance="950" /><!-- health potion -->
 		<item id="3962" chance="390" /><!-- beastslayer axe -->
 		<item id="7457" chance="100" /><!-- fur boots -->
-		<item id="7290" chance="190" /><!-- shard -->
+		<item id="7290" chance="290" /><!-- shard -->
 	</loot>
 </monster>

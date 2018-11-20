@@ -11,8 +11,8 @@ local voices = { {text = 'Feel the wind in your hair during one of my carpet rid
 npcHandler:addModule(VoiceModule:new(voices))
 
 keywordHandler:addKeyword({'name'}, StdModule.say, {npcHandler = npcHandler, text = "I am known as Uzon Ibn Kalith."})
---keywordHandler:addKeyword({'passage'}, StdModule.say, {npcHandler = npcHandler, text = "You'll have to leave this unholy place first!"})
---keywordHandler:addKeyword({'transport'}, StdModule.say, {npcHandler = npcHandler, text = "You'll have to leave this unholy place first!"})
+keywordHandler:addKeyword({'passage'}, StdModule.say, {npcHandler = npcHandler, text = "You'll have to leave this unholy place first!"})
+keywordHandler:addKeyword({'transport'}, StdModule.say, {npcHandler = npcHandler, text = "You'll have to leave this unholy place first!"})
 keywordHandler:addKeyword({'ride'}, StdModule.say, {npcHandler = npcHandler, text = "You'll have to leave this unholy place first!"})
 keywordHandler:addKeyword({'trip'}, StdModule.say, {npcHandler = npcHandler, text = "You'll have to leave this unholy place first!"})
 
@@ -20,7 +20,7 @@ local function creatureSayCallback(cid, type, msg)
 	if not npcHandler:isFocused(cid) then
 		return false
 	end
-	if isInArray({"back", "leave", "passage", "transport"}, msg) then
+	if isInArray({"back", "leave", "passage"}, msg) then
 		npcHandler:say('Do you really want to leave this unholy place?', cid)
 		npcHandler.topic[cid] = 1
 	elseif(msgcontains(msg, "yes")) then

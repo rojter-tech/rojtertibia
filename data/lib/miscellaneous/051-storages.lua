@@ -658,9 +658,7 @@ Storage = {
 	},
 	KillingInTheNameOf = {
 		LugriNecromancers = 50000,
-		LugriNecromancerCount = 65050,
-		BudrikMinos = 50001,
-		BudrikMinosCount = 65049,
+		LugriNecromancerCount = 50001,
 
 		MissionTiquandasRevenge = 22222,
 		TiquandasRevengeTeleport = 22555,

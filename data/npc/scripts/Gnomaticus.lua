@@ -14,7 +14,7 @@ local function creatureSayCallback(cid, type, msg)
 
 	local player = Player(cid)
 	if msgcontains(msg, "shooting") then
-		if player:getStorageValue(Storage.BigfootBurden.QuestLine) <= 7 then
+		if player:getStorageValue(Storage.BigfootBurden.QuestLine) == 7 then
 			npcHandler:say({
 				"To the left you see our shooting range. Grab a cannon and shoot at the targets. You need five hits to succeed. ...",
 				"Shoot at the villain targets that will pop up. DON'T shoot innocent civilians since this will reset your score and you have to start all over. Report to me afterwards."

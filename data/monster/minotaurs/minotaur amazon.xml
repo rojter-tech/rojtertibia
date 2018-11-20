@@ -66,14 +66,14 @@
 		<item id="12428" countmax="2" chance="6800" />		<!-- minotaur horn -->
 		<item id="2214" chance="3040" />						<!-- ring of healing -->
 		<item id="2147" countmax="2" chance="5500" />		<!-- small ruby -->
-		<item id="9970" countmax="2" chance="900" />		<!-- small topaz -->
-		<item id="2150" countmax="2" chance="970" />		<!-- small amethyst -->
+		<item id="9970" countmax="2" chance="5500" />		<!-- small topaz -->
+		<item id="2150" countmax="2" chance="5070" />		<!-- small amethyst -->
 		<item id="2149" countmax="2" chance="4050" />		<!-- small emerald -->
 		<item id="23546" chance="3040" />					<!-- mino shield -->
 		<item id="23545" chance="1740" />					<!-- mino lance -->
-		<item id="5911" countmax="1" chance="710" />		<!-- red piece of cloth -->
+		<item id="5911" countmax="1" chance="1010" />		<!-- red piece of cloth -->
 		<item id="2156" chance="430" />						<!-- red gem -->
-		<item id="2197" subtype="5" chance="850" />						<!-- stone skin amulet -->
+		<item id="2197" chance="1450" />						<!-- stone skin amulet -->
 		<item id="2154" chance="870" />						<!-- yellow gem -->
 		<item id="2475" chance="1160" />						<!-- warrior helmet -->
 		<item id="7443" countmax="1" chance="720" />			<!-- bullseye potion -->

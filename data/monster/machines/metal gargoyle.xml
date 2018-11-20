@@ -49,7 +49,7 @@
 	</voices>
 	<loot>
 		<item id="2148" countmax="200" chance="100000" /><!-- gold coin -->
-		<item id="24124" chance="1490" /><!-- bronze gear wheel -->
+		<item id="24417" chance="1490" /><!-- bronze gear wheel -->
 		<item id="23564" chance="17160" /><!-- metal jaw -->
 		<item id="2152" countmax="2" chance="43280" /><!-- platinum coin -->
 		<item id="7588" countmax="2" chance="9700" /><!-- strong health potion -->

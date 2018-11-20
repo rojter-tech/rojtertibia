@@ -20,7 +20,7 @@ local MusicEffect = {
 	-- non movable instruments
 	[2367] = CONST_ME_SOUND_GREEN, 	--Drum
 	[2368] = CONST_ME_SOUND_GREEN, 	--Simple Fanfare
-	[3957] = CONST_ME_SOUND_YELLOW, --Cornucopia
+	[2369] = CONST_ME_SOUND_YELLOW, --Cornucopia
 	[2370] = CONST_ME_SOUND_GREEN, 	--Lute
 	[2371] = CONST_ME_SOUND_BLUE, 	--Horn of Sundering
 	[2372] = CONST_ME_SOUND_GREEN, 	--Lyre

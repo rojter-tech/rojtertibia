@@ -1,21 +1,38 @@
-local t = {
-	[9118] = {{x=32991, y=31539, z=1}, {x=32991, y=31539, z=4}, effect = true}, --last
-	[9119] = {{x=32991, y=31539, z=4}, {x=32991, y=31539, z=1}, effect = true},
-	[9120] = {{x=32993, y=31547, z=4}, {x=33061, y=31527, z=10}, effect = true},
-	[9121] = {{x=33061, y=31527, z=10}, {x=32993, y=31547, z=4}, effect = true}
-	--[5505] = {{x=33055, y=31527, z=10}, {x=33055, y=31527, z=10}, effect = false}
+local config = {
+	[9118] = Position(32991, 31539, 4),
+	[9119] = Position(32991, 31539, 1),
+	[9120] = Position(33061, 31527, 14),
+	[9121] = Position(32993, 31547, 4)
 }
- 
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	local k = t[item.actionid]
-	local thing = getTopCreature(k[1]).uid
-	if(k and item.itemid == 1945) then
-		if(isPlayer(thing)) then
-			doTeleportThing(thing, k[2], false)
-			if(k.effect) then
-				doSendMagicEffect(k[2], CONST_ME_TELEPORT)
-			end
+
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	local targetPosition = config[item.actionid]
+	if not targetPosition then
+		return true
+	end
+
+	item:transform(item.itemid == 1945 and 1946 or 1945)
+
+	toPosition.x = toPosition.x - 1
+	local creature = Tile(toPosition):getTopCreature()
+	if not creature or not creature:isPlayer() then
+		return true
+	end
+
+	if item.itemid ~= 1945 then
+		return true
+	end
+
+	if item.actionid == 9120 then
+		if creature:getStorageValue(Storage.TheNewFrontier.Mission05) == 7 then
+			targetPosition.z = 10
+		elseif creature:getStorageValue(Storage.TheNewFrontier.Mission03) == 3 then
+			targetPosition.z = 12
 		end
 	end
-	return doTransformItem(item.uid, item.itemid == 1945 and 1946 or 1945)
+
+	creature:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
+	creature:teleportTo(targetPosition)
+	targetPosition:sendMagicEffect(CONST_ME_TELEPORT)
+	return true
 end

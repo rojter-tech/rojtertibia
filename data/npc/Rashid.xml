@@ -5,19 +5,13 @@
 	<parameters>
 		<parameter key="module_shop" value="1" />
 		<parameter key="shop_sellable" value="
-		    RiftLance, 25383, 30000;
-			oriental Shoes, 24637, 15000;
 			abyss hammer, 7414, 20000;
-			Rift Bow, 25522, 35000;
-			Rift XBow, 25523, 35000;
-			Rift Shield, 25382, 40000;
 			amber staff, 7426, 8000;
 			ancient amulet, 2142, 200;
 			assassin dagger, 7404, 20000;
 			bandana, 5917, 150;
 			beastslayer axe, 3962, 1500;
 			beetle necklace, 11374, 1500;
-			berserker, 7403, 40000;
 			blacksteel sword, 7406, 6000;
 			blessed sceptre, 7429, 40000;
 			bone shield, 2541, 80;

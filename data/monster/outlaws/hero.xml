@@ -64,14 +64,14 @@
 		<item id="2377" chance="1500" />					<!-- two handed sword -->
 		<item id="2661" chance="1000" />					<!-- scarf -->
 		<item id="12406" chance="1000" />				<!-- small notebook -->
-		<item id="2391" chance="1540" />					<!-- war hammer -->
+		<item id="2391" chance="840" />					<!-- war hammer -->
 		<item id="7591" chance="780" />					<!-- great health potion -->
-		<item id="2488" chance="1170" />					<!-- crown legs -->
-		<item id="2487" chance="970" />					<!-- crown armor -->
+		<item id="2488" chance="670" />					<!-- crown legs -->
+		<item id="2487" chance="570" />					<!-- crown armor -->
 		<item id="2164" chance="500" />					<!-- might ring -->
-		<item id="2392" chance="970" />					<!-- fire sword -->
-		<item id="2491" chance="920" />					<!-- crown helmet -->
-		<item id="2519" chance="550" />					<!-- crown shield -->
+		<item id="2392" chance="470" />					<!-- fire sword -->
+		<item id="2491" chance="420" />					<!-- crown helmet -->
+		<item id="2519" chance="250" />					<!-- crown shield -->
 		<item id="2114" chance="60" />					<!-- piggy bank -->
 	</loot>
 </monster>

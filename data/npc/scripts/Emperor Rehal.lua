@@ -8,9 +8,9 @@ function onCreatureSay(cid, type, msg)		npcHandler:onCreatureSay(cid, type, msg)
 function onThink()				npcHandler:onThink()					end
 
 -- Promotion
-local node1 = keywordHandler:addKeyword({'promot'}, StdModule.say, {npcHandler = npcHandler, onlyFocus = true, text = 'I can promote you for 20000 gold coins. Do you want me to promote you?'})
-	node1:addChildKeyword({'yes'}, StdModule.promotePlayer, {npcHandler = npcHandler, cost = 20000, level = 20, text = 'Congratulations! You are now promoted.'})
-	node1:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, onlyFocus = true, text = 'Alright then, come back when you are ready.', reset = true})
+local promoteKeyword = keywordHandler:addKeyword({'promot'}, StdModule.say, {npcHandler = npcHandler, text = 'Do you want to be promoted in your vocation for 20000 gold?'})
+	promoteKeyword:addChildKeyword({'yes'}, StdModule.promotePlayer, {npcHandler = npcHandler, level = 20, cost = 20000})
+	promoteKeyword:addChildKeyword({''}, StdModule.say, {npcHandler = npcHandler, text = 'Ok, whatever.', reset = true})
 
 -- Justice For All
 local missionKeyword = keywordHandler:addKeyword({'nokmir'}, StdModule.say, {npcHandler = npcHandler, text = 'Oh well, I liked Nokmir. He used to be a good dwarf until that day on which he stole the ring from Rerun.'}, function(player) return player:getStorageValue(Storage.hiddenCityOfBeregar.JusticeForAll) == 1 end)
@@ -27,7 +27,7 @@ keywordHandler:addKeyword({'nokmir'}, StdModule.say, {npcHandler = npcHandler,
 
 -- Royal Rescue
 local missionKeyword = keywordHandler:addKeyword({'mission'}, StdModule.say, {npcHandler = npcHandler, text = 'As you have proven yourself trustworthy I\'m going to assign you a special mission. Are you interested?'},
-		function(player) return player:getStorageValue(Storage.hiddenCityOfBeregar.RoyalRescue) < 1 end--and player:getStorageValue(Storage.hiddenCityOfBeregar.JusticeForAll) == 5 
+		function(player) return player:getStorageValue(Storage.hiddenCityOfBeregar.RoyalRescue) < 1 and player:getStorageValue(Storage.hiddenCityOfBeregar.JusticeForAll) == 5 end
 	)
 
 	missionKeyword:addChildKeyword({'yes'}, StdModule.say, {npcHandler = npcHandler,
@@ -38,8 +38,8 @@ local missionKeyword = keywordHandler:addKeyword({'mission'}, StdModule.say, {np
 	)
 
 local missionKeyword = keywordHandler:addKeyword({'mission'}, StdModule.say, {npcHandler = npcHandler, text = 'My son was captured by trolls? Doesn\'t sound like him, but if you say so. Now you want a reward, huh? ...'}, function(player) return player:getStorageValue(Storage.hiddenCityOfBeregar.RoyalRescue) == 5 end)
-	missionKeyword:addChildKeyword({'yes'}, StdModule.say, {npcHandler = npcHandler, text = 'Look at these dwarven legs. They were forged years ago by a dwarf who was rather tall for our kind. I want you to have them. Thank you for rescuing my son |PLAYERNAME|, go to nort and take your reward.'},
-		nil, function(player) player:setStorageValue(Storage.hiddenCityOfBeregar.RoyalRescue, 6) end --player:addItem(2504, 1) end
+	missionKeyword:addChildKeyword({'yes'}, StdModule.say, {npcHandler = npcHandler, text = 'Look at these dwarven legs. They were forged years ago by a dwarf who was rather tall for our kind. I want you to have them. Thank you for rescuing my son |PLAYERNAME|'},
+		nil, function(player) player:setStorageValue(Storage.hiddenCityOfBeregar.RoyalRescue, 6) player:addItem(2504, 1) end
 	)
 
 npcHandler:addModule(FocusModule:new())

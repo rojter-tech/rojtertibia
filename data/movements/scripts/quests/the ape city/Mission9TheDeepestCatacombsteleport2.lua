@@ -5,7 +5,7 @@ local config = {
 		Position(32876, 32584, 10),
 		Position(32744, 32586, 10)
 	},
-	brokenAmphoraId = 4996 --4997
+	brokenAmphoraId = 4997
 }
 
 

@@ -44,11 +44,9 @@ function onStepIn(creature, item, position, fromPosition)
 	end
 
 	if teleport.bossStorage then
-		if Game.getStorageValue(teleport.bossStorage) >= 2 then
+		if Game.getStorageValue(teleport.bossStorage) == 2 then
 			if player:getStorageValue(Storage.TheInquisition.EnterTeleport) < teleport.storage then
 				player:setStorageValue(Storage.TheInquisition.EnterTeleport, teleport.storage)
-				player:setStorageValue(teleport.bossStorage, 0)
-
 			end
 		else
 			player:teleportTo(Position(33165, 31709, 14))

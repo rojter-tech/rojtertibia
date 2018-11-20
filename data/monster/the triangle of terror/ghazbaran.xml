@@ -4,7 +4,6 @@
 	<look type="12" head="0" body="123" legs="97" feet="94" corpse="6068" />
 	<targetchange interval="10000" chance="20" />
 	<flags>
-	    <flag rewardboss="1" />
 		<flag summonable="0" />
 		<flag attackable="1" />
 		<flag hostile="1" />
@@ -17,7 +16,6 @@
 		<flag targetdistance="1" />
 		<flag runonhealth="3500" />
 	</flags>
-	
 	<attacks>
 		<attack name="melee" interval="2000" min="0" max="-3000" />
 		<attack name="manadrain" interval="2000" chance="10" range="7" min="0" max="-1000" />

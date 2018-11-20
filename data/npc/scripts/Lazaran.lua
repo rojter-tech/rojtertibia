@@ -15,13 +15,13 @@ local function creatureSayCallback(cid, type, msg)
 	local player = Player(cid)
 	if msgcontains(msg, "mission") and player:getStorageValue(Storage.TheNewFrontier.Questline) == 9 then
 		if npcHandler.topic[cid] == 0 then
-			npcHandler:say("Me people wanting peace. No war with others. No war with little men. We few. We weak. Need help. We not wanting make war. No hurt. Say {mission} again.", cid)
+			npcHandler:say("Me people wanting peace. No war with others. No war with little men. We few. We weak. Need help. We not wanting make war. No hurt.", cid)
 			npcHandler.topic[cid] = 10
 		elseif npcHandler.topic[cid] == 10 then
 			npcHandler:say("You mean you want help us?", cid)
 			npcHandler.topic[cid] = 11
 		end
-	elseif msgcontains(msg, "mission") and player:getStorageValue(Storage.UnnaturalSelection.Questline) < 1 then
+	elseif msgcontains(msg, "help") and player:getStorageValue(Storage.UnnaturalSelection.Questline) < 1 then
 		npcHandler:say({
 				"Big problem we have! Skull of first leader gone. He ancestor of whole tribe but died long ago in war. We have keep his skull on our sacred place. ...",
 				"Then one night, green men came with wolves... and one of wolves took skull and ran off chewing on it! We need back - many wisdom and power is in skull. Maybe they took to north fortress. But can be hard getting in. You try get our holy skull back?"

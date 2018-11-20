@@ -157,11 +157,6 @@ node3 = keywordHandler:addKeyword({'staff'}, StdModule.say, {npcHandler = npcHan
 node3:addChildKeyword({'yes'}, BeggarSecond, {})
 node3:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, text = 'Alright then. Come back when you got all neccessary items.', reset = true})
 
-node4 = keywordHandler:addKeyword({'outfit'}, StdModule.say, {npcHandler = npcHandler, text = 'For the small fee of 20000 gold pieces I will help you mix this potion. Just bring me 100 pieces of ape fur, which are necessary to create this potion. ...Do we have a deal?'})
-node4:addChildKeyword({'yes'}, BeggarFirst, {})
-node4:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, text = 'Alright then. Come back when you got all neccessary items.', reset = true})
-
-
 npcHandler:setMessage(MESSAGE_GREET, "Hello |PLAYERNAME|. I am a poor man. Please help me.")
 npcHandler:setMessage(MESSAGE_FAREWELL, "Have a nice day.")
 npcHandler:setMessage(MESSAGE_WALKAWAY, "Have a nice day.")

@@ -6,8 +6,5 @@
 		<parameter key="message_greet" value="... Greeeeeetiiiingssss..." />
 		<parameter key="message_farewell" value="... Good... Bye" />
 		<parameter key="message_walkaway" value="... Good... Bye" />
-		
-		<parameter key="module_shop" value="1" />
-		<parameter key="shop_buyable" value="bag,7737,500;bag,7739,1500;bag,9076,1000;" />
 	</parameters>
 </npc>

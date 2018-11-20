@@ -15,46 +15,37 @@ local grizzlyAdamsConfig = {
 	ranks = {
 		--NOTE: The variable 'name' is not necessary to be declared. I let it so people who wants to change the script will now wich item is each one.
 		huntsMan_rank = {
-			{id=11214, buy=0, sell=50, name='antlers'},
-			{id=10550, buy=0, sell=100, name='bloody pincers'},
-			{id=11189, buy=0, sell=35, name='crab pincers'},
-			{id=10574, buy=0, sell=55, name='cyclops toe'},
-			{id=10565, buy=0, sell=30, name='frosty ear of a troll'},
-			{id=11199, buy=0, sell=600, name='hydra head'},
-			{id=11372, buy=0, sell=80, name='lancer beetle shell'},
-			{id=10579, buy=0, sell=420, name='mutated bat ear'},
-			{id=11228, buy=0, sell=400, name='sabretooth'},
-			{id=11373, buy=0, sell=20, name='sandcrawler shell'},
-			{id=10548, buy=0, sell=280, name='scarab pincers'},
-			{id=11371, buy=0, sell=60, name='terramite legs'},
-			{id=11369, buy=0, sell=170, name='terramite shell'},
-			{id=11190, buy=0, sell=95, name='terrorbird beak'},
-			{id=7398, buy=0, sell=500, name='cyclops trophy'},
-			{id=11315, buy=0, sell=15000, name='draken trophy'},
-			{id=11336, buy=0, sell=8000, name='lizard trophy'},
-			{id=7401, buy=0, sell=500, name='minotaur trophy'},
-			{id=7397, buy=0, sell=3000, name='deer trophy'},
-			{id=7400, buy=0, sell=3000, name='lion trophy'},
-			{id=7393, buy=0, sell=40000, name='demon trophy'},
-			{id=7396, buy=0, sell=20000, name='behemoth trophy'},
-			{id=7399, buy=0, sell=10000, name='dragon lord trophy'},
-			{id=10518, buy=1000, sell=0, name='demon backpack'},
-			{id=5907, buy=35000, sell=0, name='slingshot'},
-			{id=7394, buy=0, sell=3000, name='wolf trophy'}
+			{id = 11208, buy = 0, sell = 50, name = 'antlers'},
+			{id = 10549, buy = 0, sell = 100, name = 'bloody pincers'},
+			{id = 11183, buy = 0, sell = 35, name = 'crab pincers'},
+			{id = 10573, buy = 0, sell = 55, name = 'cyclops toe'},
+			{id = 10564, buy = 0, sell = 30, name = 'frosty ear of a troll'},
+			{id = 11193, buy = 0, sell = 600, name = 'hydra head'},
+			{id = 11366, buy = 0, sell = 80, name = 'lancer beetle shell'},
+			{id = 10578, buy = 0, sell = 420, name = 'mutated bat ear'},
+			{id = 11222, buy = 0, sell = 400, name = 'sabretooth'},
+			{id = 11367, buy = 0, sell = 20, name = 'sandcrawler shell'},
+			{id = 10547, buy = 0, sell = 280, name = 'scarab pincers'},
+			{id = 11365, buy = 0, sell = 60, name = 'terramite legs'},
+			{id = 11363, buy = 0, sell = 170, name = 'terramite shell'},
+			{id = 11184, buy = 0, sell = 95, name = 'terrorbird beak'},
+			{id = 7398, buy = 0, sell = 500, name = 'cyclops trophy'},
+			{id = 11315, buy = 0, sell = 15000, name = 'draken trophy'},
+			{id = 11336, buy = 0, sell = 8000, name = 'lizard trophy'},
+			{id = 7401, buy = 0, sell = 500, name = 'minotaur trophy'}
 		},
 
 		bigGameHunter_rank = {
-			{id=7397, buy=0, sell=3000, name='deer trophy'},
-			{id=7400, buy=0, sell=3000, name='lion trophy'},
-			{id=7394, buy=0, sell=3000, name='wolf trophy'}
+			{id = 7397, buy = 0, sell = 3000, name = 'deer trophy'},
+			{id = 7400, buy = 0, sell = 3000, name = 'lion trophy'},
+			{id = 7394, buy = 0, sell = 3000, name = 'wolf trophy'}
 		},
 
 		trophyHunter_rank = {
-			{id=7393, buy=0, sell=40000, name='demon trophy'},
-			{id=7396, buy=0, sell=20000, name='behemoth trophy'},
-			{id=7399, buy=0, sell=10000, name='dragon lord trophy'},
-
-			{id=10518, buy=1000, sell=0, name='demon backpack'},
+			{id = 7393, buy = 0, sell = 40000, name = 'demon trophy'},
+			{id = 7396, buy = 0, sell = 20000, name = 'behemoth trophy'},
+			{id = 7399, buy = 0, sell = 10000, name = 'dragon lord trophy'},
+			{id = 10518, buy = 1000, sell = 0, name = 'demon backpack'},
 		},
 	}
 }
@@ -103,9 +94,9 @@ local function creatureSayCallback(cid, type, msg)
 	if not npcHandler:isFocused(cid) then return false end
 
 	local player = Player(cid)
-	if msgcontains('rOjterTibiaServer', msg) then
+	if msgcontains('trade', msg) then
 		local tradeItems = {}
-		if player:getPawAndFurRank() >= 0 then
+		if player:getPawAndFurRank() >= 2 then
 			tradeItems = grizzlyAdamsConfig.ranks.huntsMan_rank
 			if player:getPawAndFurRank() == 4 then
 				tradeItems = joinTables(tradeItems, grizzlyAdamsConfig.ranks.bigGameHunter_rank)
@@ -151,7 +142,7 @@ local function creatureSayCallback(cid, type, msg)
 		end
 	elseif msg ~= '' and player:canStartTask(msg) then
 		if #player:getStartedTasks() >= tasksByPlayer then
-			npcHandler:say('Sorry, but you already started ' .. tasksByPlayer .. ' tasks. You can check their {status}, {cancel} or {report} a task.', cid)
+			npcHandler:say('Sorry, but you already started ' .. tasksByPlayer .. ' tasks. You can check their {status} or {cancel} a task.', cid)
 			return true
 		end
 		local task = getTaskByName(msg)
@@ -336,7 +327,7 @@ local function creatureSayCallback(cid, type, msg)
 		end
 		npcHandler.topic[cid] = 0
 	elseif isInArray({'special task'}, msg:lower()) then
-		if player:getPawAndFurPoints() >= 69 then -- Tiquandas Revenge 90 points
+		if player:getPawAndFurPoints() >= 90 then -- Tiquandas Revenge 90 points
 			if player:getStorageValue(Storage.KillingInTheNameOf.MissionTiquandasRevenge) == 1 then  -- Check if he has already started the task.
 				npcHandler:say('You have already started the task. Go find Tiquandas Revenge and take revenge yourself!', cid)
 			else
@@ -348,7 +339,7 @@ local function creatureSayCallback(cid, type, msg)
 				player:setStorageValue(Storage.KillingInTheNameOf.MissionTiquandasRevenge, 1) -- Won't give this task again.
 			end
 		end
-		if player:getPawAndFurPoints() >= 70 then -- Demodras 100 points
+		if player:getPawAndFurPoints() >= 100 then -- Demodras 100 points
 			if player:getStorageValue(Storage.KillingInTheNameOf.MissionDemodras) == 1 then  -- Check if he has already started the task.
 				npcHandler:say('You have already started the special task. Find Demodras and kill it.', cid)
 			else
@@ -361,6 +352,28 @@ local function creatureSayCallback(cid, type, msg)
 	end
 end
 
+local function onBuy(cid, item, subType, amount, ignoreCap, inBackpacks)
+	local player = Player(cid)
+	if not ignoreCap and player:getFreeCapacity() < ItemType(items[item].id):getWeight(amount) then
+		return player:sendTextMessage(MESSAGE_INFO_DESCR, 'You don\'t have enough cap.')
+	end
+	if items[item].buy then
+		player:removeMoney(amount * items[item].buy)
+		player:addItem(items[item].id, amount)
+		return player:sendTextMessage(MESSAGE_INFO_DESCR, 'Bought '..amount..'x '..items[item].name..' for '..items[item].buy * amount..' gold coins.')
+	end
+	return true
+end
+
+local function onSell(cid, item, subType, amount, ignoreCap, inBackpacks)
+	local player = Player(cid)
+	if items[item].sell then
+		player:addMoney(items[item].sell * amount)
+		player:removeItem(items[item].id, amount)
+		return player:sendTextMessage(MESSAGE_INFO_DESCR, 'Sold '..amount..'x '..items[item].name..' for '..items[item].sell * amount..' gold coins.')
+	end
+	return true
+end
 
 npcHandler:setMessage(MESSAGE_FAREWELL, 'Happy hunting, old chap!')
 npcHandler:setCallback(CALLBACK_GREET, greetCallback)

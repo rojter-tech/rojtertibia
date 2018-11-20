@@ -11,13 +11,11 @@ function onThink()		npcHandler:onThink()		end
 local function creatureSayCallback(cid, type, msg)
 	if not npcHandler:isFocused(cid) then
 		return false
-	elseif msgcontains(msg, "trip") or msgcontains(msg, "passage") then
-		--if Player(cid):getStorageValue(Storage.TheNewFrontier.Questline) >= 24 then
+	elseif msgcontains(msg, "trip") then
+		if Player(cid):getStorageValue(Storage.TheNewFrontier.Questline) >= 24 then
 			npcHandler:say("You want trip to Izzle of Zztrife?", cid)
 			npcHandler.topic[cid] = 1
-			--else 
-			--npcHandler:say("You need The New Frontier Quest to travel.", cid)
-		--end
+		end
 	elseif msgcontains(msg, "yes") then
 		if npcHandler.topic[cid] == 1 then
 			npcHandler:say("It'zz your doom you travel to.", cid)

@@ -189,12 +189,6 @@ local function creatureSayCallback(cid, type, msg)
 			return true
 		end
 		if playerExists(transfer[cid]) then
-		 local arrayDenied = {"accountmanager", "rooksample", "druidsample", "sorcerersample", "knightsample", "paladinsample"}
-		    if isInArray(arrayDenied, string.gsub(transfer[cid]:lower(), " ", "")) then
-                npcHandler:say('This player does not exist.', cid)
-                npcHandler.topic[cid] = 0
-                return true
-            end
 			npcHandler:say('So you would like to transfer ' .. count[cid] .. ' gold to ' .. transfer[cid] .. '?', cid)
 			npcHandler.topic[cid] = 13
 		else

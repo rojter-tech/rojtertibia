@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <monster name="Nightfiend" nameDescription="a nightfiend" race="blood" experience="2100" speed="210" manacost="0">
 	<health now="2700" max="2700" />
-	<look type="554" corpse="21453" />
-	<targetchange interval="5000" chance="8" /> 
+	<look type="568" corpse="2669" />
+	<targetchange interval="5000" chance="8" />
 	<flags>
 		<flag summonable="0" />
 		<flag attackable="1" />
@@ -36,22 +36,4 @@
 		<immunity paralyze="1" />
 		<immunity invisible="1" />
 	</immunities>
-	
-		<loot>
-		<item id="2148" countmax="242" chance="97000" />	            <!-- gold coin -->	
-        <item id="2152" countmax="9" chance="9000" />	            <!-- platinum coin -->		
-		<item id="10602" chance="18200" />				    <!-- Vampire Teeth -->			
-		<item id="2534" chance="1000" />				    <!-- Vampire Shield -->			
-		<item id="7588" countmax="3" chance="2000" />				                <!--  Strong Health Potion -->		
-		<item id="7589" countmax="4" chance="2000" />				                <!-- Strong Mana Potion -->			
-		<item id="2147" countmax="3" chance="2210" />					            <!-- Small Ruby, -->		
-		
-
-		<item id="21241" chance="810" />					            <!-- Tooth File -->		
-		<item id="2156" chance="710" />					            <!-- Red Gem -->		
-		<item id="2127" chance="910" />					            <!-- Emerald Bangle -->		
-		<item id="12405" chance="2210" />					            <!-- Blood Preservation, -->		
-		
-	</loot>
-	
 </monster>

@@ -757,7 +757,7 @@ function getTileInfo(position)
 	ret.nopz = ret.protection
 	ret.nologout = t:hasFlag(TILESTATE_NOLOGOUT)
 	ret.refresh = t:hasFlag(TILESTATE_REFRESH)
-	ret.house = t:getHouse() ~= nil
+	ret.house = t:hasFlag(TILESTATE_HOUSE)
 	ret.bed = t:hasFlag(TILESTATE_BED)
 	ret.depot = t:hasFlag(TILESTATE_DEPOT)
 
@@ -1005,17 +1005,4 @@ end
 
 function Guild.removeMember(self, player)
 	return player:getGuild() == self and player:setGuild(nil)
-end
-
-
--- CASAMENTO MARRY
-
-function getPlayerNameById(id)
-local resultName = db.storeQuery("SELECT `name` FROM `players` WHERE `id` = " .. db.escapeString(id))
-if resultName ~= false then
-local name = result.getDataString(resultName, "name")
-result.free(resultName)
-return name
-end
-return 0
 end

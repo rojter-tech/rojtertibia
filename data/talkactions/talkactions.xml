@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talkactions>
-
-   <!-- <talkaction words="/ctffdgdfgdf" separator=" " script="ctf.lua" />-->
 	<!-- Gods -->
 	<talkaction words="/addskill" separator=" " script="add_skill.lua" />
 	<talkaction words="/chameleon" separator=" " script="chameleon.lua" />
@@ -16,12 +14,14 @@
 	<talkaction words="/m" separator=" " script="place_monster.lua" />
 	<talkaction words="/s" separator=" " script="place_npc.lua" />
 	<talkaction words="/summon" separator=" " script="place_summon.lua" />
+        <talkaction words="/addmount" separator=" " script="add_mount.lua" />
+	<talkaction words="/addaddon" separator=" " script="add_addon.lua" />
+        <talkaction words="/addtp" separator=" " script="addtp.lua" />
 
 	<!-- Achievements Commands -->
 	<talkaction words="/addach" separator=" " script="achievements.lua" />
 	<talkaction words="/removeach" separator=" " script="achievements.lua" />
-	
-	 <talkaction words="!autoloot" separator=" " script="autoloot.lua"/>
+
 	<!-- Gamemasters -->
 	<talkaction words="/save" script="save.lua" />
 	<talkaction words="/ban" separator=" " script="ban.lua" />
@@ -40,7 +40,7 @@
 	<talkaction words="/r" separator=" " script="removething.lua" />
 	<talkaction words="/kick" separator=" " script="kick.lua" />
 	<talkaction words="/B" separator=" " script="broadcast.lua" />
-	<talkaction words="/looktypefuygfg" separator=" " script="looktype.lua" />
+	<talkaction words="/looktype" separator=" " script="looktype.lua" />
 	<talkaction words="/mounts" separator=" " script="allmounts.lua" />
 	<talkaction words="/addons" separator=" " script="alladdons.lua" />
 
@@ -49,36 +49,21 @@
 	<talkaction words="/removetutor" separator=" " script="remove_tutor.lua" />
 
 	<!-- player talkactions -->
+	<talkaction words="!buypremium" script="buyprem.lua" />
 	<talkaction words="!buyhouse" script="buyhouse.lua" />
 	<talkaction words="!leavehouse" script="leavehouse.lua" />
-
+	<talkaction words="!changesex" script="changesex.lua" />
 	<talkaction words="!uptime" script="uptime.lua" />
-
-	<talkaction words="!spectators" script="spectators.lua" />
-	<talkaction words="!cast" separator=" " script="start_cast.lua" />
- 	<talkaction words="!stopcast" script="stop_cast.lua" />
-	
-	<!--<talkaction words="/criarportal" separator=" " script="portal.lua" />-->
-	<!--<talkaction words="/fgyttvvbnnn" script="giveAll.lua" />	-->
-	<!--<talkaction words="/koiottrerdfszx" script="addrandom.lua" />-->
-	
-	<talkaction words="!outfit" script="guild_outfit.lua"/> 
-	
-	<talkaction words="!frags" script="kills.lua" /> 
+	<talkaction words="!deathlist" script="deathlist.lua" />
 	<talkaction words="!kills" script="kills.lua" />
 	<talkaction words="!online" script="online.lua" />
-	<talkaction words="!guildpoints" separator=" " script="guildpoints.lua" />
 	<talkaction words="!serverinfo" script="serverinfo.lua" />
-
-	<talkaction words="/mute2" separator=" " script="mute2.lua" />
-    <talkaction words="/unmute2" separator=" " script="mute2.lua" />
-	
-	<talkaction words="/mute" separator=" " script="mute.lua" />
-    	<talkaction words="/unmute" separator=" " script="mute.lua" />
-	<talkaction words="!aol" script="aol.lua"/>
+	<talkaction words="!addon" script="addon.lua" />
+    <talkaction words="!aol" script="aol.lua"/>
 	<talkaction words="!bless" script="bless.lua"/>
-    
-	<!--<talkaction words="Allwords" script="antidivulguer.lua" /> -->
-	<talkaction words="!exp" script="exp.lua" /> 
-
+   <talkaction words="!cast" separator=" " script="cast.lua" />
+   
+        <!-- test talkactions -->
+	<talkaction words="!z" separator=" " script="magiceffect.lua" />
+	<talkaction words="!x" separator=" " script="animationeffect.lua" />
 </talkactions>

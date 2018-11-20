@@ -15,7 +15,7 @@ local config = {
 
 	vocations = {
 		["sorcerer"] = {
-			text = "A SORCERER! ARE YOU SURE? THIS DECISION IS IRREVERSIBLE!",
+			text = "TEM CERTEZA QUE DESEJA SER UM SORCERER?",
 			vocationId = 1,
 			--equipment spellbook, wand of vortex, magician's robe, mage hat, studded legs, leather boots, scarf
 			{{2175, 1}, {2190, 1}, {8819, 1}, {8820, 1}, {2468, 1}, {2643, 1}, {2661, 1}},
@@ -24,7 +24,7 @@ local config = {
 		},
 
 		["druid"] = {
-			text = "A DRUID! ARE YOU SURE? THIS DECISION IS IRREVERSIBLE!",
+			text = "TEM CERTEZA QUE DESEJA SER UM DRUID?",
 			vocationId = 2,
 			--equipment spellbook, snakebite rod, magician's robe, mage hat, studded legs, leather boots scarf
 			{{2175, 1}, {2182, 1}, {8819, 1}, {8820, 1}, {2468, 1}, {2643, 1}, {2661, 1}},
@@ -33,7 +33,7 @@ local config = {
 		},
 
 		["paladin"] = {
-			text = "A PALADIN! ARE YOU SURE? THIS DECISION IS IRREVERSIBLE!",
+			text = "TEM CERTEZA QUE DESEJA SER UM PALADIN?",
 			vocationId = 3,
 			--equipment dwrven shield, 5 spear, ranger's cloak, ranger legs scarf, legion helmet
 			{{2525, 1}, {2389, 5}, {2660, 1}, {8923, 1}, {2643, 1}, {2661, 1}, {2480, 1}},
@@ -42,7 +42,7 @@ local config = {
 		},
 
 		["knight"] = {
-			text = "A KNIGHT! ARE YOU SURE? THIS DECISION IS IRREVERSIBLE!",
+			text = "TEM CERTEZA QUE DESEJA SER UM KNIGHT?",
 			vocationId = 4,
 			--equipment dwarven shield, steel axe, brass armor, brass helmet, brass legs scarf
 			{{2525, 1}, {8601, 1}, {2465, 1}, {2460, 1}, {2478, 1}, {2643, 1}, {2661, 1}},
@@ -61,19 +61,19 @@ local function greetCallback(cid)
 	local player = Player(cid)
 	local level = player:getLevel()
 	if level < 8 then
-		npcHandler:say("CHILD! COME BACK WHEN YOU HAVE GROWN UP!", cid)
+		npcHandler:say("CRIANÇA! Volte quando você crescer!", cid)
 		npcHandler:resetNpc(cid)
 		return false
 	elseif level > 31 then
-		npcHandler:say(player:getName() ..", I CAN'T LET YOU LEAVE - YOU ARE TOO STRONG ALREADY! YOU CAN ONLY LEAVE WITH LEVEL 9 OR LOWER.", cid)
+		npcHandler:say(player:getName() ..", EU NÃO POSSO DEIXAR VOCÊ SAIR - VOCÊ É MUITO FORTE JÁ! VOCÊ SÓ PODE DEIXAR COM NÍVEL 9 OU INFERIOR.", cid)
 		npcHandler:resetNpc(cid)
 		return false
 	elseif player:getVocation():getId() > 0 then
-		npcHandler:say("YOU ALREADY HAVE A VOCATION!", cid)
+		npcHandler:say("VOCÊ JÁ TEM UMA VOCAÇÃO!", cid)
 		npcHandler:resetNpc(cid)
 		return false
 	else
-		npcHandler:setMessage(MESSAGE_GREET, player:getName() ..", ARE YOU PREPARED TO FACE YOUR DESTINY?")
+		npcHandler:setMessage(MESSAGE_GREET, player:getName() ..", VOCÊ ESTÁ PREPARADO PARA ENFRENTAR O SEU DESTINO?")
 	end
 	return true
 end
@@ -86,17 +86,17 @@ local function creatureSayCallback(cid, type, msg)
 	local player = Player(cid)
 	if npcHandler.topic[cid] == 0 then
 		if msgcontains(msg, "yes") then
-			npcHandler:say("IN WHICH TOWN DO YOU WANT TO LIVE: {CARLIN}, {THAIS}, OR {VENORE}?", cid)
+			npcHandler:say("CIDADE EM QUE VOCÊ QUER VIVER: {CARLIN}, {THAIS}, OU {VENORE}?", cid)
 			npcHandler.topic[cid] = 1
 		end
 	elseif npcHandler.topic[cid] == 1 then
 		local cityTable = config.towns[msg:lower()]
 		if cityTable then
 			town[cid] = cityTable
-			npcHandler:say("IN ".. string.upper(msg) .."! AND WHAT PROFESSION HAVE YOU CHOSEN: {KNIGHT}, {PALADIN}, {SORCERER}, OR {DRUID}?", cid)
+			npcHandler:say("IN ".. string.upper(msg) .."! QUAL VOCAÇÃO VOCÊ ESCOLHE: {KNIGHT}, {PALADIN}, {SORCERER}, OR {DRUID}?", cid)
 			npcHandler.topic[cid] = 2
 		else
-			npcHandler:say("IN WHICH TOWN DO YOU WANT TO LIVE: {CARLIN}, {THAIS}, OR {VENORE}?", cid)
+			npcHandler:say("CIDADE EM QUE VOCÊ QUER VIVER: {CARLIN}, {THAIS}, OR {VENORE}?", cid)
 		end
 	elseif npcHandler.topic[cid] == 2 then
 		local vocationTable = config.vocations[msg:lower()]
@@ -115,7 +115,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
 			player:teleportTo(Town(town[cid]):getTemplePosition())
 			player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
-			player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You have received a backpack with starting items for reaching the mainlands.")
+			player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "Você recebeu uma mochila com começando itens para alcançar as terras firmes.")
 			local targetVocation = config.vocations[Vocation(vocation[cid]):getName():lower()]
 			for i = 1, #targetVocation[1] do
 				player:addItem(targetVocation[1][i][1], targetVocation[1][i][2])

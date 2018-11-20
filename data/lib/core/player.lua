@@ -3,46 +3,34 @@ function Player.allowMovement(self, allow)
 end
 
 function Player.checkGnomeRank(self)
-	local points = self:getStorageValue(Storage.BigfootBurden.Rank)
-	local questProgress = self:getStorageValue(Storage.BigfootBurden.QuestLine)
+	local points = self:getStorageValue(STORAGE.BIGFOOTBURDEN.RANK)
+	local questProgress = self:getStorageValue(STORAGE.BIGFOOTBURDEN.QUESTLINE)
 	if points >= 30 and points < 120 then
 		if questProgress == 14 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 15)
+			self:setStorageValue(STORAGE.BIGFOOTBURDEN.QUESTLINE, 15)
 			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
 		end
 		self:addAchievement('Gnome Little Helper')
 	elseif points >= 120 and points < 480 then
 		if questProgress == 15 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 16)
+			self:setStorageValue(STORAGE.BIGFOOTBURDEN.QUESTLINE, 16)
 			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
 		end
 		self:addAchievement('Gnome Friend')
 	elseif points >= 480 and points < 1440 then
 		if questProgress == 16 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 17)
+			self:setStorageValue(STORAGE.BIGFOOTBURDEN.QUESTLINE, 17)
 			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
 		end
 		self:addAchievement('Gnomelike')
 	elseif points >= 1440 then
 		if questProgress == 17 then
-			self:setStorageValue(Storage.BigfootBurden.QuestLine, 18)
+			self:setStorageValue(STORAGE.BIGFOOTBURDEN.QUESTLINE, 18)
 			self:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
 		end
 		self:addAchievement('Honorary Gnome')
 	end
 	return true
-end
-
-function Player.setExhaustion(self, value, time)
-    return self:setStorageValue(value, time + os.time())
-end
-
-function Player.getExhaustion(self, value)
-    local storage = self:getStorageValue(value)
-    if storage <= 0 then
-       return 0
-    end
-   return storage - os.time()
 end
 
 function Player.depositMoney(self, amount)
@@ -188,11 +176,11 @@ function Player.sendExtendedOpcode(self, opcode, buffer)
 	end
 
 	local networkMessage = NetworkMessage()
- 	networkMessage:addByte(0x32)
- 	networkMessage:addByte(opcode)
- 	networkMessage:addString(buffer)
-	networkMessage:sendToPlayer(self, false) 
- 	networkMessage:delete()
+	networkMessage:addByte(0x32)
+	networkMessage:addByte(opcode)
+	networkMessage:addString(buffer)
+	networkMessage:sendToPlayer(self)
+	networkMessage:delete()
 	return true
 end
 

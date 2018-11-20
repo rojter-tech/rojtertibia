@@ -41,7 +41,7 @@ function onKill(creature, target)
 	if holeItem then
 		holeItem:transform(1387)
 	end
-	--Game.createMonster('abyssador', Position(33086, 31907, 12))
+	Game.createMonster('abyssador', Position(33086, 31907, 12))
 
 	addEvent(transformTeleport, 30 * 60 * 1000)
 	addEvent(clearArena, 32 * 60 * 1000)

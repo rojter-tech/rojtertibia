@@ -11,10 +11,10 @@ local function creatureSayCallback(cid, type, msg)
 	if not npcHandler:isFocused(cid) then
 		return false
 	elseif isInArray({"trip", "passage", "back"}, msg) then
-		--if Player(cid):getStorageValue(Storage.TheNewFrontier.Questline) >= 24 then
+		if Player(cid):getStorageValue(Storage.TheNewFrontier.Questline) >= 24 then
 			npcHandler:say("You want to go back?", cid)
 			npcHandler.topic[cid] = 1
-		--end
+		end
 	elseif msgcontains(msg, "yes") then
 		if npcHandler.topic[cid] == 1 then
 			npcHandler:say("It'zz your doom you travel to.", cid)

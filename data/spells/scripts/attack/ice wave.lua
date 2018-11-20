@@ -11,12 +11,6 @@ end
 
 combat:setCallback(CALLBACK_PARAM_LEVELMAGICVALUE, "onGetFormulaValues")
 
-function onCastSpell(creature, variant)
-if creature:isPlayer() then
-		local city = CityWars.getPlayerWar(creature)
-		if city and not city:onCastSpell(creature, 'areaSpell') then
-			return false
-		end
-	end
-	return combat:execute(creature, variant)
+function onCastSpell(creature, var)
+	return combat:execute(creature, var)
 end

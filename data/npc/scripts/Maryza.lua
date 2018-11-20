@@ -43,5 +43,5 @@ npcHandler:setMessage(MESSAGE_GREET, 'Welcome to the Jolly Axeman, |PLAYERNAME|.
 
 npcHandler:setCallback(CALLBACK_MESSAGE_DEFAULT, creatureSayCallback)
 local focusModule = FocusModule:new()
-focusModule:addGreetMessage('hi maryza')
+focusModule:addGreetMessage('hello, maryza')
 npcHandler:addModule(focusModule)

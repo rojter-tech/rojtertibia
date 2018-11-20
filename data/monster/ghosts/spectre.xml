@@ -13,7 +13,7 @@
 		<flag canpushitems="1" />
 		<flag canpushcreatures="1" />
 		<flag targetdistance="1" />
-		<flag staticattack="90" /> 
+		<flag staticattack="90" />
 		<flag runonhealth="0" />
 	</flags>
 	<attacks>
@@ -31,7 +31,7 @@
 		<defense name="healing" interval="2000" chance="25" min="100" max="250">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
-		<defense name="healing" interval="2000" chance="10" min="100" max="200">
+		<defense name="healing" interval="2000" chance="10" min="370" max="700">
 			<attribute key="areaEffect" value="blueshimmer" />
 		</defense>
 		<defense name="speed" interval="2000" chance="15" speedchange="290" duration="5000">

@@ -68,9 +68,8 @@
 		<item id="7589" chance="1000" /><!-- strong mana potion -->
 		<item id="2518" chance="150" /><!-- beholder shield -->
 		<item id="3972" chance="150" /><!-- beholder helmet -->
-		<item id="12468" chance="2025" /><!-- small flask of eyedrops -->
-		<item id="11193" chance="2725" /><!-- elder bonelord tentacle -->
-		<item id="11197" chance="250" /><!-- giant eye -->
-		<item id="5898" chance="100" /><!-- giant eye -->
+		<item id="12468" chance="10025" /><!-- small flask of eyedrops -->
+		<item id="11193" chance="21725" /><!-- elder bonelord tentacle -->
+		<item id="11197" chance="850" /><!-- giant eye -->
 	</loot>
 </monster>

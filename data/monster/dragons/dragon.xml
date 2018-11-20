@@ -63,9 +63,9 @@
 		<item id="2434" chance="560" /><!-- dragon hammer -->
 		<item id="5877" chance="1005" /><!-- green dragon leather -->
 		<item id="2145" chance="380" /><!-- small diamond -->
-		<item id="2516" chance="420" /><!-- dragon shield -->
+		<item id="2516" chance="320" /><!-- dragon shield -->
 		<item id="2409" chance="420" /><!-- serpent sword -->
-		<item id="7430" chance="210" /><!-- dragonbone staff -->
+		<item id="7430" chance="110" /><!-- dragonbone staff -->
 		<item id="2177" chance="120" /><!-- life crystal -->
 		<item id="2546" countmax="10" chance="8060" /><!-- burst arrow -->
 	</loot>

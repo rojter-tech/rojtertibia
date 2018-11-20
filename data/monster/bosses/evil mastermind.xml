@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <monster name="Evil Mastermind" nameDescription="Evil Mastermind" race="undead" experience="675" speed="350" manacost="0">
 	<health now="1095" max="1095" />
-	<look type="256" corpse="7256" />
+	<look type="256" corpse="10321" />
 	<targetchange interval="5000" chance="8" />
 	<flags>
 		<flag summonable="0" />
@@ -57,7 +57,7 @@
 		<immunity invisible="1" />
 	</immunities>
 	<summons maxSummons="1">
-		<summon name="vampire" interval="2000" chance="40" max="3" />
+		<summon name="vampire" interval="2000" chance="40" max="1" />
 	</summons>
 	<voices interval="2000" chance="7">
 		<voice sentence="You won't stop my masterplan to flood the world market with fake Bonelord language dictionaries!" />
@@ -65,11 +65,4 @@
 		<voice sentence="You can't stop me!" />
 		<voice sentence="Beware! My evil monolog is coming!" />
 	</voices>
-	
-	<loot>
-		<item id="10308" chance="10000" />				<!-- book of prayers -->
-		<item id="2148" countmax="95" chance="100000" />	<!-- gold coin -->
-		<item id="2152" countmax="3" chance="93000" />	<!-- platinum coin -->
-		
-	</loot>
 </monster>

@@ -22,7 +22,6 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	end
 
 	Game.setStorageValue(Storage.WrathoftheEmperor.Mission11, 1)
-	addEvent(Game.setStorageValue, 10 * 60000, Storage.WrathoftheEmperor.Mission11, 0)
 
 	local monsters = Game.getSpectators(config.arenaPosition, false, false, 10, 10, 10, 10)
 	local spectator
