@@ -12,7 +12,7 @@ local function creatureSayCallback(cid, type, msg)
 		return false
 	end
 	local player = Player(cid)
-	if msgcontains(msg, "errand") or msgcontains(msg, "gold") then
+	if msgcontains(msg, "errand") then
 		if player:getStorageValue(Storage.TheShatteredIsles.TheErrand) == 1 then
 			npcHandler:say("Oh, so you brought some gold from Eleonore to me?", cid)
 			npcHandler.topic[cid] = 1

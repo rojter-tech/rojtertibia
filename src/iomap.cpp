@@ -112,7 +112,7 @@ bool IOMap::loadMap(Map* map, const std::string& identifier)
 		return false;
 	}
 
-	if (root_header.majorVersionItems > Items::dwMajorVersion) {
+	if (root_header.majorVersionItems > Item::items.majorVersion) {
 		setLastErrorString("The map was saved with a different items.otb version, an upgraded items.otb is required.");
 		return false;
 	}
@@ -122,7 +122,7 @@ bool IOMap::loadMap(Map* map, const std::string& identifier)
 		return false;
 	}
 
-	if (root_header.minorVersionItems > Items::dwMinorVersion) {
+	if (root_header.minorVersionItems > Item::items.minorVersion) {
 		std::cout << "[Warning - IOMap::loadMap] This map needs an updated items.otb." << std::endl;
 	}
 
@@ -200,8 +200,8 @@ bool IOMap::loadMap(Map* map, const std::string& identifier)
 			}
 
 			uint16_t base_x = area_coord.x;
- 			uint16_t base_y = area_coord.y;
- 			uint16_t z = area_coord.z;
+			uint16_t base_y = area_coord.y;
+			uint16_t z = area_coord.z;
 
 			NODE nodeTile = f.getChildNode(nodeMapData, type);
 			while (nodeTile != NO_NODE) {
@@ -227,7 +227,7 @@ bool IOMap::loadMap(Map* map, const std::string& identifier)
 				}
 
 				uint16_t x = base_x + tile_coord.x;
- 				uint16_t y = base_y + tile_coord.y;
+				uint16_t y = base_y + tile_coord.y;
 
 				bool isHouseTile = false;
 				House* house = nullptr;

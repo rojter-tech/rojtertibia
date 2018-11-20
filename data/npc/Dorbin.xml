@@ -15,9 +15,7 @@
 		<parameter key="message_sendtrade" value="Have a look. Most furniture comes in handy kits. Just use them in your house to assemble the furniture. Do you want to see only a certain {type} of furniture?" />
 		<parameter key="message_greet" value="Be greeted, visitor. If you're interested in buying furniture, ask me for a trade." />
 		<parameter key="shop_buyable" value="
-		
-		   	amphora,2023,4,0;
-			kit,3920,10;
+			amphora,2023,4,0;
 			armor rack kit,6114,90;
 			barrel kit,3919,12;
 			big table kit,3911,30;

@@ -103,7 +103,7 @@ enum CreatureType_t : uint8_t {
 
 enum OperatingSystem_t : uint8_t {
 	CLIENTOS_NONE = 0,
-	
+
 	CLIENTOS_LINUX = 1,
 	CLIENTOS_WINDOWS = 2,
 	CLIENTOS_FLASH = 3,
@@ -119,26 +119,6 @@ enum SpellGroup_t : uint8_t {
 	SPELLGROUP_HEALING = 2,
 	SPELLGROUP_SUPPORT = 3,
 	SPELLGROUP_SPECIAL = 4,
-};
-
-enum StoreOfferState_t : uint8_t {
-	STORE_OFFERSTATE_NONE = 0,
-	STORE_OFFERSTATE_NEW = 1,
-	STORE_OFFERSTATE_SALE = 2,
-	STORE_OFFERSTATE_TIMED = 3,
-};
-
-enum StoreOfferType_t : uint8_t {
-	STORE_OFFERTYPE_OTHER = 0,
-	STORE_OFFERTYPE_NAMECHANGE = 1,
-};
-
-enum StoreError_t : uint8_t {
-	STORE_ERROR_PURCHASE = 0,
-	STORE_ERROR_NETWORK = 1,
-	STORE_ERROR_HISTORY = 2,
-	STORE_ERROR_TRANSFER = 3,
-	STORE_ERROR_INFORMATION = 4,
 };
 
 enum AccountType_t : uint8_t {
@@ -158,7 +138,7 @@ enum RaceType_t : uint8_t {
 	RACE_ENERGY,
 };
 
-enum CombatType_t {
+enum CombatType_t : uint16_t {
 	COMBAT_NONE = 0,
 
 	COMBAT_PHYSICALDAMAGE = 1 << 0,
@@ -267,17 +247,6 @@ enum skills_t : uint8_t {
 
 	SKILL_FIRST = SKILL_FIST,
 	SKILL_LAST = SKILL_FISHING
-};
-
-enum skillStats_t : uint8_t {
-	SKILL_CRITICAL_HIT_CHANCE = 19,
-	SKILL_CRITICAL_HIT_DAMAGE,
-	SKILL_LIFE_LEECH_CHANCE,
-	SKILL_LIFE_LEECH_AMOUNT,
-	SKILL_MANA_LEECH_CHANCE,
-	SKILL_MANA_LEECH_AMOUNT,
-	SKILLSTAT_FIRST = SKILL_CRITICAL_HIT_CHANCE,
-	SKILLSTAT_LAST = SKILL_MANA_LEECH_AMOUNT
 };
 
 enum stats_t {
@@ -420,7 +389,6 @@ enum ReturnValue {
 	RETURNVALUE_CANONLYUSEONESHIELD,
 	RETURNVALUE_NOPARTYMEMBERSINRANGE,
 	RETURNVALUE_YOUARENOTTHEOWNER,
-	RETURNVALUE_REWARDCHESTISEMPTY,
 };
 
 enum SpeechBubble_t
@@ -457,42 +425,21 @@ enum MapMark_t
 };
 
 struct Outfit_t {
-	Outfit_t() {
-		reset();
-	}
-
-	void reset() {
-		lookType = 0;
-		lookTypeEx = 0;
-		lookMount = 0;
-		lookHead = 0;
-		lookBody = 0;
-		lookLegs = 0;
-		lookFeet = 0;
-		lookAddons = 0;
-	}
-
-	uint16_t lookType;
-	uint16_t lookTypeEx;
-	uint16_t lookMount;
-	uint8_t lookHead;
-	uint8_t lookBody;
-	uint8_t lookLegs;
-	uint8_t lookFeet;
-	uint8_t lookAddons;
+	uint16_t lookType = 0;
+	uint16_t lookTypeEx = 0;
+	uint16_t lookMount = 0;
+	uint8_t lookHead = 0;
+	uint8_t lookBody = 0;
+	uint8_t lookLegs = 0;
+	uint8_t lookFeet = 0;
+	uint8_t lookAddons = 0;
 };
 
 struct LightInfo {
-	uint8_t level;
-	uint8_t color;
-	LightInfo() {
-		level = 0;
-		color = 0;
-	}
-	LightInfo(uint8_t _level, uint8_t _color) {
-		level = _level;
-		color = _color;
-	}
+	uint8_t level = 0;
+	uint8_t color = 0;
+	constexpr LightInfo() = default;
+	constexpr LightInfo(uint8_t level, uint8_t color) : level(level), color(color) {}
 };
 
 struct ShopInfo {
@@ -510,7 +457,7 @@ struct ShopInfo {
 	}
 
 	ShopInfo(uint16_t itemId, int32_t subType = 0, uint32_t buyPrice = 0, uint32_t sellPrice = 0, std::string realName = "")
-		: itemId(itemId), subType(subType), buyPrice(buyPrice), sellPrice(sellPrice), realName(realName) {}
+		: itemId(itemId), subType(subType), buyPrice(buyPrice), sellPrice(sellPrice), realName(std::move(realName)) {}
 };
 
 struct MarketOffer {
@@ -571,7 +518,7 @@ struct ModalWindow
 	bool priority;
 
 	ModalWindow(uint32_t id, std::string title, std::string message)
-		: title(title), message(message), id(id), defaultEnterButton(0xFF), defaultEscapeButton(0xFF), priority(false) {}
+		: title(std::move(title)), message(std::move(message)), id(id), defaultEnterButton(0xFF), defaultEscapeButton(0xFF), priority(false) {}
 };
 
 enum CombatOrigin
@@ -591,14 +538,11 @@ struct CombatDamage
 	} primary, secondary;
 
 	CombatOrigin origin;
-	bool critical;
-	
 	CombatDamage()
 	{
 		origin = ORIGIN_NONE;
 		primary.type = secondary.type = COMBAT_NONE;
 		primary.value = secondary.value = 0;
-		critical = false;
 	}
 };
 

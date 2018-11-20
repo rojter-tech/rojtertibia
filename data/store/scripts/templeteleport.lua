@@ -2,7 +2,7 @@ function onRender(player, offer)
 	return not player:isPzLocked() and not Tile(player:getPosition()):hasFlag(TILESTATE_NOLOGOUT)
 end
 
-local MIN_DISTANCE = 0
+local MIN_DISTANCE = 50
 function onBuy(player, offer)
 	if player:isPzLocked() then
 		player:sendStoreError(STORE_ERROR_PURCHASE, "You can not purchase a transportation service while PZ Locked.")

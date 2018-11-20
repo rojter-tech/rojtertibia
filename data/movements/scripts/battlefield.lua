@@ -1,23 +1,14 @@
 local conditionRed = Condition(CONDITION_OUTFIT)
 conditionRed:setTicks(120 * 60 * 1000)
-conditionRed:setOutfit({lookType = 465, lookHead = 94, lookBody = 94, lookLegs = 94, lookFeet = 94})
+conditionRed:setOutfit({lookType = 143, lookHead = 94, lookBody = 94, lookLegs = 94, lookFeet = 94})
 
 local conditionBlack = Condition(CONDITION_OUTFIT)
 conditionBlack:setTicks(120 * 60 * 1000)
-conditionBlack:setOutfit({lookType = 465, lookHead = 114, lookBody = 114, lookLegs = 114, lookFeet = 114})
+conditionBlack:setOutfit({lookType = 134, lookHead = 114, lookBody = 114, lookLegs = 114, lookFeet = 114})
 
 function onStepIn(creature, item, position, fromPosition)
 	local player = creature:getPlayer()
 	if player == nil then return false end
-	
-	if player:getLevel() < 100 then
-	local vazaa = {x = 32470, y = 32474, z = 6} 
-	player:teleportTo(vazaa)
-    player:sendTextMessage(MESSAGE_INFO_DESCR, "YOU NEED LEVEL 100+ TO ENTER.")
-	return false
-    end	
-	
-	
 	if player:getGroup():getId() >= 3 then
 		return player:teleportTo(_Lib_Battle_Info.TeamOne.pos)
 	end
@@ -34,7 +25,7 @@ function onStepIn(creature, item, position, fromPosition)
 
 	if Game.getStorageValue(_Lib_Battle_Info.storage_count) == 0 then
 	removeBattleTp()
-	broadcastMessage("Battlefield vai comecar em 2 minutos, comece a criar sua estrategia de combate!")
+	broadcastMessage("Battlefield vai comecar em 2 munutos, comece a criar sua estrategia de combate!")
 	addEvent(broadcastMessage, 2 * 60 * 1000 - 500, "BattleField vai comecar agora!")
 	addEvent(OpenWallBattle, 2 * 60 * 1000)
 	end

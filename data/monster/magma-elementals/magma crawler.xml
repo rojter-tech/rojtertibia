@@ -56,7 +56,6 @@
 		<item id="7591" chance="7270" />						<!-- great health potion -->
 		<item id="18421" chance="7000" />					<!-- green crystal fragment -->
 		<item id="7590" chance="6500" />						<!-- great mana potion -->
-		<item id="18304" countmax="10" chance="5950" />		<!-- crystalline arrow -->
 		<item id="8921" chance="4400" />						<!-- wand of draconia -->
 		<item id="5880" chance="4380" />						<!-- iron ore -->
 		<item id="18413" chance="3930" />					<!-- blue crystal shard -->

@@ -128,9 +128,6 @@ Waspoid Claw,15483,320;
 Waspoid Wing,15484,190" />
 		<parameter key="shop_buyable" value="
 stone shower rune,2288,37;
-ultimate mp,26029,350;
-			Supreme Health Potion,26031,500;
-			ultimate spirit potion,26030,350;
 thunderstorm rune,2315,37;
 avalanche rune,2274,45;
 blank rune,2260,10;

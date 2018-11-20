@@ -68,7 +68,7 @@ class Party
 		bool canOpenCorpse(uint32_t ownerId) const;
 
 		void shareExperience(uint64_t experience, Creature* source = nullptr);
-		bool setSharedExperience(Player* player, bool _sharedExpActive);
+		bool setSharedExperience(Player* player, bool sharedExpActive);
 		bool isSharedExperienceActive() const {
 			return sharedExpActive;
 		}
@@ -93,10 +93,10 @@ class Party
 
 		Player* leader;
 
-		float extraExpRate;
+		float extraExpRate = 0.20f;
 
-		bool sharedExpActive;
-		bool sharedExpEnabled;
+		bool sharedExpActive = false;
+		bool sharedExpEnabled = false;
 };
 
 #endif

@@ -79,6 +79,11 @@ local function creatureSayCallback(cid, type, msg)
 end
 
 local function onTradeRequest(cid)
+	if Player(cid):getStorageValue(Storage.DjinnWar.EfreetFaction.Mission03) ~= 3 then
+		npcHandler:say('No chance, human. Malor doesn\'t want me to trade with strangers.', cid)
+		return false
+	end
+
 	return true
 end
 

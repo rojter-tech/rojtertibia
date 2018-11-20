@@ -1,13 +1,12 @@
-[code]
+
 #!/bin/bash
-ulimit -c unlimited
+ ulimit -c unlimited
 
 while true; do
-./theforgottenserver >> data/logs/output.log &
-PID=$!
-echo $PID > theforgottenserver.pid
-wait $PID
-#./scripts/backupGames.sh;
-sleep 2
+  ./theforgottenserver > data/logs/output.log &
+  PID=
+  echo  > theforgottenserver.pid
+  wait 
+  sleep 60
 done
-[/code]
+

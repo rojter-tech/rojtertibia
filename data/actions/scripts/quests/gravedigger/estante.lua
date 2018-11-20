@@ -1,13 +1,8 @@
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-
-if(getPlayerStorageValue(cid, 157443) < 1) then
-	setPlayerStorageValue(cid, 157443, 1)
-	doPlayerAddItem(cid,21474,1)
-	doCreatureSay(cid, "You have found a crumpled paper.", TALKTYPE_ORANGE_1)
-	else 
-		
-	doCreatureSay(cid, "You've picked up here.", TALKTYPE_ORANGE_1)
-return true
-end
-
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	if player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission70) < 1 then
+		player:setStorageValue(Storage.GravediggerOfDrefia.Mission70, 1)
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'You have found a crumpled paper.')
+		player:addItem(21474, 1)
+	end
+	return true
 end

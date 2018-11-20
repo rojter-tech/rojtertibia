@@ -1,36 +1,28 @@
-	_Lib_Battle_Info = {
+_Lib_Battle_Info = {
 	Reward = {
-		exp = {true, 100000}, items = {true, 21399, 1}, premium_days = {false, 1}
+		exp = {true, 100000}, items = {true, 2160, 10}, premium_days = {false, 1}
 	},
-	TeamOne = {name = "Black Vikings", storage = 140120, pos = {x = 31393, y = 32554, z = 8}},
-	TeamTwo = {name = "Red Vikings", storage = 140121, pos = {x = 31437, y = 32554, z = 8}},
+	TeamOne = {name = "Black Vanaheims", storage = 140120, pos = {x = 31377, y = 32559, z = 6}},
+	TeamTwo = {name = "Red Vanaheims", storage = 140121, pos = {x = 31447, y = 32562, z = 6}},
 	storage_count = 180400,
-	tpPos = {x = 32470, y = 32471, z = 6}, 
-	limit_Time = 10 -- em minutos 
+	tpPos = {x = 32350, y = 32223, z = 7},
+	limit_Time = 2 -- em minutos
 }
 
 _Lib_Battle_Days = {
-    ["Monday"] = {   -- segunda
-		["22:30"] = {players = 30}
-	},	
-	["Tuesday"] = { -- terça
-		["22:30"] = {players = 30}
+	["Tuesday"] = {
+		["16:00"] = {players = 10},
+		["20:30"] = {players = 6}
 	},
-	["Wednesday"] = { -- quarta 
-		["22:30"] = {players = 30}
+	["Wednesday"] = {
+		["22:00"] = {players = 16}
 	},
-	["Thursday"] = { -- quinta
-		["22:30"] = {players = 30}
+	["Saturday"] = {
+		["15:30"] = {players = 2},
+		["21:38"] = {players = 2}
 	},
-	["Friday"] = { --sexta
-		["22:30"] = {players = 30}
-	},
-	["Saturday"] = { -- sabado
-		["22:30"] = {players = 30}
-	},
-		
-	["Sunday"] = { -- domingo
-		["22:30"] = {players = 30}
+	["Sunday"] = {
+		["00:11"] = {players = 2}
 	}
 }
 
@@ -69,14 +61,14 @@ end
 
 function OpenWallBattle()
 	local B = {
-		{1049, {x = 31424, y = 32550, z = 6, stackpos = 1}}, -- {x = 31424, y = 32550, z = 6}
-		{1049, {x = 31424, y = 32551, z = 6, stackpos = 1}}, -- {x = 31424, y = 32551, z = 6}
-		{1049, {x = 31424, y = 32552, z = 6, stackpos = 1}},
-		{1049, {x = 31424, y = 32553, z = 6, stackpos = 1}},
-		{1049, {x = 31424, y = 32554, z = 6, stackpos = 1}},
-		{1049, {x = 31424, y = 32555, z = 6, stackpos = 1}},
-		{1049, {x = 31424, y = 32556, z = 6, stackpos = 1}},
-		{1049, {x = 31424, y = 32557, z = 6, stackpos = 1}}
+		{9532, {x = 31398, y = 32569, z = 6, stackpos = 1}},
+		{9532, {x = 31398, y = 32570, z = 6, stackpos = 1}},
+		{9532, {x = 31398, y = 32571, z = 6, stackpos = 1}},
+		{9532, {x = 31398, y = 32572, z = 6, stackpos = 1}},
+		{9532, {x = 31419, y = 32569, z = 6, stackpos = 1}},
+		{9532, {x = 31419, y = 32570, z = 6, stackpos = 1}},
+		{9532, {x = 31419, y = 32571, z = 6, stackpos = 1}},
+		{9532, {x = 31419, y = 32572, z = 6, stackpos = 1}}
 	}
 
 	for i = 1, #B do

@@ -16,7 +16,7 @@ end
 
 addTravelKeyword('edron', 160, Position(33175, 31764, 6))
 addTravelKeyword('venore', 150, Position(32954, 32022, 6))
-addTravelKeyword('port hope', 70, Position(32527, 32784, 6))
+addTravelKeyword('port hope', 80, Position(32527, 32784, 6))
 addTravelKeyword('liberty bay', 90, Position(32285, 32892, 6))
 addTravelKeyword('darashia', 100, Position(33289, 32480, 6))
 addTravelKeyword('yalahar', 230, Position(32816, 31272, 6))

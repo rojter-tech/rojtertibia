@@ -53,7 +53,7 @@ local function creatureSayCallback(cid, type, msg)
 			npcHandler.topic[cid] = 1
 		end
 	elseif msgcontains(msg, 'yes') then
-		if npcHandler.topic[cid] == 1 then
+		if npcHandler.topic[cid] == 2 then
 			npcHandler:say('Well, rich and generous people are always welcome in the palace.If you donate 1000 gold to a fund I oversee, I\'ll give you an invitation, ok?', cid)
 			npcHandler.topic[cid] = 3
 		elseif npcHandler.topic[cid] == 3 then

@@ -18,9 +18,8 @@ function onStepIn(creature, item, position, fromPosition)
 
 	if machine.storage and Game.getStorageValue(machine.storage) ~= 1 then
 		player:sendTextMessage(MESSAGE_STATUS_SMALL, 'The machines are not activated.')
-		local vazee = {x = 32875, y = 31321, z = 10}  -- 32875, 31321, 10
-	    player:teleportTo(vazee)
-		--position:sendMagicEffect(CONST_ME_POFF)
+		player:teleportTo(fromPosition)
+		fromPosition:sendMagicEffect(CONST_ME_POFF)
 		return true
 	end
 

@@ -10,7 +10,7 @@
 		<flag illusionable="0" />
 		<flag convinceable="0" />
 		<flag pushable="0" />
-		<flag canpushitems="0" />
+		<flag canpushitems="1" />
 		<flag canpushcreatures="1" />
 		<flag targetdistance="1" />
 		<flag staticattack="90" />
@@ -68,11 +68,11 @@
 		<item id="2149" chance="14000" /><!-- small emerald -->
 		<item id="2147" countmax="3" chance="9600" /><!-- small ruby -->
 		<item id="2150" countmax="3" chance="17000" /><!-- small amethyst -->
-		<item id="2393" chance="260" /><!-- giant sword -->
-		<item id="2475" chance="420" /><!-- warrior helmet -->
-		<item id="2476" chance="500" /><!-- knight armor -->
+		<item id="2393" chance="560" /><!-- giant sword -->
+		<item id="2475" chance="2820" /><!-- warrior helmet -->
+		<item id="2476" chance="4000" /><!-- knight armor -->
 		<item id="5909" chance="4520" /><!-- white piece of cloth -->
-		<item id="5911" chance="330" /><!-- red piece of cloth -->
+		<item id="5911" chance="1130" /><!-- red piece of cloth -->
 		<item id="7590" countmax="2" chance="36000" /><!-- great mana potion -->
 		<item id="8473" chance="26000" /><!-- ultimate health potion -->
 		<item id="9970" countmax="2" chance="17000" /><!-- small topaz -->

@@ -12,7 +12,7 @@ local function creatureSayCallback(cid, type, msg)
 		return false
 	end
 	local player = Player(cid)
-	if msgcontains(msg, "sam sent me") or msgcontains(msg, "sam send me") then
+	if msgcontains(msg, "sam sent me") then
 		if player:getStorageValue(Storage.SamsOldBackpack) == 1 then
 			npcHandler:say({
 				"Oh, so its you, he wrote me about? Sadly I have no dwarven armor in stock. But I give you the permission to retrive one from the mines. ...",

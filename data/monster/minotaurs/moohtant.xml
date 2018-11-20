@@ -55,8 +55,8 @@
 	<loot>
 		<item id="2148" countmin="10" countmax="195" chance="100000" />	<!-- gold coin -->
 		<item id="2152" countmax="2" chance="58160" />		<!-- platinum coin -->
-		<item id="23571" countmax="2" chance="2740" />		<!-- moohtant horn -->
-		<item id="23570" countmax="1" chance="1770" />		<!-- giant pacifier -->
+		<item id="23554" countmax="2" chance="15740" />		<!-- moohtant horn -->
+		<item id="23570" countmax="1" chance="11770" />		<!-- giant pacifier -->
 		<item id="7591" countmax="3" chance="7380" />		<!-- great health potion -->
 		<item id="7590" countmax="3" chance="7230" />		<!-- great mana potion -->
 		<item id="2666" countmax="1" chance="6520" />		<!-- meat -->
@@ -64,8 +64,9 @@
 		<item id="5878" countmax="1" chance="4110" />		<!-- minotaur leather -->
 		<item id="2145" countmax="2" chance="4400" />		<!-- small diamond -->
 		<item id="2214" chance="2410" />						<!-- ring of healing -->
-		<item id="5911" countmax="1" chance="900" />		<!-- red piece of cloth -->
-		<item id="23544" chance="860" />					<!-- moohtant cudgel -->
+		<item id="5911" countmax="1" chance="1700" />		<!-- red piece of cloth -->
+		<item id="23544" chance="1560" />					<!-- moohtant cudgel -->
+		<item id="2156" chance="850" />						<!-- red gem -->
 		<item id="2154" chance="710" />						<!-- yellow gem -->
 		<item id="7452" chance="430" />						<!-- spiked squelcher -->
 		<item id="7427" chance="280" />						<!-- chaos mace -->

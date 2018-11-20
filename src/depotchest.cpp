@@ -22,12 +22,8 @@
 #include "depotchest.h"
 #include "tools.h"
 
-DepotChest::DepotChest(uint16_t _type) :
-	Container(_type)
-{
-	pagination = false; // PAGINAÇÃO FALSE OU TRUE
-	maxDepotItems = 1500;
-}
+DepotChest::DepotChest(uint16_t type) :
+	Container(type), maxDepotItems(1500) {}
 
 ReturnValue DepotChest::queryAdd(int32_t index, const Thing& thing, uint32_t count,
 		uint32_t flags, Creature* actor/* = nullptr*/) const
@@ -53,16 +49,12 @@ ReturnValue DepotChest::queryAdd(int32_t index, const Thing& thing, uint32_t cou
 			}
 		}
 
-		if (Cylinder* parent = getRealParent()) {
-   if (parent->getContainer()->getItemHoldingCount() + addCount > maxDepotItems) {
-    return RETURNVALUE_DEPOTISFULL;
-   }  
-  } else if (getItemHoldingCount() + addCount > maxDepotItems) {
+		if (getItemHoldingCount() + addCount > maxDepotItems) {
 			return RETURNVALUE_DEPOTISFULL;
 		}
 	}
 
-	return RETURNVALUE_NOERROR;
+	return Container::queryAdd(index, thing, count, flags, actor);
 }
 
 void DepotChest::postAddNotification(Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t)
@@ -83,8 +75,8 @@ void DepotChest::postRemoveNotification(Thing* thing, const Cylinder* newParent,
 
 Cylinder* DepotChest::getParent() const
 {
-	if (parent && parent->getParent()) {
-  return parent->getParent()->getParent();
+	if (parent) {
+		return parent->getParent();
 	}
 	return nullptr;
 }

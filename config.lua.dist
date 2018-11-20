@@ -7,41 +7,27 @@ killsToRedSkull = 3
 killsToBlackSkull = 6
 pzLocked = 60000
 removeChargesFromRunes = true
-timeToDecreaseFrags = 4 * 60 * 60 * 1000
+timeToDecreaseFrags = 24 * 60 * 60 * 1000
 whiteSkullTime = 15 * 60 * 1000
 stairJumpExhaustion = 2000
 experienceByKillingPlayers = false
 expFromPlayersLevelRange = 75
 
--- rOjterTibia Specific
--- NOTE: Website not up yet
-freeDepotLimit = 2000
-premiumDepotLimit = 10000
-depotBoxes = 17
-castLimit = 10
-coinPacketSize = 25
-coinImagesURL = "http://rojter.tech/images/store/"
-
 -- Connection Config
 -- NOTE: maxPlayers set to 0 means no limit
-ip = "83.250.0.97"
+ip = "127.0.0.1"
 bindOnlyGlobalAddress = false
 loginProtocolPort = 7171
 gameProtocolPort = 7172
 statusProtocolPort = 7171
-maxPlayers = "0"
-motd = "Welcome to rOjterTibiaServer, by a idiot for idiots!"
+maxPlayers = 0
+motd = "Welcome to The Forgotten Server!"
 onePlayerOnlinePerAccount = true
 allowClones = false
-serverName = "rOjterTibiaServer"
+serverName = "Forgotten"
 statusTimeout = 5000
 replaceKickOnLogin = true
-maxPacketsPerSecond = 300
-
--- rOjterTibia Specific
--- NOTE: Website not up yet
-enableLiveCasting = true
-liveCastPort = 7173
+maxPacketsPerSecond = 25
 
 -- Deaths
 -- NOTE: Leave deathLosePercent as -1 if you want to use the default
@@ -60,8 +46,8 @@ timeBetweenExActions = 1000
 
 -- Map
 -- NOTE: set mapName WITHOUT .otbm at the end
-mapName = "global"
-mapAuthor = "Admin"
+mapName = "map"
+mapAuthor = "Komic"
 
 -- Market
 marketOfferDuration = 30 * 24 * 60 * 60
@@ -71,11 +57,10 @@ maxMarketOffersAtATimePerPlayer = 100
 
 -- MySQL
 mysqlHost = "192.168.10.20"
-mysqlUser = "dreuter"
-mysqlPass = "*********"
-mysqlDatabase = "rojtertibia"
+mysqlUser = "forgottenserver"
+mysqlPass = "12321"
+mysqlDatabase = "forgottenserver"
 mysqlPort = 3306
-passwordType = "sha1"
 mysqlSock = ""
 
 -- Misc.
@@ -99,7 +84,7 @@ deSpawnRange = 2
 deSpawnRadius = 50
 
 -- Stamina
-staminaSystem = false
+staminaSystem = true
 
 -- Scripts
 warnUnsafeScripts = true
@@ -112,7 +97,7 @@ defaultPriority = "high"
 startupDatabaseOptimization = false
 
 -- Status server information
-ownerName = "Daniel Reuter"
-ownerEmail = "dreuter@kth.se"
-url = "http://rojter.tech/tibia"
+ownerName = ""
+ownerEmail = ""
+url = "https://otland.net/"
 location = "Sweden"

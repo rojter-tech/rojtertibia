@@ -1,4 +1,4 @@
---[[local keywordHandler = KeywordHandler:new()
+local keywordHandler = KeywordHandler:new()
 local npcHandler = NpcHandler:new(keywordHandler)
 NpcSystem.parseParameters(npcHandler)
 
@@ -11,7 +11,7 @@ local function creatureSayCallback(cid, type, msg)
 	if not npcHandler:isFocused(cid) then
 		return false
 	end
-	if msgcontains(msg, "monument tower") or msgcontains(msg, "passage") or msgcontains(msg, "trip") then
+	if msgcontains(msg, "monument tower") then
 		npcHandler:say("Do you want to travel to the {monument tower} for a 50 gold fee?", cid)
 		npcHandler.topic[cid] = 1
 	elseif msgcontains(msg, "yes") then
@@ -19,13 +19,6 @@ local function creatureSayCallback(cid, type, msg)
 			local player = Player(cid)
 			if player:getMoney() >= 50 then
 				player:removeMoney(50)
-				player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
-				player:teleportTo(Position(32940, 31182, 7), false)
-				player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
-				npcHandler.topic[cid] = 0
-				
-			elseif player:getBankBalance() >= 50 then 
-				getBankMoney(cid, 50)
 				player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
 				player:teleportTo(Position(32940, 31182, 7), false)
 				player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
@@ -41,25 +34,4 @@ end
 
 npcHandler:setMessage(MESSAGE_GREET, "Can I interest you in a trip to the {monument tower}?")
 npcHandler:setCallback(CALLBACK_MESSAGE_DEFAULT, creatureSayCallback)
-npcHandler:addModule(FocusModule:new())--]]
-
-
-
-local keywordHandler = KeywordHandler:new()
-local npcHandler = NpcHandler:new(keywordHandler)
-NpcSystem.parseParameters(npcHandler)
-
-function onCreatureAppear(cid)			npcHandler:onCreatureAppear(cid)			end
-function onCreatureDisappear(cid)		npcHandler:onCreatureDisappear(cid)			end
-function onCreatureSay(cid, type, msg)		npcHandler:onCreatureSay(cid, type, msg)		end
-function onThink()				npcHandler:onThink()					end
-
-local travelNode = keywordHandler:addKeyword({'monument tower'}, StdModule.say, {npcHandler = npcHandler, text = 'Do you seek a passage to monument tower for |TRAVELCOST|?', cost = 50})
-	travelNode:addChildKeyword({'yes'}, StdModule.travel, {npcHandler = npcHandler, premium = true, cost = 50, destination = Position(32942, 31182, 7) })
-	travelNode:addChildKeyword({'no'}, StdModule.say, {npcHandler = npcHandler, reset = true, text = 'Oh well.'})
-
-npcHandler:setMessage(MESSAGE_GREET, "Can I interest you in a trip to {monument tower}?")
-npcHandler:setMessage(MESSAGE_FAREWELL, "Good bye.")
-npcHandler:setMessage(MESSAGE_WALKAWAY, "Good bye then.")
-
 npcHandler:addModule(FocusModule:new())

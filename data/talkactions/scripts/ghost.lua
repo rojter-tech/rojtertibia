@@ -12,12 +12,12 @@ function onSay(player, words, param)
 
 	player:setGhostMode(isGhost)
 	if isGhost then
-		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "FICOU INVISIVEL.")
-		--position:sendMagicEffect(CONST_ME_YALAHARIGHOST)
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are now invisible.")
+		position:sendMagicEffect(CONST_ME_YALAHARIGHOST)
 	else
-		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "TA APARECENDO DE NOVO.")
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are visible again.")
 		position.x = position.x + 1
-		--position:sendMagicEffect(CONST_ME_SMOKE)
+		position:sendMagicEffect(CONST_ME_SMOKE)
 	end
 	return false
 end

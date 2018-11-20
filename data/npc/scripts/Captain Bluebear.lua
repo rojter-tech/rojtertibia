@@ -7,7 +7,7 @@ function onCreatureDisappear(cid)		npcHandler:onCreatureDisappear(cid)			end
 function onCreatureSay(cid, type, msg)		npcHandler:onCreatureSay(cid, type, msg)		end
 function onThink()		npcHandler:onThink()		end
 
-local voices = { {text = 'Passages to Carlin, Ab\'Dendriel, Edron, Venore, Port Hope, Liberty Bay, Yalahar, Roshamuul, Krailos, Oramond and Svargrond.'} }
+local voices = { {text = 'Passages to Carlin, Ab\'Dendriel, Edron, Venore, Port Hope, Liberty Bay, Yalahar, Roshamuul, Oramond and Svargrond.'} }
 npcHandler:addModule(VoiceModule:new(voices))
 
 -- Travel
@@ -23,11 +23,10 @@ addTravelKeyword('edron', 160, Position(33175, 31764, 6))
 addTravelKeyword('venore', 170, Position(32954, 32022, 6))
 addTravelKeyword('port hope', 160, Position(32527, 32784, 6))
 addTravelKeyword('roshamuul', 210, Position(33494, 32567, 7))
-addTravelKeyword('svargrond', 160, Position(32341, 31108, 6))
+addTravelKeyword('svargrond', 180, Position(32341, 31108, 6))
 addTravelKeyword('liberty bay', 180, Position(32285, 32892, 6))
-addTravelKeyword('yalahar', 150, Position(32816, 31272, 6))
-addTravelKeyword('oramond', 150, Position(33479, 31985, 7))
-addTravelKeyword('krailos', 200, Position(33492, 31712, 6))
+addTravelKeyword('yalahar', 200, Position(32816, 31272, 6))
+addTravelKeyword('oramond', 140, Position(33479, 31985, 7))
 
 -- Kick
 keywordHandler:addKeyword({'kick'}, StdModule.kick, {npcHandler = npcHandler, destination = {Position(32320, 32219, 6), Position(32321, 32210, 6)}})

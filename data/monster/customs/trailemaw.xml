@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<monster name="Quara Trainer" nameDescription="a quara trainer" race="blood" experience="0" speed="0" manacost="0">
+<monster name="Trailemaw" nameDescription="a trailemaw" race="blood" experience="0" speed="0" manacost="0">
 	<health now="200000" max="200000"/>
-	<look type="77" corpse="22567"/>
+	<look type="594" corpse="22567"/>
 	<targetchange interval="60000" chance="0"/>
 	<flags>
 		<flag summonable="0"/>
@@ -15,7 +15,7 @@
 		<flag targetdistance="1"/>
 		<flag staticattack="50"/>
 		<flag runonhealth="0"/>
-	</flags> 
+	</flags>
 	<attacks>
 		<attack name="melee" interval="2000" skill="0" attack="-1"/>
 	</attacks>

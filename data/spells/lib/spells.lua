@@ -1,7 +1,7 @@
 --Pre-made areas
 
 --Waves
-AREA_WAVE3 = {
+AREA_SHORTWAVE3 = {
 {1, 1, 1},
 {1, 1, 1},
 {0, 3, 0}

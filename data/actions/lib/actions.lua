@@ -5,10 +5,10 @@ local holeId = {
 	8252, 8253, 8254, 8255, 8256, 8592, 8972, 9606, 9625, 13190, 14461, 19519, 21536
 }
 
-local holes = {468, 481, 483, 7932, 23712} 
+local holes = {468, 481, 483, 7932}
 
 local JUNGLE_GRASS = { 2782, 3985, 19433 }
-local WILD_GROWTH = { 1499, 11099, 2101, 1775, 1447, 1446} 
+local WILD_GROWTH = { 1499, 11099 }
 
 local fruits = {2673, 2674, 2675, 2676, 2677, 2678, 2679, 2680, 2681, 2682, 2684, 2685, 5097, 8839, 8840, 8841}
 
@@ -86,7 +86,7 @@ local function revertCask(position)
 end
 
 function onDestroyItem(player, item, fromPosition, target, toPosition, isHotkey)
-	if not target or type(target) ~= "userdata" or not target:isItem() then
+	if not target or not target:isItem() then
 		return false
 	end
 
@@ -124,7 +124,7 @@ function onDestroyItem(player, item, fromPosition, target, toPosition, isHotkey)
 		-- Move items outside the container
 		if target:isContainer() then
 			for i = target:getSize() - 1, 0, -1 do
-   				local containerItem = target:getItem(i)
+				local containerItem = target:getItem(i)
 				if containerItem then
 					containerItem:moveTo(toPosition)
 				end
@@ -188,7 +188,7 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 		elseif rand == 1 then
 			Game.createItem(2159, 1, toPosition)
 		elseif rand > 95 then
-			Game.createMonster("Rat", toPosition)
+			Game.createMonster("Scarab", toPosition)
 		end
 		toPosition:sendMagicEffect(CONST_ME_POFF)
 
@@ -213,11 +213,11 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 		player:addItem(21250, 1)
 		player:setStorageValue(Storage.GravediggerOfDrefia.Mission50, 1)
 
-	elseif targetActionId == 4668 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission70) < 1 then
+	elseif targetActionId == 4668 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission67) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission68) < 1 then
 		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'A torn scroll piece emerges. Probably gnawed off by rats.')
 		player:getPosition():sendMagicEffect(CONST_ME_POFF)
 		player:addItem(21250, 1)
-		player:setStorageValue(Storage.GravediggerOfDrefia.Mission70, 1)
+		player:setStorageValue(Storage.GravediggerOfDrefia.Mission68, 1)
 
 	-- ???
 	elseif targetActionId == 50118 then
@@ -239,9 +239,8 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 			end
 		end
 
-	elseif isInArray({9632, 20230, 17672, 18586, 18580}, targetId) then
+	elseif isInArray({9632, 20230}, targetId) then
 		if player:getStorageValue(Storage.SwampDiggingTimeout) >= os.time() then
-			toPosition:sendMagicEffect(CONST_ME_POFF)
 			return false
 		end
 
@@ -293,48 +292,11 @@ function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 		target:decay()
 		toPosition:sendMagicEffect(CONST_ME_POFF)
 
-	--elseif targetId == 23759 then
-		--target:remove()
-		--toPosition:sendMagicEffect(CONST_ME_POFF)
-		--player:addItem(23760, 1)
-		--player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You picked a beautiful lion's mane flower.")
-		
-		-- FIZ ESSE LIXO AQUI
-	elseif targetId == 11227 then
-		target:remove()
-		toPosition:sendMagicEffect(CONST_ME_POFF)
-		player:addItem(2152, 10)
-	
 	elseif targetId == 7200 then
 		target:transform(7236)
 		target:decay()
 		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		
-		elseif targetId == 468 then
-		target:transform(469)
-		target:decay()
-		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		
-		elseif targetId == 23712 then
-		target:transform(23713)
-		target:decay()
-		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		
-elseif targetId == 481 then
-		target:transform(482)
-		target:decay()
-		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		
-		elseif targetId == 483 then
-		target:transform(484)
-		target:decay()
-		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		
-		elseif targetId == 7932 then
-		target:transform(7933)
-		target:decay()
-		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		
+
 	--The Ice Islands Quest, Nibelor 1: Breaking the Ice
 	elseif targetId == 3621 and targetActionId == 12026 then
 		local missionProgress, pickAmount = player:getStorageValue(Storage.TheIceIslands.Mission02), player:getStorageValue(Storage.TheIceIslands.PickAmount)
@@ -391,9 +353,9 @@ elseif targetId == 481 then
 
 	 -- The Hidden City of Beregar Quest
 	elseif targetActionId == 50090 then
-		--if player:getStorageValue(Storage.hiddenCityOfBeregar.WayToBeregar) == 1 then
+		if player:getStorageValue(Storage.hiddenCityOfBeregar.WayToBeregar) == 1 then
 			player:teleportTo(Position(32566, 31338, 10))
-		--end
+		end
 
 	elseif targetActionId == 50114 then
 		if Tile(Position(32617, 31513, 9)):getItemById(1027) and Tile(Position(32617, 31514, 9)):getItemById(1205) then
@@ -610,14 +572,7 @@ function onUseScythe(player, item, fromPosition, target, toPosition, isHotkey)
 	if not isInArray({2550, 10513}, item.itemid) then
 		return false
 	end
-	
-	if target.itemid == 5465 then
-		target:transform(5464)
-		target:decay()
-		Game.createItem(5467, 1, toPosition)
-		return true
-	end
-		
+
 	if target.itemid == 2739 then
 		target:transform(2737)
 		target:decay()
@@ -635,17 +590,6 @@ function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHot
 
 	local targetId = target.itemid
 
-	if targetId == 2992 then
-		--if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
-			--if player:getStorageValue(cid, 41600) >= 0  then
-				player:addItem(13159, 1)
-				target:transform(2993)
-				--player:setStorageValue(Storage.TheIceIslands.FrostbiteHerb, 1)
-				toPosition:sendMagicEffect(CONST_ME_MAGIC_BLUE)
-				player:say('You cut a Rabbits Foot from a rabbit.', TALKTYPE_MONSTER_SAY)
-			
-		end
-		
 	--The Ice Islands Quest
 	if targetId == 7261 then
 		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then

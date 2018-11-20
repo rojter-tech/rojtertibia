@@ -190,7 +190,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:setStorageValue(Storage.InServiceofYalahar.DoorToLastFight, 1)
 			player:setStorageValue(Storage.InServiceofYalahar.Mission10, 2) -- StorageValue for Questlog "Mission 10: The Final Battle"
 			npcHandler.topic[cid] = 0
-		elseif player:getStorageValue(Storage.InServiceofYalahar.Questline) == 52 then
+		elseif player:getStorageValue(Storage.InServiceofYalahar.Questline) == 52 and player:getStorageValue(Storage.InServiceofYalahar.SideDecision) == 1 then
 			npcHandler:say({
 				"So the Yalahari that opposed us are dead or fled from the city. This should bring us more stability and perhaps a true chance to rebuild the city. ...",
 				"Still, I wonder from where they gained some of the Yalahari secrets. Did they find some source of knowledge? ...",

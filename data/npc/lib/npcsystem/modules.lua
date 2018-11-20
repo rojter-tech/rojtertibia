@@ -203,9 +203,7 @@ if Modules == nil then
 		else
 			cost = 0
 		end
-		
-		local exhausts
-		
+
 		if parameters.premium and not player:isPremium() then
 			npcHandler:say("I'm sorry, but you need a premium account in order to travel onboard our ships.", cid)
 		elseif parameters.level and player:getLevel() < parameters.level then
@@ -214,12 +212,6 @@ if Modules == nil then
 			npcHandler:say("First get rid of those blood stains! You are not going to ruin my vehicle!", cid)
 		elseif not player:removeMoney(cost) then
 			npcHandler:say("You don't have enough money.", cid)
-			
-			-- EU ADD AQUI 
-		elseif os.time() < getPlayerStorageValue(cid, exhausts) then
-		npcHandler:say('Sorry, but you need to wait three seconds before travel again.', cid)
-		player:getPosition():sendMagicEffect(CONST_ME_POFF)
-		-- EU ADD FIM AQUI
 		else
 			npcHandler:releaseFocus(cid)
 			npcHandler:say(parameters.text or "Set the sails!", cid)
@@ -229,22 +221,7 @@ if Modules == nil then
 			if type(destination) == 'function' then
 				destination = destination(player)
 			end
-		
-		--[[ ANTI NUKER TRAVEL 
-		
-		local exhausts = 2
-		if os.time() > getPlayerStorageValue(cid, exhausts) then  
-			player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
-			player:teleportTo(destination)
-			Position(destination):sendMagicEffect(CONST_ME_TELEPORT)
-			setPlayerStorageValue(cid, exhausts, 2 + os.time()) 
-		else
-			npcHandler:say('Sorry, but you need to wait two seconds before travel again.', cid)
-		end
-		
-		
-		]]-- ANTI NUKER TRAVEL
-			setPlayerStorageValue(cid, exhausts, 3 + os.time()) 
+
 			player:teleportTo(destination)
 			destination:sendMagicEffect(CONST_ME_TELEPORT)
 
@@ -1061,7 +1038,7 @@ if Modules == nil then
 			[TAG_ITEMNAME] = shopItem.name
 		}
 
-		if player:getMoney() + player:getBankBalance() < totalCost then
+		if player:getMoney() < totalCost then
 			local msg = self.npcHandler:getMessage(MESSAGE_NEEDMONEY)
 			msg = self.npcHandler:parseMessage(msg, parseInfo)
 			player:sendCancelMessage(msg)
@@ -1200,7 +1177,7 @@ if Modules == nil then
 			end
 		elseif shop_eventtype[cid] == SHOPMODULE_BUY_ITEM then
 			local cost = shop_cost[cid] * shop_amount[cid]
-			if Player(cid):getMoney() + player:getBankBalance() < cost then
+			if Player(cid):getMoney() < cost then
 				local msg = module.npcHandler:getMessage(MESSAGE_MISSINGMONEY)
 				msg = module.npcHandler:parseMessage(msg, parseInfo)
 				module.npcHandler:say(msg, cid)

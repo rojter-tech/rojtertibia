@@ -20,7 +20,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:setStorageValue(Storage.InServiceofYalahar.Mission02, math.max(1, player:getStorageValue(Storage.InServiceofYalahar.Mission02) +1)) -- StorageValue for Questlog "Mission 02: Watching the Watchmen"
 			npcHandler.topic[cid] = 0
 		end
-	--[[elseif msgcontains(msg, "pass") then
+	elseif msgcontains(msg, "pass") then
 		npcHandler:say("You can {pass} either to the {Arena Quarter} or {Foreigner Quarter}. Which one will it be?", cid)
 		npcHandler.topic[cid] = 1
 	elseif(msgcontains(msg, "arena")) then
@@ -34,7 +34,7 @@ local function creatureSayCallback(cid, type, msg)
 			player:teleportTo(Position(32695, 31259, 7))
 			player:getPosition():sendMagicEffect(CONST_ME_TELEPORT)
 			npcHandler.topic[cid] = 0
-		end--]]
+		end
 	end
 	return true
 end

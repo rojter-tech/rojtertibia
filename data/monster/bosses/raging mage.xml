@@ -4,7 +4,6 @@
 	<look type="416" corpse="13834" />
 	<targetchange interval="4000" chance="10" />
 	<flags>
-        <flag rewardboss="1" />
 		<flag summonable="0" />
 		<flag attackable="1" />
 		<flag hostile="1" />
@@ -17,7 +16,6 @@
 		<flag staticattack="80" />
 		<flag runonhealth="300" />
 	</flags>
-	
 	<attacks>
 		<attack name="melee" interval="2000" min="0" max="-50" />
 		<attack name="thunderstorm" interval="2000" chance="35" range="7" target="1" min="-100" max="-200" />

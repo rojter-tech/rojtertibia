@@ -289,10 +289,10 @@
 
 
 		<!--s for level 6 to 49 -->
-		<!--<mission name="Edron City - Elite Hunting: Trolls" storageid="1501" startvalue="0" endvalue="4000" description="You already hunted |STATE|/4000 Necromancers and Priestess." />
-		<mission name="Edron City - Elite Hunting: Goblins" storageid="1502" startvalue="0" endvalue="5000" description="You already hunted |STATE|/5000 Minotaurs." />-->
-		<mission name="Paw and Fur: Necromancers and Priestess" storageid="65001" startvalue="0" endvalue="4000" description="You already hunted |STATE|/4000 Necromancers and Priestess." />
-		<mission name="Paw and Fur: Minotaurs" storageid="65002" startvalue="0" endvalue="5000" description="You already hunted |STATE|/5000 Minotaurs." />
+		<mission name="Edron City - Elite Hunting: Trolls" storageid="1501" startvalue="0" endvalue="100" description="You already hunted |STATE|/100 trolls." />
+		<mission name="Edron City - Elite Hunting: Goblins" storageid="1502" startvalue="0" endvalue="150" description="You already hunted |STATE|/150 goblins." />
+		<mission name="Paw and Fur: Trolls" storageid="65001" startvalue="0" endvalue="100" description="You already hunted |STATE|/100 trolls." />
+		<mission name="Paw and Fur: Globins" storageid="65002" startvalue="0" endvalue="150" description="You already hunted |STATE|/150 globins." />
 		<mission name="Paw and Fur: Crocodiles" storageid="65003" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 crocodiles." />
 		<mission name="Paw and Fur: Badgers" storageid="65004" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 badgers." />
 		<mission name="Paw and Fur: Tarantulas" storageid="65005" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 tarantulas." />
@@ -313,7 +313,7 @@
 		<mission name="Paw and Fur: Wyverns" storageid="65018" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 wyverns." />
 		<mission name="Paw and Fur: Lancer Beetles" storageid="65019" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 lancer beetles." />
 		<mission name="Paw and Fur: Wailing Widows" storageid="65020" startvalue="0" endvalue="400" description="You already hunted |STATE|/300 wailing widows." />
-		<mission name="Paw and Fur: Killer Caimans" storageid="65021" startvalue="0" endvalue="250" description="You already hunted |STATE|/250 killer caimans." />
+		<mission name="Paw and Fur: Killer Caimans" storageid="65021" startvalue="0" endvalue="250" description="You already hunted |STATE|/300 killer caimans." />
 		<mission name="Paw and Fur: Bonebeasts" storageid="65022" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 bonebeasts." />
 		<mission name="Paw and Fur: Crystal Spiders" storageid="65023" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 crystal spiders." />
 		<mission name="Paw and Fur: Mutated Tigers" storageid="65024" startvalue="0" endvalue="300" description="You already hunted |STATE|/300 mutated tigers." />
@@ -342,15 +342,15 @@
 		<mission name="Paw and Fur: Undead Dragons" storageid="65043" startvalue="0" endvalue="400" description="You already hunted |STATE|/400 undead dragons." />
 
 		<!-- Specials -->
-		<mission name="Paw and Fur: Demons" storageid="65044" startvalue="0" endvalue="200" description="You already hunted |STATE|/200 demons." />
+		<mission name="Paw and Fur: Demons" storageid="65044" startvalue="0" endvalue="6666" description="You already hunted |STATE|/6666 demons." />
 		<mission name="Paw and Fur: Green Djinns or Efreets" storageid="65045" startvalue="0" endvalue="500" description="You already hunted |STATE|/500 green djinns or efreets." />
 		<mission name="Paw and Fur: Blue Djinns or Marids" storageid="65046" startvalue="0" endvalue="500" description="You already hunted |STATE|/500 blue djinns or marids." />
 		<mission name="Paw and Fur: Pirates" storageid="65047" startvalue="0" endvalue="3000" description="You already hunted |STATE|/3000 pirates." />
 		<mission name="Paw and Fur: Pirates Second" storageid="65048" startvalue="0" endvalue="3000" description="You already hunted |STATE|/3000 pirates." />
 		<mission name="Paw and Fur: Minotaurs" storageid="65049" startvalue="0" endvalue="5000" description="You already hunted |STATE|/5000 minotaurs." />
 		<mission name="Paw and Fur: Necromancers and Priestess" storageid="65050" startvalue="0" endvalue="4000" description="You already hunted |STATE|/4000 necromancers and priestess." />
-		<!-- <mission name="Paw and Fur: Necromancers and Priestess Second" storageid="65050" startvalue="0" endvalue="1000" description="You already hunted |STATE|/1000 necromancers and priestess." />
-	--></quest>
+		<mission name="Paw and Fur: Necromancers and Priestess Second" storageid="65050" startvalue="0" endvalue="1000" description="You already hunted |STATE|/1000 necromancers and priestess." />
+	</quest>
 	<quest name="Outfit and Addon Quests" startstorageid="12010" startstoragevalue="1">
 		<mission name="Assassin Addon: The Red Death" storageid="50082" startvalue="1" endvalue="2">
 			<missionstate id="1" description="Atrad wants only two items from you for his old katana: a behemoth claw and a nose ring, both at the same time. He also told you about a &quot;horned fox&quot; who wears such as nose ring" />

@@ -102,6 +102,7 @@ enum clientVersion_t {
 	CLIENT_VERSION_1031 = 54,
 	CLIENT_VERSION_1035 = 55,
 	CLIENT_VERSION_1076 = 56,
+	CLIENT_VERSION_1098 = 57,
 };
 
 enum rootattrib_ {
@@ -157,10 +158,10 @@ enum itemflags_t {
 	FLAG_MOVEABLE = 1 << 6,
 	FLAG_STACKABLE = 1 << 7,
 	FLAG_FLOORCHANGEDOWN = 1 << 8, // unused
- 	FLAG_FLOORCHANGENORTH = 1 << 9, // unused
- 	FLAG_FLOORCHANGEEAST = 1 << 10, // unused
- 	FLAG_FLOORCHANGESOUTH = 1 << 11, // unused
- 	FLAG_FLOORCHANGEWEST = 1 << 12, // unused
+	FLAG_FLOORCHANGENORTH = 1 << 9, // unused
+	FLAG_FLOORCHANGEEAST = 1 << 10, // unused
+	FLAG_FLOORCHANGESOUTH = 1 << 11, // unused
+	FLAG_FLOORCHANGEWEST = 1 << 12, // unused
 	FLAG_ALWAYSONTOP = 1 << 13,
 	FLAG_READABLE = 1 << 14,
 	FLAG_ROTATABLE = 1 << 15,

@@ -1,10 +1,10 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
-<npc name="Addoner" script="Addon.lua" walkinterval="0" floorchange="0">
+<npc name="Addoner" script="Addon.lua" walkinterval="2000" floorchange="0">
    <health now="100" max="100"/>
-   <look type="540"/>
+   <look type="134" head="78" body="88" legs="0" feet="88" addons="3"/>
 <parameters>
 	<parameter key="module_shop" value="1" />
+	<parameter key="shop_buyable" value="i,5937,50000;i,5938,20000;i,5940,10000" />
 	</parameters>
 
-</npc> 
+</npc>

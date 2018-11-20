@@ -71,11 +71,11 @@
 		<item id="12629" chance="10940" /><!-- scale of corruption -->
 		<item id="8922" chance="1020" /><!-- wand of voodoo -->
 		<item id="12646" chance="540" /><!-- draken boots -->
-		<item id="12644" chance="40" /><!-- shield of corruption -->
-		<item id="12647" chance="40" /><!-- snake god's wristguard -->
+		<item id="12644" chance="10" /><!-- shield of corruption -->
+		<item id="12647" chance="10" /><!-- snake god's wristguard -->
 		<item id="13538" chance="360" /><!-- bamboo leaves -->
-		<item id="11304" chance="580" /><!-- zaoan legs -->
+		<item id="11304" chance="780" /><!-- zaoan legs -->
 		<item id="11301" chance="470" /><!-- zaoan armor -->
-		<item id="11302" chance="460" /><!-- zaoan helmet -->
+		<item id="11302" chance="560" /><!-- zaoan helmet -->
 	</loot>
 </monster>

@@ -10,8 +10,7 @@ function onThink()				npcHandler:onThink()					end
 local function getTable(player)
 	local itemsList = {
 		{name="metal fitting", id=10034, buy=500},
-		{name="nail", id=8309, sell=10},
-		{name="flask of rust remover", id=9930, buy=50}
+		{name="nail", id=8309, sell=10}
 	}
 
 	local rustremover = {

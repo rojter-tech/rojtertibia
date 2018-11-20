@@ -15,12 +15,9 @@ local portals = {
 	[63014] = {110014}, --gray beach
 	[63015] = {110015}, --roshamuul
 	[63016] = {110016}  --rathleton
-	
 }
 
--- local pos = Position(31373, 32780, 7) -- Antigo treiner
-local pos = Position(31184, 32795, 7) -- {x = 31241, y = 32787, z = 7}
-
+local pos = Position(31373, 32780, 7)
 
 function onStepIn(creature, item, position, fromPosition)
 	local player = creature:getPlayer()

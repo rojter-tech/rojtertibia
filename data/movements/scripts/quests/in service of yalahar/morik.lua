@@ -4,8 +4,7 @@ function onStepIn(creature, item, position, fromPosition)
 		return true
 	end
 
-	-- if player:getStorageValue(Storage.InServiceofYalahar.Questline) == 51 then
-	if player:getStorageValue(Storage.InServiceofYalahar.Questline) < 51 then
+	if player:getStorageValue(Storage.InServiceofYalahar.Questline) == 51 then
 		-- StorageValue for Questlog 'Mission 10: The Final Battle'
 		player:setStorageValue(Storage.InServiceofYalahar.Mission10, 3)
 		player:setStorageValue(Storage.InServiceofYalahar.Questline, 52)

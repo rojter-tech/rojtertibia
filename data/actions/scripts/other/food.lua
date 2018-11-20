@@ -1,14 +1,9 @@
 local foods = {
 	[2328] = {6, 'Gulp.'}, -- egg
 	[2362] = {5, 'Crunch.'}, -- carrot
-	[2666] = {15, 'Munch.'}, -- meat	
-	[23516] = {15, 'Burp.'}, -- Bottle of Glooth Wine
-	[23515] = {15, 'Slurp.'}, -- Bowl of Glooth Soup	
-	[23514] = {10, 'Munch.'}, -- Bowl of Glooth Soup
+	[2666] = {15, 'Munch.'}, -- meat
 	[2667] = {12, 'Munch.'}, -- fish
 	[2668] = {10, 'Mmmm.'}, -- salmon
-	[26191] = {30, 'Mmmm.'}, -- energy bar
-	[26201] = {30, 'Mmmm.'}, -- energy drink
 	[2669] = {17, 'Munch.'}, -- northern pike
 	[2670] = {4, 'Gulp.'}, -- shrimp
 	[2671] = {30, 'Chomp.'}, -- ham
@@ -22,7 +17,6 @@ local foods = {
 	[2679] = {1, 'Yum.'}, -- cherry
 	[2680] = {2, 'Yum.'}, -- strawberry
 	[2681] = {9, 'Yum.'}, -- grapes
-	[7966] = {9, 'Hum.'}, -- BOLO 
 	[2682] = {20, 'Yum.'}, -- melon
 	[2683] = {17, 'Munch.'}, -- pumpkin
 	[2684] = {5, 'Crunch.'}, -- carrot
@@ -45,7 +39,6 @@ local foods = {
 	[2795] = {36, 'Munch.'}, -- fire mushroom
 	[2796] = {5, 'Munch.'}, -- green mushroom
 	[5097] = {4, 'Yum.'}, -- mango
-	[22644] = {4, 'Mmmm.'}, -- Christmas Cookie Tray
 	[6125] = {8, 'Gulp.'}, -- tortoise egg
 	[6278] = {10, 'Mmmm.'}, -- cake
 	[6279] = {15, 'Mmmm.'}, -- decorated cake
@@ -105,9 +98,7 @@ local foods = {
 	[19737] = {10, 'Urgh.'}, -- insectoid eggs
 	[20100] = {15, 'Smack.'}, -- soft cheese
 	[20101] = {12, 'Smack.'}, -- rat cheese
-	[23517] = {25, 'Chomp.'}, -- glooth steak
-	[24843] = {25, 'Chomp.'}, -- Roasted Meat
-	[24841] = {8, 'Yum.'} -- pickle pear
+	[23517] = {25, 'Chomp.'} -- glooth steak
 }
 
 function onUse(player, item, fromPosition, target, toPosition, isHotkey)
@@ -117,7 +108,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	end
 
 	local condition = player:getCondition(CONDITION_REGENERATION, CONDITIONID_DEFAULT)
-	if condition and math.floor(condition:getTicks() / 1000 + (food[1] * 12)) >= 1200 then
+	if condition and math.floor(condition:getTicks() / 1000 + food[1]) >= 1200 then
 		player:sendTextMessage(MESSAGE_STATUS_SMALL, 'You are full.')
 		return true
 	end

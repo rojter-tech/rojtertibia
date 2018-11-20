@@ -12,9 +12,9 @@ npcHandler:addModule(VoiceModule:new(voices))
 
 -- Travel
 local function addTravelKeyword(keyword, cost, destination, text)
-	--[[if keyword == 'goroma' then
+	if keyword == 'goroma' then
 		keywordHandler:addKeyword({keyword}, StdModule.say, {npcHandler = npcHandler, text = 'Never heard about a place like this.'}, function(player) return player:getStorageValue(Storage.TheShatteredIsles.AccessToGoroma) ~= 1 end)
-	end ]]--
+	end
 
 	local travelKeyword = keywordHandler:addKeyword({keyword}, StdModule.say, {npcHandler = npcHandler, text = text or 'Do you seek a passage to ' .. keyword:titleCase() .. ' for |TRAVELCOST|?', cost = cost, discount = 'postman'})
 		travelKeyword:addChildKeyword({'yes'}, StdModule.travel, {npcHandler = npcHandler, premium = true, cost = cost, discount = 'postman', destination = destination})
@@ -26,8 +26,8 @@ addTravelKeyword('venore', 180, Position(32954,32022, 6))
 addTravelKeyword('port hope', 50, Position(32527,32784, 6))
 addTravelKeyword('darashia', 200, Position(33289,32480, 6))
 addTravelKeyword('ankrahmun', 90, Position(33092,32883, 6))
-addTravelKeyword('goroma', 0, Position(32161,32558, 6), 'Ugh. You really want to go back to Goroma? I\'ll surely have to repair my ship afterwards, so I won\'t charge. Okay?')
-addTravelKeyword('yalahar', 180, Position(32816,31272, 6))
+addTravelKeyword('goroma', 500, Position(32161,32558, 6), 'Ugh. You really want to go back to Goroma? I\'ll surely have to repair my ship afterwards, so I won\'t charge. Okay?')
+addTravelKeyword('yalahar', 275, Position(32816,31272, 6))
 
 -- Thais
 local travelKeyword = keywordHandler:addKeyword({'thais'}, StdModule.say, {npcHandler = npcHandler, text = 'Do you seek a passage to Thais for |TRAVELCOST|?', cost = 180, discount = 'postman'})

@@ -5,22 +5,6 @@
 		<parameter key="message_greet" value="Yasu me halaka. greets you friendly" />
 		<parameter key="module_shop" value="1" />
     		<parameter key="shop_sellable" value="
-			
-						
-			bow,2456,100;
-			bowl of terror sweat,22538,500;
-			broken visor,22518,1900;
-			crossbow,2455,120;
-			dead weight,22536,450;
-			frazzle skin,22533,400;
-			frazzle tongue,22532,700;
-			goosebump leather,22539,650;
-			hemp rope,22540,350;
-			pool of chitinous glue,22541,430;
-			sight of surrenders eye,22517,3000;
-			silencer claws,22534,390;
-			silencer resonating chamber,22535,600;
-			trapped bad dream monster,22537,900;			
 					Acorn,11213,10;
 					Antlers,11214,50;
 					Ape Fur,5883,120;

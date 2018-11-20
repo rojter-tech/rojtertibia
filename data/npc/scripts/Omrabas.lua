@@ -126,7 +126,7 @@ local function creatureSayCallback(cid, type, msg)
 				"We are close now. Only one important thing remains: the incantation itself. We need the {scroll} for that."
 			}, cid)
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission42) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission43) < 1 then
-			npcHandler:say('Yes? Do you have the {scroll} piece? ', cid)
+			npcHandler:say('Yes? Do you have the scroll piece? ', cid)
 			npcHandler.topic[cid] = 11
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission43) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission44) < 1 then
 			npcHandler:say({
@@ -159,7 +159,7 @@ local function creatureSayCallback(cid, type, msg)
 				"Oh, one more thing! They only talk to you when you look like a fellow summoner. It's dangerous to go without a cape. Use this."
 			}, cid)
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission64) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission65) < 1 then
-			npcHandler:say("Hello, young apprentice. Do you have that {scroll} piece from the priestess?", cid)
+			npcHandler:say("Hello, young apprentice. Do you have that scroll piece from the priestess?", cid)
 			player:addItem(21464, 1)
 			npcHandler.topic[cid] = 14
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission65) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission66) < 1 then
@@ -173,20 +173,20 @@ local function creatureSayCallback(cid, type, msg)
 			}, cid)
 			player:addItem(21464, 1)
 			player:setStorageValue(Storage.GravediggerOfDrefia.Mission66, 1)
-		--elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission68) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) < 1 then
-			--npcHandler:say("Welcome, welcome! Finally! The last scroll piece.... you do have it, haven't you?", cid)
-			--npcHandler.topic[cid] = 15
+		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission68) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) < 1 then
+			npcHandler:say("Welcome, welcome! Finally! The last scroll piece.... you do have it, haven't you?", cid)
+			npcHandler.topic[cid] = 15
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission70) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission71) < 1 then
 			npcHandler:say("Don't keep me waiting. The last scroll piece - were you able to {restore} it?", cid)
 			npcHandler.topic[cid] = 16
-		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission73) == 1 then--and player:getStorageValue(Storage.GravediggerOfDrefia.Mission74) < 1 then
+		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission73) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission74) < 1 then
 			npcHandler:say({
 				"It failed! IT FAILED! WHY? What have you done! This must be your fault! ...",
 				"You... did... that was a recipe for chicken soup! No wonder the scroll failed! Now... all is lost ...",
 				"<sobs drily> I never want to see you again! You and your dirty gravedigger hands! Take this, you ungrateful, useless, imbecile... human! ...",
 				"Now... get out! And never, ever, dare come back! You ruined EVERYTHING!"
 			}, cid)
-			player:setStorageValue(Storage.GravediggerOfDrefia.Mission73, 2)
+			player:setStorageValue(Storage.GravediggerOfDrefia.Mission74, 1)
 			player:addItem(21452, 1)
 		end
 	elseif msgcontains(msg, "yes") then
@@ -324,10 +324,9 @@ local function creatureSayCallback(cid, type, msg)
 				"As they never throw anything away that looks like an incantation - you get my drift. Find out where they still keep it! ...",
 				"Oh, one more thing! They only talk to you when you look like a fellow summoner. It's dangerous to go without a cape. Use this."
 			}, cid)
-		elseif npcHandler.topic[cid] == 15 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission68) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) < 1 then
-			
+		elseif npcHandler.topic[cid] == 14 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission64) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission65) < 1 then
 			if player:removeItem(21250, 1) then
-				player:setStorageValue(Storage.GravediggerOfDrefia.Mission69, 1)
+				player:setStorageValue(Storage.GravediggerOfDrefia.Mission65, 1)
 				npcHandler:say({
 					"Ahhh, capital, capital. Good girl for keeping it for me. I'll take back my cape now, thank you. ...",
 					"Now - the final part of the scroll! Ready to go retrieve it?"
@@ -336,7 +335,7 @@ local function creatureSayCallback(cid, type, msg)
 				npcHandler:say("You don't have my scroll.", cid)
 				npcHandler.topic[cid] = 0
 			end
-		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission70) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission71) < 1 then
+		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission65) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission66) < 1 then
 			npcHandler:say({
 				"That's the spirit! Speaking of which, you will have to look for a White Shade ...",
 				"That's a ghost, in case you don't know. Goes by name of... Zarifan, if I recall correctly. ...",
@@ -346,11 +345,10 @@ local function creatureSayCallback(cid, type, msg)
 				"Anyway, say those three words - don't make me repeat them - and the old softie will tell you where the scroll is. Pathetic."
 			}, cid)
 			player:addItem(21464, 1)
-			player:setStorageValue(Storage.GravediggerOfDrefia.Mission71, 1)
-			player:setStorageValue(Storage.GravediggerOfDrefia.Mission69, 1)
-		elseif npcHandler.topic[cid] == 15 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission72) < 1 then
+			player:setStorageValue(Storage.GravediggerOfDrefia.Mission66, 1)
+		elseif npcHandler.topic[cid] == 15 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission68) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) < 1 then
 			if player:removeItem(21250, 1) then
-				player:setStorageValue(Storage.GravediggerOfDrefia.Mission72, 1)
+				player:setStorageValue(Storage.GravediggerOfDrefia.Mission69, 1)
 				npcHandler:say({
 					"I am so excited! Finally, we - wait. What is this? That... is not the complete scroll piece. ...",
 					"I don't care what you say! This is a disaster! We need a complete scr - wait. I have an idea. ...",
@@ -361,13 +359,13 @@ local function creatureSayCallback(cid, type, msg)
 				npcHandler:say("You don't have my scroll.", cid)
 				npcHandler.topic[cid] = 0
 			end
-		elseif npcHandler.topic[cid] == 17 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission73) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission74) < 1 then
+		elseif npcHandler.topic[cid] == 17 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission71) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission72) < 1 then
 			npcHandler:say({
 				"Then let's go. Take my skull and the incantation scroll to the working station in the fiveserrated room ...",
 				"Where the lava flows and the southern legs of the room meet. Place the Skull on the sacrificial stone and use the scroll ...",
 				"AND I shall be made whole, and YOU shall be RICH!"
 			}, cid)
-			player:setStorageValue(Storage.GravediggerOfDrefia.Mission74, 1)
+			player:setStorageValue(Storage.GravediggerOfDrefia.Mission72, 1)
 			player:addItem(21251, 1)
 			player:addItem(21476, 1)
 			npcHandler.topic[cid] = 0
@@ -434,10 +432,10 @@ local function creatureSayCallback(cid, type, msg)
 			}, cid)
 			npcHandler.topic[cid] = 10
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission42) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission43) < 1 then
-			npcHandler:say("Yes? Do you have the {scroll} piece?", cid)
+			npcHandler:say("Yes? Do you have the scroll piece?", cid)
 			npcHandler.topic[cid] = 11
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission50) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission51) < 1 then
-			npcHandler:say("Ah, hello! I take it you have the next {scroll} piece for me, {yes}?", cid)
+			npcHandler:say("Ah, hello! I take it you have the next scroll piece for me, {yes}?", cid)
 			npcHandler.topic[cid] = 12
 		elseif npcHandler.topic[cid] == 13 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission57) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission58) < 1 then
 			if player:removeItem(21250, 1) then
@@ -452,11 +450,11 @@ local function creatureSayCallback(cid, type, msg)
 				npcHandler.topic[cid] = 0
 			end
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission64) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission65) < 1 then
-			npcHandler:say("Hello, young apprentice. Do you have that {scroll} piece from the priestess?", cid)
+			npcHandler:say("Hello, young apprentice. Do you have that scroll piece from the priestess?", cid)
 			player:addItem(21464, 1)
-			
+			npcHandler.topic[cid] = 14
 		elseif player:getStorageValue(Storage.GravediggerOfDrefia.Mission68) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) < 1 then
-			npcHandler:say("Welcome, welcome! Finally! The last {scroll} piece.... you do have it, haven't you?", cid)
+			npcHandler:say("Welcome, welcome! Finally! The last scroll piece.... you do have it, haven't you?", cid)
 			npcHandler.topic[cid] = 15
 		end
 	elseif msgcontains(msg, 'next') then
@@ -485,23 +483,19 @@ local function creatureSayCallback(cid, type, msg)
 				"Oh, one more thing! They only talk to you when you look like a fellow summoner. It's dangerous to go without a cape. Use this."
 			}, cid)
 		end
-	elseif msgcontains(msg, 'restore') and player:getStorageValue(Storage.GravediggerOfDrefia.Mission69) <= 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission73) < 1 then --and npcHandler.topic[cid] == 15 then
+	elseif msgcontains(msg, 'restore') and player:getStorageValue(Storage.GravediggerOfDrefia.Mission70) == 1 and player:getStorageValue(Storage.GravediggerOfDrefia.Mission71) < 1 and npcHandler.topic[cid] == 16 then
 		if player:removeItem(21474, 1) then
 			npcHandler:say({
 				"I knew it! I knew I had made a copy! Oh, I am so clever! ...",
 				"Now, watch this. <mumbles darkly> THERE. THE COMPLETE INCANTATION SCROLL. ...",
 				"You have done well. Only one thing remains, and you shall be rich beyond your dreams. Ready for the really final task?"
 			}, cid)
-			--player:setStorageValue(Storage.GravediggerOfDrefia.Mission72, 1)
-			player:setStorageValue(Storage.GravediggerOfDrefia.Mission73, 1)
+			player:setStorageValue(Storage.GravediggerOfDrefia.Mission71, 1)
 			npcHandler.topic[cid] = 17
-			
-		
 		else
 			npcHandler:say("You don't have my scroll.", cid)
 			npcHandler.topic[cid] = 0
 		end
-		else npcHandler:say("Chzzzz. wtf??@! leave.", cid)
 	end
 	return true
 end

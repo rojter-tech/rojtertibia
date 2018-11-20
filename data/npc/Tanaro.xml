@@ -6,7 +6,6 @@
 		<parameter key="module_shop" value="1" />
 		<parameter key="shop_buyable" value="
 			bottle of water,2007,2,1;
-			green flask of wine,2009,3,15;
-			wine,2006,10,15;" />
+			green flask of wine,2009,3,15;" />
 	</parameters>
 </npc>

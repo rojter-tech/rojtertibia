@@ -105,9 +105,6 @@ local function creatureSayCallback(cid, type, msg)
 				end
 				npcHandler:say("Cling clang!", cid)
 				npcHandler.topic[cid] = 0
-				else 
-				npcHandler:say("You dont have soul orbs!", cid)
-				npcHandler.topic[cid] = 0
 			end
 		elseif npcHandler.topic[cid] == 9 then
 			if player:getItemCount(8262) > 0 and player:getItemCount(8263) > 0 and player:getItemCount(8264) > 0 and player:getItemCount(8265) > 0 and player:getMoney() >= 5000 then

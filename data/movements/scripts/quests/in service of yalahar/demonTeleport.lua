@@ -13,7 +13,7 @@ function onStepIn(creature, item, position, fromPosition)
 	end
 
 	local teleport = teleports[item.uid]
-	--[[if not teleport.soilPosition then
+	if not teleport.soilPosition then
 		player:teleportTo(teleport.destination)
 		teleport.destination:sendMagicEffect(CONST_ME_TELEPORT)
 		return true
@@ -35,7 +35,7 @@ function onStepIn(creature, item, position, fromPosition)
 		fromPosition:sendMagicEffect(CONST_ME_ENERGYHIT)
 		player:say('You may not enter without a sacrifice of a elemental soil.', TALKTYPE_MONSTER_SAY)
 		return true
-	end]]--
+	end
 
 	player:teleportTo(teleport.destination)
 	teleport.destination:sendMagicEffect(CONST_ME_TELEPORT)

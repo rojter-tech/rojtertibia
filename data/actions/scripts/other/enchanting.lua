@@ -79,7 +79,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 
 		local mana = config.manaCost * subtype
 		if player:getMana() < mana then
-			player:say('Not enough mana, separate one gem in your backpack and try again.', TALKTYPE_MONSTER_SAY)
+			player:sendCancelMessage(RETURNVALUE_NOTENOUGHMANA)
 			return false
 		end
 

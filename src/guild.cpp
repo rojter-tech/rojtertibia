@@ -22,10 +22,8 @@
 #include "guild.h"
 
 #include "game.h"
-#include "databasetasks.h"
 
 extern Game g_game;
-extern DatabaseTasks g_databaseTasks;
 
 void Guild::addMember(Player* player)
 {
@@ -44,9 +42,6 @@ void Guild::removeMember(Player* player)
 	g_game.updatePlayerHelpers(*player);
 
 	if (membersOnline.empty()) {
-		std::ostringstream query;
-    query << "UPDATE `guilds` SET `balance` = " << balance << " WHERE `id` = " << id;
-    g_databaseTasks.addTask(query.str());
 		g_game.removeGuild(id);
 		delete this;
 	}
@@ -54,9 +49,9 @@ void Guild::removeMember(Player* player)
 
 GuildRank* Guild::getRankById(uint32_t rankId)
 {
-	for (size_t i = 0; i < ranks.size(); ++i) {
-		if (ranks[i].id == rankId) {
-			return &ranks[i];
+	for (auto& rank : ranks) {
+		if (rank.id == rankId) {
+			return &rank;
 		}
 	}
 	return nullptr;
@@ -64,9 +59,9 @@ GuildRank* Guild::getRankById(uint32_t rankId)
 
 const GuildRank* Guild::getRankByLevel(uint8_t level) const
 {
-	for (size_t i = 0; i < ranks.size(); ++i) {
-		if (ranks[i].level == level) {
-			return &ranks[i];
+	for (const auto& rank : ranks) {
+		if (rank.level == level) {
+			return &rank;
 		}
 	}
 	return nullptr;

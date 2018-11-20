@@ -32,7 +32,6 @@
 #include "configmanager.h"
 #include "scriptmanager.h"
 #include "rsa.h"
-#include "protocolspectator.h"
 #include "protocolold.h"
 #include "protocollogin.h"
 #include "protocolstatus.h"
@@ -146,8 +145,8 @@ void mainLoader(int, char*[], ServiceManager* services)
 #endif
 	std::cout << std::endl;
 
-	std::cout << "The server is developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
-	std::cout << "Modified by rOjter." << std::endl;
+	std::cout << "A server developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
+	std::cout << "Visit our forum for updates, support, and resources: http://otland.net/." << std::endl;
 	std::cout << std::endl;
 
 	// read global config
@@ -263,10 +262,6 @@ void mainLoader(int, char*[], ServiceManager* services)
 
 	// Game client protocols
 	services->add<ProtocolGame>(g_config.getNumber(ConfigManager::GAME_PORT));
-	if (g_config.getBoolean(ConfigManager::ENABLE_LIVE_CASTING)) {
- 		ProtocolGame::clearLiveCastInfo();
- 		services->add<ProtocolSpectator>(g_config.getNumber(ConfigManager::LIVE_CAST_PORT));
- 	}
 	services->add<ProtocolLogin>(g_config.getNumber(ConfigManager::LOGIN_PORT));
 
 	// OT protocols

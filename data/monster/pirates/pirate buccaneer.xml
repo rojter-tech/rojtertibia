@@ -57,6 +57,6 @@
 		<item id="5926" chance="430" />					<!-- pirate backpack -->
 		<item id="6098" chance="410" />					<!-- eye patch -->
 		<item id="5553" chance="120" />					<!-- rum flask -->
-		<item id="5792" chance="300" />					<!-- die -->
+		<item id="5792" chance="50" />					<!-- die -->
 	</loot>
 </monster>

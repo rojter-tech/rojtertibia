@@ -4,7 +4,6 @@
 	<look type="445" corpse="15224" />
 	<targetchange interval="2000" chance="50" />
 	<flags>
-        <flag rewardboss="1" />
 		<flag summonable="0" />
 		<flag attackable="1" />
 		<flag hostile="1" />
@@ -16,7 +15,6 @@
 		<flag targetdistance="0" />
 		<flag runonhealth="60" />
 	</flags>
-	
 	<attacks>
 		<attack name="melee" interval="2000" min="0" max="-1200" poison="360" />
 		<attack name="death" interval="3000" chance="23" range="7" radius="7" target="1" min="-200" max="-800">
@@ -62,7 +60,7 @@
 	</elements>
 	<loot>
 		<item id="15411" chance="100000" /><!-- depth scutum -->
-		<item id="15404" chance="1285" /><!-- deepling axe -->
-		<item id="15412" chance="6285" unique="1" /><!-- ornate legs -->
+		<item id="15404" chance="14285" /><!-- deepling axe -->
+		<item id="15412" chance="14285" /><!-- ornate legs -->
 	</loot>
 </monster>

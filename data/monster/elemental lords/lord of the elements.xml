@@ -66,8 +66,6 @@
 		<item id="2150" countmax="3" chance="11111" /><!-- small amethyst -->
 		<item id="2147" countmax="4" chance="11111" /><!-- small ruby -->
 		<item id="2146" countmax="4" chance="7142" /><!-- small sapphire -->
-		<item id="8882" chance="2063" /><!-- earthborn titan armor --> 
-		<item id="8884" chance="2063" /><!-- Oceanborn Leviathan Armor  -->
-		<item id="8881" chance="2063" /><!-- Fireborn Giant Armor  -->
+		<item id="8882" chance="2063" /><!-- earthborn titan armor -->
 	</loot>
 </monster>

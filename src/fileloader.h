@@ -20,18 +20,19 @@
 #ifndef FS_FILELOADER_H_9B663D19E58D42E6BFACFE5B09D7A05E
 #define FS_FILELOADER_H_9B663D19E58D42E6BFACFE5B09D7A05E
 
+#include <limits>
+#include <vector>
+
 struct NodeStruct;
 
 typedef NodeStruct* NODE;
 
 struct NodeStruct {
-	NodeStruct() : start(0), propsSize(0), type(0), next(nullptr), child(nullptr) {}
-
-	uint32_t start;
-	uint32_t propsSize;
-	uint32_t type;
-	NodeStruct* next;
-	NodeStruct* child;
+	uint32_t start = 0;
+	uint32_t propsSize = 0;
+	uint32_t type = 0;
+	NodeStruct* next = nullptr;
+	NodeStruct* child = nullptr;
 
 	static void clearNet(NodeStruct* root) {
 		if (root) {
@@ -68,7 +69,7 @@ struct NodeStruct {
 		}
 };
 
-#define NO_NODE 0
+static constexpr auto NO_NODE = nullptr;
 
 enum FILELOADER_ERRORS {
 	ERROR_NONE,
@@ -90,7 +91,7 @@ class PropStream;
 class FileLoader
 {
 	public:
-		FileLoader();
+		FileLoader() = default;
 		~FileLoader();
 
 		// non-copyable
@@ -104,7 +105,7 @@ class FileLoader
 		NODE getNextNode(const NODE prev, uint32_t& type);
 
 		FILELOADER_ERRORS getError() const {
-			return m_lastError;
+			return lastError;
 		}
 
 	protected:
@@ -117,32 +118,32 @@ class FileLoader
 		bool parseNode(NODE node);
 
 		inline bool readByte(int32_t& value);
-		inline bool readBytes(uint8_t* buffer, uint32_t size, int32_t pos);
+		inline bool readBytes(uint32_t size, int32_t pos);
 		inline bool safeSeek(uint32_t pos);
 		inline bool safeTell(int32_t& pos);
 
 	protected:
-		struct _cache {
+		struct cache {
 			uint8_t* data;
 			uint32_t loaded;
 			uint32_t base;
 			uint32_t size;
 		};
 
-#define CACHE_BLOCKS 3
-		_cache m_cached_data[CACHE_BLOCKS];
+		static constexpr int32_t CACHE_BLOCKS = 3;
+		cache cached_data[CACHE_BLOCKS] = {};
 
-		uint8_t* m_buffer;
-		NODE m_root;
-		FILE* m_file;
+		uint8_t* buffer = new uint8_t[1024];
+		NODE root = nullptr;
+		FILE* file = nullptr;
 
-		FILELOADER_ERRORS m_lastError;
-		uint32_t m_buffer_size;
+		FILELOADER_ERRORS lastError = ERROR_NONE;
+		uint32_t buffer_size = 1024;
 
-		uint32_t m_cache_size;
-#define NO_VALID_CACHE 0xFFFFFFFF
-		uint32_t m_cache_index;
-		uint32_t m_cache_offset;
+		uint32_t cache_size = 0;
+		static constexpr uint32_t NO_VALID_CACHE = std::numeric_limits<uint32_t>::max();
+		uint32_t cache_index = NO_VALID_CACHE;
+		uint32_t cache_offset = NO_VALID_CACHE;
 
 		inline uint32_t getCacheBlock(uint32_t pos);
 		int32_t loadCacheBlock(uint32_t pos);
@@ -151,11 +152,6 @@ class FileLoader
 class PropStream
 {
 	public:
-		PropStream() {
-			end = nullptr;
-			p = nullptr;
-		}
-
 		void init(const char* a, size_t size) {
 			p = a;
 			end = a + size;
@@ -166,7 +162,7 @@ class PropStream
 		}
 
 		template <typename T>
-		inline bool read(T& ret) {
+		bool read(T& ret) {
 			if (size() < sizeof(T)) {
 				return false;
 			}
@@ -176,7 +172,7 @@ class PropStream
 			return true;
 		}
 
-		inline bool readString(std::string& ret) {
+		bool readString(std::string& ret) {
 			uint16_t strLen;
 			if (!read<uint16_t>(strLen)) {
 				return false;
@@ -195,7 +191,7 @@ class PropStream
 			return true;
 		}
 
-		inline bool skip(size_t n) {
+		bool skip(size_t n) {
 			if (size() < n) {
 				return false;
 			}
@@ -205,81 +201,47 @@ class PropStream
 		}
 
 	protected:
-		const char* p;
-		const char* end;
+		const char* p = nullptr;
+		const char* end = nullptr;
 };
 
 class PropWriteStream
 {
 	public:
-		PropWriteStream() {
-			buffer_size = 32;
-			buffer = static_cast<char*>(malloc(buffer_size));
-			if (!buffer) {
-				throw std::bad_alloc();
-			}
-
-			size = 0;
-		}
-
-		~PropWriteStream() {
-			free(buffer);
-		}
+		PropWriteStream() = default;
 
 		// non-copyable
 		PropWriteStream(const PropWriteStream&) = delete;
 		PropWriteStream& operator=(const PropWriteStream&) = delete;
 
-		const char* getStream(size_t& _size) const {
-			_size = size;
-			return buffer;
+		const char* getStream(size_t& size) const {
+			size = buffer.size();
+			return buffer.data();
 		}
 
-		inline void clear() {
-			size = 0;
+		void clear() {
+			buffer.clear();
 		}
 
 		template <typename T>
-		inline void write(T add) {
-			reserve(sizeof(T));
-			memcpy(buffer + size, &add, sizeof(T));
-			size += sizeof(T);
+		void write(T add) {
+			char* addr = reinterpret_cast<char*>(&add);
+			std::copy(addr, addr + sizeof(T), std::back_inserter(buffer));
 		}
 
-		inline void writeString(const std::string& str) {
+		void writeString(const std::string& str) {
 			size_t strLength = str.size();
 			if (strLength > std::numeric_limits<uint16_t>::max()) {
 				write<uint16_t>(0);
 				return;
 			}
 
-			write<uint16_t>(strLength);
-			reserve(strLength);
-			memcpy(buffer + size, str.c_str(), strLength);
-			size += strLength;
+			write(static_cast<uint16_t>(strLength));
+			std::copy(str.begin(), str.end(), std::back_inserter(buffer));
 		}
 
 	protected:
-		void reserve(size_t length) {
-			if ((buffer_size - size) >= length) {
-				return;
-			}
-
-			do {
-				buffer_size <<= 1;
-			} while ((buffer_size - size) < length);
-
-			void* newBuffer = realloc(buffer, buffer_size);
-			if (!newBuffer) {
-				throw std::bad_alloc();
-			}
-
-			buffer = static_cast<char*>(newBuffer);
-		}
-
-		char* buffer;
-		size_t buffer_size;
-		size_t size;
+		std::vector<char> buffer;
 };
 
 #endif

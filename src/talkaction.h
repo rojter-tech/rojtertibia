@@ -54,17 +54,17 @@ class TalkActions : public BaseEvents
 		// TODO: Store TalkAction objects directly in the list instead of using pointers
 		std::forward_list<TalkAction*> talkActions;
 
-		LuaScriptInterface m_scriptInterface;
+		LuaScriptInterface scriptInterface;
 };
 
 class TalkAction : public Event
 {
 	public:
-		explicit TalkAction(LuaScriptInterface* _interface);
+		explicit TalkAction(LuaScriptInterface* interface) : Event(interface) {}
 
 		bool configureEvent(const pugi::xml_node& node) override;
 
-		std::string getWords() const {
+		const std::string& getWords() const {
 			return words;
 		}
 		char getSeparator() const {
@@ -79,7 +79,7 @@ class TalkAction : public Event
 		std::string getScriptEventName() const override;
 
 		std::string words;
-		char separator;
+		char separator = '"';
 };
 
 #endif

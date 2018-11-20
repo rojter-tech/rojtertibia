@@ -4,7 +4,6 @@
 	<look type="595" corpse="22629" />
 	<targetchange interval="5000" chance="8" />
 	<flags>
-        <flag rewardboss="1" />
 		<flag summonable="0" />
 		<flag attackable="1" />
 		<flag hostile="1" />
@@ -44,7 +43,7 @@
 	<loot>
 		<item id="22396" countmax="2" chance="30000" /> <!-- cluster of solace -->
 		<item id="22532" chance="30000" /> <!-- frazzle tongue -->
-		<item id="22598" countmax="2" chance="30000" unique="1"/> <!-- unrealized dream -->
+		<item id="22598" countmax="2" chance="30000" /> <!-- unrealized dream -->
 		<item id="2148" countmax="100" chance="10000" /> <!-- gold coin -->
 		<item id="2152" countmax="25" chance="10000" /> <!-- platinum coin -->
 		<item id="2392" chance="10000" /> <!-- fire sword -->

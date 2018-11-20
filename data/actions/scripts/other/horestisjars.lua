@@ -1,128 +1,60 @@
-local BOSS = "Horestis"
-local BOSS_POS = {x = 32943, y = 32791, z = 12}
-local Poswall1 = {x = 32941, y = 32754, z = 12}
-local Poswall2 = {x = 32942, y = 32754, z = 12}
-local Poswall3 = {x = 32943, y = 32754, z = 12}
-local Poswall4 = {x = 32944, y = 32754, z = 12}
 local config = {
-	randomText = {"Waaaaaah", "You are too afraid to destroy this object"},
+	jarPositions = {
+		Position(32991, 32721, 8),
+		Position(32940, 32778, 9),
+		Position(32985, 32772, 10),
+		Position(32936, 32752, 11),
+		Position(32979, 32737, 12)
+	},
+	time = 3600,
+	brokenJarId = 13495,
+	chance = 5,
+	randomText = {'Waaaaaah', 'You are too afraid to destroy this object'},
+	bossName = 'Horestis',
+	bossPosition = Position(32941, 32793, 12),
+	storages = {
+		[50006] = Storage.HorestisTomb.JarFloor1,
+		[50007] = Storage.HorestisTomb.JarFloor2,
+		[50008] = Storage.HorestisTomb.JarFloor3,
+		[50009] = Storage.HorestisTomb.JarFloor4,
+		[50010] = Storage.HorestisTomb.JarFloor5
+	}
 }
 
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	if item.itemid ~= 13500 then
+		player:say('This jar is already broken!', TALKTYPE_MONSTER_SAY)
+		return true
+	end
 
-function CriarWalls() --creates walls 
-doCreateItem(3514,1,Poswall1)-- posição da wall 
-doCreateItem(3514,1,Poswall2)-- posição da wall 
-doCreateItem(3514,1,Poswall3)-- posição da wall 
-doCreateItem(3514,1,Poswall4)-- posição da wall 
+	local cStorage = config.storages[item.actionid]
+	if player:getStorageValue(cStorage) > os.time() then
+		player:say('You are too afraid to destroy this object', TALKTYPE_MONSTER_SAY)
+		return true
+	end
 
-end
+	player:setStorageValue(cStorage, os.time() + config.time)
 
+	if math.random(100) > config.chance then
+		player:say(config.randomText[math.random(#config.randomText)], TALKTYPE_MONSTER_SAY)
+		return true
+	end
 
-function onUse(cid, item, fromPosition, itemEx, toPosition)
+	item:transform(config.brokenJarId)
 
-local exaustedSeconds = 30
-local player = Player(cid)
-local chances = math.random(10)
-
-if item.actionid == 50006 then 	
-	if(item.itemid == 13500) then	
-		if getPlayerStorageValue(cid, 324329) <= os.time() then
-			if chances == 1 then						
-			doTransformItem(item.uid, 13495)					
-			setGlobalStorageValue(56530, 1)
-		else	
-			player:say(config["randomText"][math.random(#config["randomText"])], TALKTYPE_ORANGE_1)
-			player:getPosition():sendMagicEffect(CONST_ME_POFF)
-			setPlayerStorageValue(cid, 324329, os.time()+exaustedSeconds*60)
-		end
-	else
-			doPlayerSendCancel(cid, "You need wait 30 minutes to use again.")
+	local jarsBroken, jarItem = true
+	for i = 1, #config.jarPositions do
+		jarItem = Tile(config.jarPositions[i]):getItemById(config.brokenJarId)
+		if not jarItem then
+			jarsBroken = false
+			break
 		end
 	end
 
-elseif item.actionid == 50007 then
-	if(item.itemid == 13500) then 
-		if(getGlobalStorageValue(56530) == 1) then	
-			if getPlayerStorageValue(cid, 324330) <= os.time() then
-				if chances == 1 then								
-				doTransformItem(item.uid, 13495) 					
-				setGlobalStorageValue(56530, 2)
-			else
-				player:say(config["randomText"][math.random(#config["randomText"])], TALKTYPE_ORANGE_1)
-				player:getPosition():sendMagicEffect(CONST_ME_POFF)
-				setPlayerStorageValue(cid, 324330, os.time()+exaustedSeconds*60)
-				end
-			else
-				doPlayerSendCancel(cid, "You need wait 30 minutes to use again.")
-				end
-			else
-				doPlayerSendCancel(cid, "You need to break the first jar.")
-		end
+	if not jarsBroken then
+		return true
 	end
 
-elseif item.actionid == 50008 then 	
-	if(item.itemid == 13500) then 						
-		if(getGlobalStorageValue(56530) == 2) then
-			if getPlayerStorageValue(cid, 324331) <= os.time() then
-				if chances == 1 then
-				doTransformItem(item.uid, 13495) 					
-				setGlobalStorageValue(56530, 3)
-			else	
-				player:say(config["randomText"][math.random(#config["randomText"])], TALKTYPE_ORANGE_1)
-				player:getPosition():sendMagicEffect(CONST_ME_POFF)
-				setPlayerStorageValue(cid, 324331, os.time()+exaustedSeconds*60)
-				end
-			else
-				doPlayerSendCancel(cid, "You need wait 30 minutes to use again.")
-				end
-			else
-				doPlayerSendCancel(cid, "You need to break the second jar.")
-			end
-		end
-
-
-elseif item.actionid == 50009 then
-	if(item.itemid == 13500) then  							
-		if(getGlobalStorageValue(56530) == 3) then
-			if getPlayerStorageValue(cid, 324332) <= os.time() then	
-				if chances == 1 then
-				doTransformItem(item.uid, 13495) 					
-				setGlobalStorageValue(56530, 4)
-			else	
-				player:say(config["randomText"][math.random(#config["randomText"])], TALKTYPE_ORANGE_1)
-				player:getPosition():sendMagicEffect(CONST_ME_POFF)
-				setPlayerStorageValue(cid, 324332, os.time()+exaustedSeconds*60)
-				end
-			else
-				doPlayerSendCancel(cid, "You need wait 30 minutes to use again.")
-				end
-			else
-				doPlayerSendCancel(cid, "You need to break the third jar.")
-		end
-	end
-
-elseif item.actionid == 50010 then 
-	if(item.itemid == 13500) then							
-		if(getGlobalStorageValue(56530) == 4) then
-			doTransformItem(item.uid, 13495) 
-			-- Remover Barreira e Sumonar Boss
-			doRemoveItem(getTileItemById({x = 32941, y = 32754, z = 12}, 3514).uid, 1)
-			doRemoveItem(getTileItemById({x = 32942, y = 32754, z = 12}, 3514).uid, 1)
-			doRemoveItem(getTileItemById({x = 32943, y = 32754, z = 12}, 3514).uid, 1)
-			doRemoveItem(getTileItemById({x = 32944, y = 32754, z = 12}, 3514).uid, 1)
-			doCreatureSay(cid, "The horestis tomb was broken, the boss of the tomb will be reborn in 45 seconds. The barrier will be built from here 2 minutes.", TALKTYPE_ORANGE_1)
-			Game.createMonster(BOSS, BOSS_POS)
-			--addEvent(doSummonCreature, 45*1000, "Horestis", {x = 32942, y = 32765, z = 12}) 
-			
-			addEvent(CriarWalls, 61000+6*20*1800)
-			--addEvent(doCreateItem, 20 * 60 * 1000, 3514, {x = 32941, y = 32754, z = 12})			
-			--addEvent(doCreateItem, 20 * 60 * 1000, 3514, {x = 32942, y = 32754, z = 12})
-			--addEvent(doCreateItem, 20 * 60 * 1000, 3514, {x = 32943, y = 32754, z = 12})
-			--addEvent(doCreateItem, 20 * 60 * 1000, 3514, {x = 32944, y = 32754, z = 12}) 
-		else
-			doPlayerSendCancel(cid, "You need to break the fourth jar.")
-			end	
-		end
-	end
+	Game.createMonster(config.bossName, config.bossPosition)
 	return true
 end

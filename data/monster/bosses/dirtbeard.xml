@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <monster name="Dirtbeard" nameDescription="Dirtbeard" race="blood" experience="375" speed="300" manacost="0">
 	<health now="630" max="630" />
-	<look type="98" corpse="20478" /> 
+	<look type="98" corpse="10320" />
 	<targetchange interval="5000" chance="8" />
 	<flags>
 		<flag summonable="0" />
@@ -45,12 +45,9 @@
 		<summon name="Pirate Marauder" interval="4000" chance="30" />
 	</summons>
 	<loot>
-		<item id="2148" countmax="95" chance="2000" />				<!-- gold coin -->
-		<item id="2152" countmax="9" chance="30000" />				<!-- plat coin -->
-		
-		<item id="10292" chance="1000" />				<!-- pointed rabbitslayer -->
-		<item id="10299" chance="1000" />				<!-- helmet of nature -->
-		<item id="10291" chance="1000" />				<!-- odd hat -->
-		<item id="10318" chance="2000" />				<!-- the shield Nevermourn -->
+		<item id="10292" chance="30000" />				<!-- pointed rabbitslayer -->
+		<item id="10299" chance="30000" />				<!-- helmet of nature -->
+		<item id="10291" chance="30000" />				<!-- odd hat -->
+		<item id="10318" chance="30000" />				<!-- the shield Nevermourn -->
 	</loot>
 </monster>

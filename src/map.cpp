@@ -106,25 +106,25 @@ void Map::setTile(uint16_t x, uint16_t y, uint8_t z, Tile* newTile)
 		//update north
 		QTreeLeafNode* northLeaf = root.getLeaf(x, y - FLOOR_SIZE);
 		if (northLeaf) {
-			northLeaf->m_leafS = leaf;
+			northLeaf->leafS = leaf;
 		}
 
 		//update west leaf
 		QTreeLeafNode* westLeaf = root.getLeaf(x - FLOOR_SIZE, y);
 		if (westLeaf) {
-			westLeaf->m_leafE = leaf;
+			westLeaf->leafE = leaf;
 		}
 
 		//update south
 		QTreeLeafNode* southLeaf = root.getLeaf(x, y + FLOOR_SIZE);
 		if (southLeaf) {
-			leaf->m_leafS = southLeaf;
+			leaf->leafS = southLeaf;
 		}
 
 		//update east
 		QTreeLeafNode* eastLeaf = root.getLeaf(x + FLOOR_SIZE, y);
 		if (eastLeaf) {
-			leaf->m_leafE = eastLeaf;
+			leaf->leafE = eastLeaf;
 		}
 	}
 
@@ -328,37 +328,27 @@ void Map::getSpectatorsInternal(SpectatorVec& list, const Position& centerPos, i
 		for (int_fast32_t nx = startx1; nx <= endx2; nx += FLOOR_SIZE) {
 			if (leafE) {
 				const CreatureVector& node_list = (onlyPlayers ? leafE->player_list : leafE->creature_list);
-				CreatureVector::const_iterator node_iter = node_list.begin();
-				CreatureVector::const_iterator node_end = node_list.end();
-				if (node_iter != node_end) {
-					do {
-						Creature* creature = *node_iter;
+				for (Creature* creature : node_list) {
+					const Position& cpos = creature->getPosition();
+					if (minRangeZ > cpos.z || maxRangeZ < cpos.z) {
+						continue;
+					}
 
-						const Position& cpos = creature->getPosition();
-						if (cpos.z < minRangeZ || cpos.z > maxRangeZ) {
-							continue;
-						}
+					int_fast16_t offsetZ = Position::getOffsetZ(centerPos, cpos);
+					if ((min_y + offsetZ) > cpos.y || (max_y + offsetZ) < cpos.y || (min_x + offsetZ) > cpos.x || (max_x + offsetZ) < cpos.x) {
+						continue;
+					}
 
-						int_fast16_t offsetZ = Position::getOffsetZ(centerPos, cpos);
-						if (cpos.y < (min_y + offsetZ) || cpos.y > (max_y + offsetZ)) {
-							continue;
-						}
-
-						if (cpos.x < (min_x + offsetZ) || cpos.x > (max_x + offsetZ)) {
-							continue;
-						}
-
-						list.insert(creature);
-					} while (++node_iter != node_end);
+					list.insert(creature);
 				}
-				leafE = leafE->m_leafE;
+				leafE = leafE->leafE;
 			} else {
 				leafE = QTreeNode::getLeafStatic<const QTreeLeafNode*, const QTreeNode*>(&root, nx + FLOOR_SIZE, ny);
 			}
 		}
 
 		if (leafS) {
-			leafS = leafS->m_leafS;
+			leafS = leafS->leafS;
 		} else {
 			leafS = QTreeNode::getLeafStatic<const QTreeLeafNode*, const QTreeNode*>(&root, startx1, ny + FLOOR_SIZE);
 		}
@@ -863,38 +853,28 @@ int_fast32_t AStarNodes::getTileWalkCost(const Creature& creature, const Tile* t
 // Floor
 Floor::~Floor()
 {
-	for (uint32_t i = 0; i < FLOOR_SIZE; ++i) {
-		for (uint32_t j = 0; j < FLOOR_SIZE; ++j) {
-			delete tiles[i][j];
+	for (auto& row : tiles) {
+		for (auto tile : row) {
+			delete tile;
 		}
 	}
 }
 
 // QTreeNode
-QTreeNode::QTreeNode()
-{
-	m_isLeaf = false;
-	m_child[0] = nullptr;
-	m_child[1] = nullptr;
-	m_child[2] = nullptr;
-	m_child[3] = nullptr;
-}
-
 QTreeNode::~QTreeNode()
 {
-	delete m_child[0];
-	delete m_child[1];
-	delete m_child[2];
-	delete m_child[3];
+	for (auto* ptr : child) {
+		delete ptr;
+	}
 }
 
 QTreeLeafNode* QTreeNode::getLeaf(uint32_t x, uint32_t y)
 {
-	if (m_isLeaf) {
+	if (leaf) {
 		return static_cast<QTreeLeafNode*>(this);
 	}
 
-	QTreeNode* node = m_child[((x & 0x8000) >> 15) | ((y & 0x8000) >> 14)];
+	QTreeNode* node = child[((x & 0x8000) >> 15) | ((y & 0x8000) >> 14)];
 	if (!node) {
 		return nullptr;
 	}
@@ -905,45 +885,35 @@ QTreeLeafNode* QTreeNode::createLeaf(uint32_t x, uint32_t y, uint32_t level)
 {
 	if (!isLeaf()) {
 		uint32_t index = ((x & 0x8000) >> 15) | ((y & 0x8000) >> 14);
-		if (!m_child[index]) {
+		if (!child[index]) {
 			if (level != FLOOR_BITS) {
-				m_child[index] = new QTreeNode();
+				child[index] = new QTreeNode();
 			} else {
-				m_child[index] = new QTreeLeafNode();
+				child[index] = new QTreeLeafNode();
 				QTreeLeafNode::newLeaf = true;
 			}
 		}
-		return m_child[index]->createLeaf(x * 2, y * 2, level - 1);
+		return child[index]->createLeaf(x * 2, y * 2, level - 1);
 	}
 	return static_cast<QTreeLeafNode*>(this);
 }
 
 // QTreeLeafNode
 bool QTreeLeafNode::newLeaf = false;
-QTreeLeafNode::QTreeLeafNode()
-{
-	for (uint32_t i = 0; i < MAP_MAX_LAYERS; ++i) {
-		m_array[i] = nullptr;
-	}
-
-	m_isLeaf = true;
-	m_leafS = nullptr;
-	m_leafE = nullptr;
-}
 
 QTreeLeafNode::~QTreeLeafNode()
 {
-	for (uint32_t i = 0; i < MAP_MAX_LAYERS; ++i) {
-		delete m_array[i];
+	for (auto* ptr : array) {
+		delete ptr;
 	}
 }
 
 Floor* QTreeLeafNode::createFloor(uint32_t z)
 {
-	if (!m_array[z]) {
-		m_array[z] = new Floor();
+	if (!array[z]) {
+		array[z] = new Floor();
 	}
-	return m_array[z];
+	return array[z];
 }
 
 void QTreeLeafNode::addCreature(Creature* c)
@@ -957,7 +927,7 @@ void QTreeLeafNode::addCreature(Creature* c)
 
 void QTreeLeafNode::removeCreature(Creature* c)
 {
-	CreatureVector::iterator iter = std::find(creature_list.begin(), creature_list.end(), c);
+	auto iter = std::find(creature_list.begin(), creature_list.end(), c);
 	assert(iter != creature_list.end());
 	*iter = creature_list.back();
 	creature_list.pop_back();
@@ -994,9 +964,8 @@ uint32_t Map::clean() const
 					continue;
 				}
 
-				for (size_t x = 0; x < FLOOR_SIZE; ++x) {
-					for (size_t y = 0; y < FLOOR_SIZE; ++y) {
-						Tile* tile = floor->tiles[x][y];
+				for (auto& row : floor->tiles) {
+					for (auto tile : row) {
 						if (!tile || tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
 							continue;
 						}
@@ -1022,8 +991,7 @@ uint32_t Map::clean() const
 				}
 			}
 		} else {
-			for (size_t i = 0; i < 4; ++i) {
-				QTreeNode* childNode = node->m_child[i];
+			for (auto childNode : node->child) {
 				if (childNode) {
 					nodes.push_back(childNode);
 				}

@@ -52,8 +52,8 @@
 		<item id="2148" countmax="100" chance="50000" /><!-- gold coin -->
 		<item id="2148" countmax="53" chance="50000" /><!-- gold coin -->
 		<item id="2666" countmax="4" chance="50000" /><!-- meat -->
-		<item id="11223" chance="2692" /><!-- essence of a bad dream -->
-		<item id="11229" chance="1761" /><!-- scythe leg -->
+		<item id="11223" chance="7692" /><!-- essence of a bad dream -->
+		<item id="11229" chance="4761" /><!-- scythe leg -->
 		<item id="2152" countmax="3" chance="961" /><!-- platinum coin -->
 		<item id="2491" chance="666" /><!-- crown helmet -->
 		<item id="7387" chance="340" /><!-- diamond sceptre -->

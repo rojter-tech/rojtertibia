@@ -48,10 +48,6 @@ class BedItem final : public Item
 			return sleeperGUID;
 		}
 
-		uint64_t getSleepStart() const {
-			return sleepStart;
-		}
-
 		House* getHouse() const {
 			return house;
 		}
@@ -73,7 +69,7 @@ class BedItem final : public Item
 		void internalSetSleeper(const Player* player);
 		void internalRemoveSleeper();
 
-		House* house;
+		House* house = nullptr;
 		uint64_t sleepStart;
 		uint32_t sleeperGUID;
 };

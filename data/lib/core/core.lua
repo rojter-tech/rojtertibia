@@ -1,5 +1,4 @@
 dofile('data/lib/core/battlefield.lua')
-dofile('data/lib/core/battlefield1.lua')
 dofile('data/lib/core/constants.lua')
 dofile('data/lib/core/container.lua')
 dofile('data/lib/core/creature.lua')
@@ -13,4 +12,3 @@ dofile('data/lib/core/tables.lua')
 dofile('data/lib/core/teleport.lua')
 dofile('data/lib/core/tile.lua')
 dofile('data/lib/core/vocation.lua')
-

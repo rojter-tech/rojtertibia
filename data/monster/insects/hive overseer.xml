@@ -47,7 +47,7 @@
 		<element holyPercent="10" />
 	</elements>
 	<summons maxSummons="2">
-		<summon name="Spidris Elite Sumom" interval="2000" chance="40" max="2" />
+		<summon name="Spidris Elite" interval="2000" chance="40" max="2" />
 	</summons>
 	<loot>
 		<item id="2148" countmax="100" chance="40000" /><!-- gold coin -->

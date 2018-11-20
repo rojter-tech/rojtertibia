@@ -50,6 +50,5 @@
 		<item id="7159" chance="100" /><!-- green perch -->
 		<item id="2669" chance="120" /><!-- northern pike -->
 		<item id="7158" chance="170" /><!-- rainbow trout -->
-		<item id="22727" chance="500" /><!-- fireprof -->
 	</loot>
 </monster>
