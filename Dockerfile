@@ -1,5 +1,9 @@
 FROM alpine:edge AS build
 # pugixml-dev is in edge/testing
+
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.4/main/ \
+  boost-dev=1.60.0-r2
+
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
   binutils \
   boost-dev \
@@ -13,9 +17,6 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   make \
   mariadb-connector-c-dev \
   pugixml-dev
-
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.2/main/ \
-  boost-dev=1.58.0-r0
 
 COPY cmake /usr/src/forgottenserver/cmake/
 COPY src /usr/src/forgottenserver/src/
