@@ -17,10 +17,10 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   mariadb-connector-c-dev \
   pugixml-dev
 
-COPY cmake /usr/src/forgottenserver/cmake/
-COPY src /usr/src/forgottenserver/src/
-COPY CMakeLists.txt /usr/src/forgottenserver/
-WORKDIR /usr/src/forgottenserver/build
+COPY cmake /usr/src/rojtertibia/cmake/
+COPY src /usr/src/rojtertibia/src/
+COPY CMakeLists.txt /usr/src/rojtertibia/
+WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make
 
 FROM alpine:edge
@@ -39,7 +39,8 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY --from=build /usr/src/forgottenserver/build/tfs /bin/tfs
 COPY data /srv/data/
-COPY LICENSE README.md *.dist *.sql key.pem config.lua /srv/
+COPY LICENSE README.md *.dist *.sql key.pem /srv/
+COPY config.lua.dist /srv/config.lua
 
 EXPOSE 7171 7172
 WORKDIR /srv
