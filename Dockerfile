@@ -14,6 +14,9 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   mariadb-connector-c-dev \
   pugixml-dev
 
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.2/main/ \
+  boost-dev=boost-dev-1.58.0-r0
+
 COPY cmake /usr/src/forgottenserver/cmake/
 COPY src /usr/src/forgottenserver/src/
 COPY CMakeLists.txt /usr/src/forgottenserver/
