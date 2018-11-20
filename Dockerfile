@@ -6,7 +6,6 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.4/main
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
   binutils \
-  boost-dev \
   build-base \
   clang \
   cmake \
