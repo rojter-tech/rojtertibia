@@ -14,10 +14,10 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   mariadb-connector-c-dev \
   pugixml-dev
 
-COPY cmake /usr/src/rojtertibiaserver/cmake/
-COPY src /usr/src/rojtertibiaserver/src/
-COPY CMakeLists.txt /usr/src/rojtertibiaserver/
-WORKDIR /usr/src/rojtertibiaserver/build
+COPY cmake /usr/src/forgottenserver/cmake/
+COPY src /usr/src/forgottenserver/src/
+COPY CMakeLists.txt /usr/src/forgottenserver/
+WORKDIR /usr/src/forgottenserver/build
 RUN cmake .. && make
 
 FROM alpine:edge
