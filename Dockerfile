@@ -25,9 +25,11 @@ RUN cmake .. && make
 
 FROM alpine:edge
 # pugixml-dev is in edge/testing
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
+  boost-iostreams=1.66.0-r0 \
+  boost-system=1.66.0-r0 
+
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-  boost-iostreams \
-  boost-system \
   crypto++ \
   gmp \
   luajit \
