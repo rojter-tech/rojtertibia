@@ -10,15 +10,15 @@ removeChargesFromRunes = true
 timeToDecreaseFrags = 4 * 60 * 60 * 1000
 whiteSkullTime = 15 * 60 * 1000
 stairJumpExhaustion = 2000
-experienceByKillingPlayers = true
+experienceByKillingPlayers = false
 expFromPlayersLevelRange = 75
 
+-- rOjterTibia Specific
+-- NOTE: Website not up yet
 freeDepotLimit = 2000
 premiumDepotLimit = 10000
 depotBoxes = 17
-
 castLimit = 10
-
 coinPacketSize = 25
 coinImagesURL = "http://rojter.tech/images/store/"
 
@@ -29,7 +29,7 @@ bindOnlyGlobalAddress = false
 loginProtocolPort = 7171
 gameProtocolPort = 7172
 statusProtocolPort = 7171
-maxPlayers = "1000"
+maxPlayers = "0"
 motd = "Welcome to rOjterTibiaServer, by a idiot for idiots!"
 onePlayerOnlinePerAccount = true
 allowClones = false
@@ -38,8 +38,11 @@ statusTimeout = 5000
 replaceKickOnLogin = true
 maxPacketsPerSecond = 300
 
+-- rOjterTibia Specific
+-- NOTE: Website not up yet
 enableLiveCasting = true
 liveCastPort = 7173
+
 -- Deaths
 -- NOTE: Leave deathLosePercent as -1 if you want to use the default
 -- death penalty formula. For the old formula, set it to 10. For
@@ -77,10 +80,10 @@ mysqlSock = ""
 
 -- Misc.
 allowChangeOutfit = true
-freePremium = true
-kickIdlePlayerAfterMinutes = 20
+freePremium = false
+kickIdlePlayerAfterMinutes = 15
 maxMessageBuffer = 4
-emoteSpells = true
+emoteSpells = false
 classicEquipmentSlots = false
 
 -- Rates
