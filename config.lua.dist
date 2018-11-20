@@ -96,7 +96,7 @@ deSpawnRange = 2
 deSpawnRadius = 50
 
 -- Stamina
-staminaSystem = true
+staminaSystem = false
 
 -- Scripts
 warnUnsafeScripts = true
