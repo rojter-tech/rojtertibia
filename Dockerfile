@@ -1,8 +1,8 @@
 FROM alpine:edge AS build
 # pugixml-dev is in edge/testing
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.4/main/ \
-  boost-dev=1.60.0-r2
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
+  boost-dev=1.66.0-r0
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
   binutils \
