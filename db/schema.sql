@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `skill_shielding_tries` bigint(20) unsigned NOT NULL DEFAULT 0,
   `skill_fishing` int(10) unsigned NOT NULL DEFAULT 10,
   `skill_fishing_tries` bigint(20) unsigned NOT NULL DEFAULT 0,
+  `cast` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE,
