@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `accounts` (`id`, `name`, `password`, `secret`, `type`, `premdays`, `lastday`, `email`, `creation`) VALUES
-(1, 'dreuter', 'c96f36c50461c0654e7219e8bc68df6e4c4e62d9', 'Default Account', 1, 999, 0, 'dreuter@kth.se', 0);
+(1, 'defaultacc', 'c96f36c50461c0654e7219e8bc68df6e4c4e62d9', 'Default Account', 1, 0, 0, 'default@rojter.tech', 0);
 
 --
 -- Dumping data for table `players`
