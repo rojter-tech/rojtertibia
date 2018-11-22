@@ -17,5 +17,5 @@
 	<stage minlevel="351" maxlevel="380" multiplier="10" />
 	<stage minlevel="381" maxlevel="430" multiplier="10" />
 	<stage minlevel="431" maxlevel="450" multiplier="10" />
-	<stage minlevel="451" multiplier="1" />
+	<stage minlevel="451" multiplier="10" />
 </stages>
