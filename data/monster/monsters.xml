@@ -502,10 +502,10 @@
 	<monster name="Toad" file="frogs/toad.xml" />
 
 	<!-- Glires -->
-	<monster name="Cave Rat" file="glires/cave rat.xml" />
+	<monster name="Kukråtta" file="glires/cave rat.xml" />
 	<monster name="Enraged Squirrel" file="glires/enraged squirrel.xml" />
 	<monster name="Rabbit" file="glires/rabbit.xml" />
-	<monster name="Rat" file="glires/rat.xml" />
+	<monster name="Fittråtta" file="glires/rat.xml" />
 	<monster name="Silver Rabbit" file="glires/silver rabbit.xml" />
 	<monster name="Squirrel" file="glires/squirrel.xml" />
 	<monster name="Killer Rabbit" file="glires/killer rabbit.xml" />
