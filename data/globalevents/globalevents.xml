@@ -24,7 +24,6 @@
 	<globalevent type="startup" name="ServerStartup" script="startup.lua" />
 	<globalevent type="record" name="PlayerRecord" script="record.lua" />
 	<globalevent name="ServerSave" time="05:55:00" script="serversave.lua" />
-    <globalevent name="shop" interval="30000" script="others/shop.lua"/>
 	<globalevent name="warSystem" interval="3000000" script="others/warEnd.lua"/>
 
 	<!-- Spawn -->
