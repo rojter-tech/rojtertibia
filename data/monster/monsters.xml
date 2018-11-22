@@ -29,12 +29,12 @@
 	<monster name="Wailing Widow" file="arachnids/wailing widow.xml" />
 
 	<!-- Arak Demons -->
-	<monster name="Askarak Demon" file="arak demons/askarak demon.xml" />
-	<monster name="Askarak Lord" file="arak demons/askarak lord.xml" />
-	<monster name="Askarak Prince" file="arak demons/askarak prince.xml" />
-	<monster name="Shaburak Demon" file="arak demons/shaburak demon.xml" />
-	<monster name="Shaburak Lord" file="arak demons/shaburak lord.xml" />
-	<monster name="Shaburak Prince" file="arak demons/shaburak prince.xml" />
+	<monster name="Askarak Demon" file="arak_demons/askarak_demon.xml" />
+	<monster name="Askarak Lord" file="arak_demons/askarak_lord.xml" />
+	<monster name="Askarak Prince" file="arak_demons/askarak_prince.xml" />
+	<monster name="Shaburak Demon" file="arak_demons/shaburak_demon.xml" />
+	<monster name="Shaburak Lord" file="arak_demons/shaburak_lord.xml" />
+	<monster name="Shaburak Prince" file="arak_demons/shaburak_prince.xml" />
 
 	<!-- Arena -->
 	<!-- Greenhorn -->
@@ -446,14 +446,14 @@
 	<monster name="Dworc Voodoomaster" file="dworcs/dworc voodoomaster.xml" />
 
 	<!-- Event Creatures -->
-	<monster name="Dryad" file="event creatures/dryad.xml" />
-	<monster name="Football" file="event creatures/football.xml" />
-	<monster name="Grynch Clan Goblin" file="event creatures/grynch clan goblin.xml" />
-	<monster name="Hacker" file="event creatures/hacker.xml" />
-	<monster name="Primitive" file="event creatures/primitive.xml" />
-	<monster name="The Halloween Hare" file="event creatures/the halloween hare.xml" />
-	<monster name="Tibia Bug" file="event creatures/tibia bug.xml" />
-	<monster name="Doomsday Cultist" file="event creatures/doomsday cultist.xml" />
+	<monster name="Dryad" file="event_creatures/dryad.xml" />
+	<monster name="Football" file="event_creatures/football.xml" />
+	<monster name="Grynch Clan Goblin" file="event_creatures/grynch clan goblin.xml" />
+	<monster name="Hacker" file="event_creatures/hacker.xml" />
+	<monster name="Primitive" file="event_creatures/primitive.xml" />
+	<monster name="The Halloween Hare" file="event_creatures/the halloween hare.xml" />
+	<monster name="Tibia Bug" file="event_creatures/tibia bug.xml" />
+	<monster name="Doomsday Cultist" file="event_creatures/doomsday cultist.xml" />
 
 	<!-- Elves -->
 	<monster name="Elf" file="elves/elf.xml" />
@@ -468,11 +468,11 @@
 	<monster name="Overcharged Energy Elemental" file="electro-elementals/overcharged energy elemental.xml" />
 
 	<!-- Elemental Lords -->
-	<monster name="Earth Overlord" file="elemental lords/earth overlord.xml" />
-	<monster name="Energy Overlord" file="elemental lords/energy overlord.xml" />
-	<monster name="Fire Overlord" file="elemental lords/fire overlord.xml" />
-	<monster name="Ice Overlord" file="elemental lords/ice overlord.xml" />
-	<monster name="Lord Of The Elements" file="elemental lords/lord of the elements.xml" />
+	<monster name="Earth Overlord" file="elemental_lords/earth overlord.xml" />
+	<monster name="Energy Overlord" file="elemental_lords/energy overlord.xml" />
+	<monster name="Fire Overlord" file="elemental_lords/fire overlord.xml" />
+	<monster name="Ice Overlord" file="elemental_lords/ice overlord.xml" />
+	<monster name="Lord Of The Elements" file="elemental_lords/lord of the elements.xml" />
 
 	<!-- Felines -->
 	<monster name="Cat" file="felines/cat.xml" />
@@ -820,18 +820,18 @@
 	<monster name="Undead Mine Worker" file="skeletons/undead mine worker.xml" />
 
 	<!-- The Ruthless Seven Minions -->
-	<monster name="Annihilon" file="the ruthless seven minions/annihilon.xml" />
-	<monster name="Golgordan" file="the ruthless seven minions/golgordan.xml" />
-	<monster name="Hellgorak" file="the ruthless seven minions/hellgorak.xml" />
-	<monster name="Latrivan" file="the ruthless seven minions/latrivan.xml" />
-	<monster name="Madareth" file="the ruthless seven minions/madareth.xml" />
-	<monster name="Ushuriel" file="the ruthless seven minions/ushuriel.xml" />
-	<monster name="Zugurosh" file="the ruthless seven minions/zugurosh.xml" />
+	<monster name="Annihilon" file="the_ruthless_seven_minions/annihilon.xml" />
+	<monster name="Golgordan" file="the_ruthless_seven_minions/golgordan.xml" />
+	<monster name="Hellgorak" file="the_ruthless_seven_minions/hellgorak.xml" />
+	<monster name="Latrivan" file="the_ruthless_seven_minions/latrivan.xml" />
+	<monster name="Madareth" file="the_ruthless_seven_minions/madareth.xml" />
+	<monster name="Ushuriel" file="the_ruthless_seven_minions/ushuriel.xml" />
+	<monster name="Zugurosh" file="the_ruthless_seven_minions/zugurosh.xml" />
 
 	<!-- The Triangle of Terror -->
-	<monster name="Ghazbaran" file="the triangle of terror/ghazbaran.xml" />
-	<monster name="Morgaroth" file="the triangle of terror/morgaroth.xml" />
-	<monster name="Zoralurk" file="the triangle of terror/zoralurk.xml" />
+	<monster name="Ghazbaran" file="the_triangle_of_terror/ghazbaran.xml" />
+	<monster name="Morgaroth" file="the_triangle_of_terror/morgaroth.xml" />
+	<monster name="Zoralurk" file="the_triangle_of_terror/zoralurk.xml" />
 
 	<!-- Sorcerers -->
 	<monster name="Dark Apprentice" file="sorcerers/dark apprentice.xml" />
@@ -877,19 +877,19 @@
 	<monster name="Vampire Viscount" file="vampires/vampire viscount.xml" />
 
 	<!-- Undead Humanoids -->
-	<monster name="Banshee" file="undead humanoids/banshee.xml" />
-	<monster name="Blightwalker" file="undead humanoids/blightwalker.xml" />
-	<monster name="Crypt Shambler" file="undead humanoids/crypt shambler.xml" />
-	<monster name="Death Priest" file="undead humanoids/death priest.xml" />
-	<monster name="Elder Mummy" file="undead humanoids/elder mummy.xml" />
-	<monster name="Ghoul" file="undead humanoids/ghoul.xml" />
-	<monster name="Greater Death Minion" file="undead humanoids/greater death minion.xml" />
-	<monster name="Grim Reaper" file="undead humanoids/grim reaper.xml" />
-	<monster name="Lich" file="undead humanoids/lich.xml" />
-	<monster name="Mummy" file="undead humanoids/mummy.xml" />
-	<monster name="Zombie" file="undead humanoids/zombie.xml" />
-	<monster name="Undead Prospector" file="undead humanoids/undead prospector.xml" />
-	<monster name="Tomb Servant" file="undead humanoids/tomb servant.xml" />
+	<monster name="Banshee" file="undead_humanoids/banshee.xml" />
+	<monster name="Blightwalker" file="undead_humanoids/blightwalker.xml" />
+	<monster name="Crypt Shambler" file="undead_humanoids/crypt shambler.xml" />
+	<monster name="Death Priest" file="undead_humanoids/death priest.xml" />
+	<monster name="Elder Mummy" file="undead_humanoids/elder mummy.xml" />
+	<monster name="Ghoul" file="undead_humanoids/ghoul.xml" />
+	<monster name="Greater Death Minion" file="undead_humanoids/greater death minion.xml" />
+	<monster name="Grim Reaper" file="undead_humanoids/grim reaper.xml" />
+	<monster name="Lich" file="undead_humanoids/lich.xml" />
+	<monster name="Mummy" file="undead_humanoids/mummy.xml" />
+	<monster name="Zombie" file="undead_humanoids/zombie.xml" />
+	<monster name="Undead Prospector" file="undead_humanoids/undead prospector.xml" />
+	<monster name="Tomb Servant" file="undead_humanoids/tomb servant.xml" />
 
 	<!-- Ungulates -->
 	<monster name="Black Sheep" file="ungulates/black sheep.xml" />
@@ -918,14 +918,14 @@
 	<monster name="White Deer" file="ungulates/white deer.xml" />
 
 	<!-- Voodoo Cultists -->
-	<monster name="Acolyte Of The Cult" file="voodoo cultists/acolyte of the cult.xml" />
-	<monster name="Adept Of The Cult" file="voodoo cultists/adept of the cult.xml" />
-	<monster name="Enlightened Of The Cult" file="voodoo cultists/enlightened of the cult.xml" />
-	<monster name="Novice Of The Cult" file="voodoo cultists/novice of the cult.xml" />
+	<monster name="Acolyte Of The Cult" file="voodoo_cultists/acolyte of the cult.xml" />
+	<monster name="Adept Of The Cult" file="voodoo_cultists/adept of the cult.xml" />
+	<monster name="Enlightened Of The Cult" file="voodoo_cultists/enlightened of the cult.xml" />
+	<monster name="Novice Of The Cult" file="voodoo_cultists/novice of the cult.xml" />
 
 	<!-- Wild Magics -->
-	<monster name="Wild Fire Magic" file="wild magics/wild fire magic.xml" />
-	<monster name="Wild Fury Magic" file="wild magics/wild fury magic.xml" />
-	<monster name="Wild Nature Magic" file="wild magics/wild nature magic.xml" />
-	<monster name="Wild Water Magic" file="wild magics/wild water magic.xml" />
+	<monster name="Wild Fire Magic" file="wild_magics/wild fire magic.xml" />
+	<monster name="Wild Fury Magic" file="wild_magics/wild fury magic.xml" />
+	<monster name="Wild Nature Magic" file="wild_magics/wild nature magic.xml" />
+	<monster name="Wild Water Magic" file="wild_magics/wild water magic.xml" />
 </monsters>
