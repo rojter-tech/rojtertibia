@@ -1,23 +1,14 @@
-sudo: required
-dist: trusty
 language: cpp
 compiler:
-  - clang
   - gcc
-env:
-  - LUAJIT=OFF
-  - LUAJIT=ON
-cache: apt
-addons:
-  apt:
-    packages:
-      - libboost-dev
-      - libboost-system-dev
-      - liblua5.2-dev
-      - libluajit-5.1-dev
-      - libmysqlclient-dev
-      - libpugixml-dev
 before_script:
-  - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DUSE_LUAJIT=${LUAJIT} ..
-script: make -j8
+  - sudo apt-get install libboost-all-dev libphysfs-dev libssl-dev liblua5.1-dev libglew-dev libvorbis-dev libopenal-dev libz-dev -y
+script: |
+  cmake . -DCMAKE_BUILD_TYPE=Release
+  make
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#otclient"
+    on_success: change
+    skip_join: true

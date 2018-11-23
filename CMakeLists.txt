@@ -1,48 +1,60 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.6)
+project(otclient)
 
-set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+set(VERSION "0.6.6")
 
-project(tfs)
+option(FRAMEWORK_SOUND "Use SOUND " ON)
+option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
+option(FRAMEWORK_XML "Use XML " ON)
+option(FRAMEWORK_NET "Use NET " ON)
+option(FRAMEWORK_SQL "Use SQL" OFF)
 
-list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(src/framework/CMakeLists.txt)
+include(src/client/CMakeLists.txt)
 
-include(cotire)
-
-add_compile_options(-Wall -Werror -pipe -fvisibility=hidden)
-
-if (CMAKE_COMPILER_IS_GNUCXX)
-    add_compile_options(-fno-strict-aliasing)
+# functions map for reading backtraces
+if(NOT APPLE)
+    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,-Map=${PROJECT_NAME}.map")
 endif()
 
-include(FindCXX11)
+option(USE_PCH "Use precompiled header (speed up compile)" OFF)
 
-# Find packages.
-find_package(GMP REQUIRED)
-find_package(PugiXML REQUIRED)
-find_package(LuaJIT)
-find_package(MySQL)
-find_package(Threads)
+set(executable_SOURCES
+    src/main.cpp
+)
 
-option(USE_LUAJIT "Use LuaJIT" ${LUAJIT_FOUND})
+# add executable icon for win32 platforms
+if(WIN32)
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/otcicon.o
+                       COMMAND ${CMAKE_RC_COMPILER}
+                       -I${CMAKE_CURRENT_SOURCE_DIR}/src
+                       -i${CMAKE_CURRENT_SOURCE_DIR}/src/otcicon.rc
+                       -o ${CMAKE_CURRENT_BINARY_DIR}/otcicon.o)
+    set(executable_SOURCES ${executable_SOURCES} otcicon.o)
+endif()
 
-if(USE_LUAJIT)
-    find_package(LuaJIT REQUIRED)
-    if(APPLE)
-      set(CMAKE_EXE_LINKER_FLAGS "-pagezero_size 10000 -image_base 100000000")
-    endif()
+add_definitions(-D"VERSION=\\"${VERSION}\\"")
+
+# add client executable
+add_executable(${PROJECT_NAME} ${framework_SOURCES} ${client_SOURCES} ${executable_SOURCES})
+target_link_libraries(${PROJECT_NAME} ${framework_LIBRARIES})
+
+if(USE_PCH)
+    include(cotire)
+    cotire(${PROJECT_NAME})
+    message(STATUS "Use precompiled header: ON")
 else()
-    find_package(Lua)
+    message(STATUS "Use precompiled header: OFF")
 endif()
 
-find_package(Boost 1.53.0 COMPONENTS system REQUIRED)
+# installation
+set(DATA_INSTALL_DIR share/${PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME}
+		RUNTIME DESTINATION bin
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib)
+install(FILES README.md BUGS LICENSE AUTHORS init.lua ${PROJECT_NAME}rc.lua DESTINATION ${DATA_INSTALL_DIR})
+install(DIRECTORY data modules DESTINATION ${DATA_INSTALL_DIR} PATTERN ".git" EXCLUDE)
 
-include(src/CMakeLists.txt)
-add_executable(tfs ${tfs_SRC})
-
-include_directories(${MYSQL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${PUGIXML_INCLUDE_DIR} ${GMP_INCLUDE_DIR})
-target_link_libraries(tfs ${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES} ${Boost_LIBRARIES} ${PUGIXML_LIBRARIES} ${GMP_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-
-set_target_properties(tfs PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "src/otpch.h")
-set_target_properties(tfs PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
-cotire(tfs)
+# add "make run"
+add_custom_target(run COMMAND ${PROJECT_NAME} DEPENDS ${PROJECT_NAME} WORKING_DIRECTORY ${CMAKE_PROJECT_DIR})
