@@ -6,14 +6,14 @@ local lootVeryRare = {7632, 7633, 10220}
 local useWorms = true
 
 function onUse(player, item, fromPosition, target, toPosition, isHotkey)
-	if not isInArray(waterIds, target.itemid) then
+	local targetId = target.itemid
+	if not table.contains(waterIds, target.itemid) then
 		return false
 	end
 
-	local targetId = target.itemid
 	if targetId == 10499 then
 		local owner = target:getAttribute(ITEM_ATTRIBUTE_CORPSEOWNER)
-		if owner ~= 0 and owner ~= player.uid then
+		if owner ~= 0 and owner ~= player:getId() then
 			player:sendTextMessage(MESSAGE_STATUS_SMALL, "You are not the owner.")
 			return true
 		end
@@ -21,7 +21,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		toPosition:sendMagicEffect(CONST_ME_WATERSPLASH)
 		target:remove()
 
-		local rareChance = math.random(100)
+		local rareChance = math.random(1, 100)
 		if rareChance == 1 then
 			player:addItem(lootVeryRare[math.random(#lootVeryRare)], 1)
 		elseif rareChance <= 3 then
@@ -43,7 +43,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	end
 
 	player:addSkillTries(SKILL_FISHING, 1)
-	if math.random(100) <= math.min(math.max(10 + (player:getEffectiveSkillLevel(SKILL_FISHING) - 10) * 0.597, 10), 50) then
+	if math.random(1, 100) <= math.min(math.max(10 + (player:getEffectiveSkillLevel(SKILL_FISHING) - 10) * 0.597, 10), 50) then
 		if useWorms and not player:removeItem("worm", 1) then
 			return true
 		end
@@ -52,7 +52,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 			target:transform(targetId + 1)
 			target:decay()
 
-			if math.random(100) >= 97 then
+			if math.random(1, 100) >= 97 then
 				player:addItem(15405, 1)
 				return true
 			end
@@ -60,7 +60,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 			target:transform(targetId + 1)
 			target:decay()
 
-			local rareChance = math.random(100)
+			local rareChance = math.random(1, 100)
 			if rareChance == 1 then
 				player:addItem(7158, 1)
 				return true

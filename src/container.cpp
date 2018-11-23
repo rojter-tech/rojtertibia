@@ -1,6 +1,6 @@
 /**
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2018  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ Container::Container(Tile* tile) : Container(ITEM_BROWSEFIELD, 30, false, true)
 	TileItemVector* itemVector = tile->getItemList();
 	if (itemVector) {
 		for (Item* item : *itemVector) {
-			if (item->getContainer() || item->hasProperty(CONST_PROP_MOVEABLE)) {
+			if ((item->getContainer() || item->hasProperty(CONST_PROP_MOVEABLE)) && !item->hasAttribute(ITEM_ATTRIBUTE_UNIQUEID)) {
 				itemlist.push_front(item);
 				item->setParent(this);
 			}
@@ -107,24 +107,22 @@ Attr_ReadValue Container::readAttr(AttrTypes_t attr, PropStream& propStream)
 	return Item::readAttr(attr, propStream);
 }
 
-bool Container::unserializeItemNode(FileLoader& f, NODE node, PropStream& propStream)
+bool Container::unserializeItemNode(OTB::Loader& loader, const OTB::Node& node, PropStream& propStream)
 {
-	bool ret = Item::unserializeItemNode(f, node, propStream);
+	bool ret = Item::unserializeItemNode(loader, node, propStream);
 	if (!ret) {
 		return false;
 	}
 
-	uint32_t type;
-	NODE nodeItem = f.getChildNode(node, type);
-	while (nodeItem) {
+	for (auto& itemNode : node.children) {
 		//load container items
-		if (type != OTBM_ITEM) {
+		if (itemNode.type != OTBM_ITEM) {
 			// unknown type
 			return false;
 		}
 
 		PropStream itemPropStream;
-		if (!f.getProps(nodeItem, itemPropStream)) {
+		if (!loader.getProps(itemNode, itemPropStream)) {
 			return false;
 		}
 
@@ -133,14 +131,12 @@ bool Container::unserializeItemNode(FileLoader& f, NODE node, PropStream& propSt
 			return false;
 		}
 
-		if (!item->unserializeItemNode(f, nodeItem, itemPropStream)) {
+		if (!item->unserializeItemNode(loader, itemNode, itemPropStream)) {
 			return false;
 		}
 
 		addItem(item);
 		updateItemWeight(item->getWeight());
-
-		nodeItem = f.getNextNode(nodeItem, type);
 	}
 	return true;
 }
@@ -219,48 +215,48 @@ bool Container::isHoldingItem(const Item* item) const
 
 void Container::onAddContainerItem(Item* item)
 {
-	SpectatorVec list;
-	g_game.map.getSpectators(list, getPosition(), false, true, 2, 2, 2, 2);
+	SpectatorHashSet spectators;
+	g_game.map.getSpectators(spectators, getPosition(), false, true, 2, 2, 2, 2);
 
 	//send to client
-	for (Creature* spectator : list) {
+	for (Creature* spectator : spectators) {
 		spectator->getPlayer()->sendAddContainerItem(this, item);
 	}
 
 	//event methods
-	for (Creature* spectator : list) {
+	for (Creature* spectator : spectators) {
 		spectator->getPlayer()->onAddContainerItem(item);
 	}
 }
 
 void Container::onUpdateContainerItem(uint32_t index, Item* oldItem, Item* newItem)
 {
-	SpectatorVec list;
-	g_game.map.getSpectators(list, getPosition(), false, true, 2, 2, 2, 2);
+	SpectatorHashSet spectators;
+	g_game.map.getSpectators(spectators, getPosition(), false, true, 2, 2, 2, 2);
 
 	//send to client
-	for (Creature* spectator : list) {
+	for (Creature* spectator : spectators) {
 		spectator->getPlayer()->sendUpdateContainerItem(this, index, newItem);
 	}
 
 	//event methods
-	for (Creature* spectator : list) {
+	for (Creature* spectator : spectators) {
 		spectator->getPlayer()->onUpdateContainerItem(this, oldItem, newItem);
 	}
 }
 
 void Container::onRemoveContainerItem(uint32_t index, Item* item)
 {
-	SpectatorVec list;
-	g_game.map.getSpectators(list, getPosition(), false, true, 2, 2, 2, 2);
+	SpectatorHashSet spectators;
+	g_game.map.getSpectators(spectators, getPosition(), false, true, 2, 2, 2, 2);
 
 	//send change to client
-	for (Creature* spectator : list) {
+	for (Creature* spectator : spectators) {
 		spectator->getPlayer()->sendRemoveContainerItem(this, index);
 	}
 
 	//event methods
-	for (Creature* spectator : list) {
+	for (Creature* spectator : spectators) {
 		spectator->getPlayer()->onRemoveContainerItem(this, item);
 	}
 }
@@ -402,7 +398,7 @@ ReturnValue Container::queryRemove(const Thing& thing, uint32_t count, uint32_t 
 	return RETURNVALUE_NOERROR;
 }
 
-Cylinder* Container::queryDestination(int32_t& index, const Thing &thing, Item** destItem,
+Cylinder* Container::queryDestination(int32_t& index, const Thing& thing, Item** destItem,
 		uint32_t& flags)
 {
 	if (!unlocked) {
@@ -441,20 +437,6 @@ Cylinder* Container::queryDestination(int32_t& index, const Thing &thing, Item**
 		return this;
 	}
 
-	bool autoStack = !hasBitSet(FLAG_IGNOREAUTOSTACK, flags);
-	if (autoStack && item->isStackable() && item->getParent() != this) {
-		//try find a suitable item to stack with
-		uint32_t n = 0;
-		for (Item* listItem : itemlist) {
-			if (listItem != item && listItem->equals(item) && listItem->getItemCount() < 100) {
-				*destItem = listItem;
-				index = n;
-				return this;
-			}
-			++n;
-		}
-	}
-
 	if (index != INDEX_WHEREEVER) {
 		Item* itemFromIndex = getItemByIndex(index);
 		if (itemFromIndex) {
@@ -466,6 +448,20 @@ Cylinder* Container::queryDestination(int32_t& index, const Thing &thing, Item**
 			index = INDEX_WHEREEVER;
 			*destItem = nullptr;
 			return subCylinder;
+		}
+	}
+
+	bool autoStack = !hasBitSet(FLAG_IGNOREAUTOSTACK, flags);
+	if (autoStack && item->isStackable() && item->getParent() != this) {
+		//try find a suitable item to stack with
+		uint32_t n = 0;
+		for (Item* listItem : itemlist) {
+			if (listItem != item && listItem->equals(item) && listItem->getItemCount() < 100) {
+				*destItem = listItem;
+				index = n;
+				return this;
+			}
+			++n;
 		}
 	}
 	return this;

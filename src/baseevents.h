@@ -1,6 +1,6 @@
 /**
  * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
+ * Copyright (C) 2018  Mark Samman <mark.samman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,13 @@
 
 #include "luascript.h"
 
+class Event;
+using Event_ptr = std::unique_ptr<Event>;
+
 class Event
 {
 	public:
 		explicit Event(LuaScriptInterface* interface);
-		explicit Event(const Event* copy);
 		virtual ~Event() = default;
 
 		virtual bool configureEvent(const pugi::xml_node& node) = 0;
@@ -61,11 +63,11 @@ class BaseEvents
 			return loaded;
 		}
 
-	protected:
+	private:
 		virtual LuaScriptInterface& getScriptInterface() = 0;
 		virtual std::string getScriptBaseName() const = 0;
-		virtual Event* getEvent(const std::string& nodeName) = 0;
-		virtual bool registerEvent(Event* event, const pugi::xml_node& node) = 0;
+		virtual Event_ptr getEvent(const std::string& nodeName) = 0;
+		virtual bool registerEvent(Event_ptr event, const pugi::xml_node& node) = 0;
 		virtual void clear() = 0;
 
 		bool loaded = false;
@@ -82,9 +84,8 @@ class CallBack
 		int32_t scriptId = 0;
 		LuaScriptInterface* scriptInterface = nullptr;
 
+	private:
 		bool loaded = false;
-
-		std::string callbackName;
 };
 
 #endif

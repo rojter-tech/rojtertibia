@@ -13,12 +13,6 @@ function onSay(player, words, param)
 	position:getNextPosition(player:getDirection())
 
 	local tile = Tile(position)
-	if not tile then
-		player:sendCancelMessage("You have to be looking at the door of the house you would like to buy.")
-		return false
-	end
-
-	local tile = Tile(position)
 	local house = tile and tile:getHouse()
 	if not house then
 		player:sendCancelMessage("You have to be looking at the door of the house you would like to buy.")
@@ -42,6 +36,6 @@ function onSay(player, words, param)
 	end
 
 	house:setOwnerGuid(player:getGuid())
-	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You have successfully bought this house, be sure to have the money for the rent in the bank.")
+	player:sendTextMessage(MESSAGE_INFO_DESCR, "You have successfully bought this house, be sure to have the money for the rent in the bank.")
 	return false
 end

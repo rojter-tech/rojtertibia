@@ -22,8 +22,8 @@ condition:setOutfit(0, 247, 0, 0, 0, 0)
 local combat = Combat()
 combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_MAGIC_GREEN)
 combat:setArea(createCombatArea(AREA_SQUARE1X1))
-combat:setCondition(condition)
+combat:addCondition(condition)
 
-function onCastSpell(creature, var, isHotkey)
-	return combat:execute(creature, var)
+function onCastSpell(creature, variant, isHotkey)
+	return combat:execute(creature, variant)
 end

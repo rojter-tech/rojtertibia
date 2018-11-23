@@ -15,16 +15,16 @@ expFromPlayersLevelRange = 75
 
 -- Connection Config
 -- NOTE: maxPlayers set to 0 means no limit
-ip = "83.250.0.97"
+ip = "127.0.0.1"
 bindOnlyGlobalAddress = false
 loginProtocolPort = 7171
 gameProtocolPort = 7172
 statusProtocolPort = 7171
 maxPlayers = 0
-motd = "Welcome to rOjterTibia! The Tibia server for idiots ..."
+motd = "Welcome to The Forgotten Server!"
 onePlayerOnlinePerAccount = true
 allowClones = false
-serverName = "rOjterTibia"
+serverName = "Forgotten"
 statusTimeout = 5000
 replaceKickOnLogin = true
 maxPacketsPerSecond = 25
@@ -46,8 +46,8 @@ timeBetweenExActions = 1000
 
 -- Map
 -- NOTE: set mapName WITHOUT .otbm at the end
-mapName = "map"
-mapAuthor = "Someone"
+mapName = "forgotten"
+mapAuthor = "Komic"
 
 -- Market
 marketOfferDuration = 30 * 24 * 60 * 60
@@ -56,20 +56,24 @@ checkExpiredMarketOffersEachMinutes = 60
 maxMarketOffersAtATimePerPlayer = 100
 
 -- MySQL
-mysqlHost = "192.168.10.20"
-mysqlUser = "rojtertibia"
-mysqlPass = "*******"
-mysqlDatabase = "rojtertibia"
+mysqlHost = "127.0.0.1"
+mysqlUser = "forgottenserver"
+mysqlPass = ""
+mysqlDatabase = "forgottenserver"
 mysqlPort = 3306
 mysqlSock = ""
 
 -- Misc.
+-- NOTE: classicAttackSpeed set to true makes players constantly attack at regular
+-- intervals regardless of other actions such as item (potion) use. This setting
+-- may cause high CPU usage with many players and potentially affect performance!
 allowChangeOutfit = true
 freePremium = false
 kickIdlePlayerAfterMinutes = 15
 maxMessageBuffer = 4
 emoteSpells = false
 classicEquipmentSlots = false
+classicAttackSpeed = false
 
 -- Rates
 -- NOTE: rateExp is not used if you have enabled stages in data/XML/stages.xml
@@ -84,7 +88,7 @@ deSpawnRange = 2
 deSpawnRadius = 50
 
 -- Stamina
-staminaSystem = false
+staminaSystem = true
 
 -- Scripts
 warnUnsafeScripts = true
@@ -97,7 +101,7 @@ defaultPriority = "high"
 startupDatabaseOptimization = false
 
 -- Status server information
-ownerName = "Daniel Reuter"
-ownerEmail = "dreuter@kth.se"
-url = "https://rojter.tech/tibia"
+ownerName = ""
+ownerEmail = ""
+url = "https://otland.net/"
 location = "Sweden"
