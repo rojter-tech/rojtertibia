@@ -56,9 +56,9 @@ checkExpiredMarketOffersEachMinutes = 60
 maxMarketOffersAtATimePerPlayer = 100
 
 -- MySQL
-mysqlHost = "127.0.0.1"
+mysqlHost = "192.168.10.20"
 mysqlUser = "forgottenserver"
-mysqlPass = ""
+mysqlPass = "12321"
 mysqlDatabase = "forgottenserver"
 mysqlPort = 3306
 mysqlSock = ""
