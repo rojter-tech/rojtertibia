@@ -1,0 +1,7 @@
+# Ignore everything in this directory
+*
+# Except theese files
+!.gitignore
+!forgotten.otbm
+!forgotten-house.xml
+!forgotten-spawn.xml
