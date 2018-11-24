@@ -1,4 +1,4 @@
-FROM ubuntu:latest AS build
+FROM ubuntu:latest
 
 RUN apt-get update -y && apt-get install -y \
   git \
@@ -20,7 +20,7 @@ WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
 
 FROM ubuntu:latest
-COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
+COPY --from=0 /usr/src/rojtertibia/build/tfs /bin/tfs
 
 RUN apt-get update -y && apt-get install -y \
   libboost-system1.65.1 \
