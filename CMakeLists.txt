@@ -18,7 +18,7 @@ option(USE_PGSQL "Use PGSQL" OFF)
 option(USE_LUAJIT "Use LuaJIT" ON)
 option(USE_DIAGNOSTIC "Use server diagnostic" ON)
 option(USE_SKULLSYSTEM "Skull system" ON)
-option(USE_STATIC_LIBS "Static linking" ON)
+option(USE_STATIC_LIBS "Static linking" OFF)
 
 # Status
 message(STATUS "MySQL: " ${USE_MYSQL})
