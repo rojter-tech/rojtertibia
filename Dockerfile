@@ -18,23 +18,13 @@ COPY src /usr/src/rojtertibia/src/
 COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
-
-FROM ubuntu:latest
-COPY --from=0 /usr/src/rojtertibia/build/tfs /bin/tfs
-
-RUN apt-get update -y && apt-get install -y \
-  libboost-system1.65.1 \
-  libboost-iostreams1.65.1 \
-  libluajit-5.1-common \
-  libmysqlclient20 \
-  libxml2
+COPY data /usr/src/rojtertibia/data/
+COPY LICENSE README.md *.dist *.sql key.pem /usr/src/rojtertibia/
+COPY config.lua.dist /usr/src/rojtertibia/config.lua
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
-COPY data /srv/data/
-COPY LICENSE README.md *.dist *.sql key.pem /srv/
-COPY config.lua.dist /srv/config.lua
 
 EXPOSE 7171 7172
-WORKDIR /srv
-VOLUME /srv
-ENTRYPOINT ["/bin/tfs"]
+WORKDIR /usr/src/rojtertibia/
+VOLUME /usr/src/rojtertibia/
+ENTRYPOINT ["/usr/src/rojtertibia/build/tfs"]
