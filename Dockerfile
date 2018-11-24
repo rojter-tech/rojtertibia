@@ -10,8 +10,6 @@ RUN apt-get update -y && apt-get install -y \
   libmysqlclient-dev \
   libboost-all-dev \
   libxml2-dev \
-  libcrypto++-dev \
-  libgmp-dev \
   libluajit-5.1-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
