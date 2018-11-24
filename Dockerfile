@@ -22,9 +22,7 @@ COPY data /usr/src/rojtertibia/data/
 COPY LICENSE README.md *.dist *.sql /usr/src/rojtertibia/
 COPY config.lua.dist /usr/src/rojtertibia/config.lua
 
-RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
-
-EXPOSE 7171 7172
+EXPOSE 7173 7174
 WORKDIR /usr/src/rojtertibia/
 VOLUME /usr/src/rojtertibia/
-ENTRYPOINT ["/usr/src/rojtertibia/build/tfs"]
+ENTRYPOINT ["/usr/src/rojtertibia/build/src/otserv"]
