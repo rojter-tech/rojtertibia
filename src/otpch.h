@@ -1,44 +1,66 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+// Prefix header = compiler automatically includes this header
+// Then an error should not be emitted on subsequent includes
+#if defined __OTSERV_OTCP_H__ && !defined USE_PREFIX_HEADER
+#error "Precompiled header should only be included once"
+#endif
 
-#define FS_OTPCH_H_F00C737DA6CA4C8D90F57430C614367F
+
+#ifndef __OTSERV_OTCP_H__
+#define __OTSERV_OTCP_H__
 
 // Definitions should be global.
 #include "definitions.h"
 
-#include <algorithm>
-#include <chrono>
-#include <cstdint>
-#include <forward_list>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <list>
-#include <map>
-#include <memory>
-#include <mutex>
-#include <sstream>
-#include <string>
-#include <thread>
-#include <unordered_map>
-#include <vector>
+#ifdef __WINDOWS__
+#include <winerror.h>
+#endif
 
+#ifdef __STATIC__
+#define LIBXML_STATIC
+#endif
+
+//libxml
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/threads.h>
+#include <libxml/xmlschemas.h>
+//boost
+#include <boost/config.hpp>
+#include "boost_common.h"
+#include <boost/any.hpp>
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/regex.hpp>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
+#include <boost/foreach.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
-#include <pugixml.hpp>
+//std
+#include <algorithm>
+#include <list>
+#include <vector>
+#include <map>
+#include <string>
+#include <iostream>
+#include <fstream>
+
+//lua
+#include "lua.hpp"
+
+// otserv
+// These files very rarely changes
+#include "position.h"
+#include "fileloader.h"
+#include "exception.h"
+#include "logger.h"
+#include "md5.h"
+#include "sha1.h"
+#include "rsa.h"
+
+// Forward declarations
+#include "classes.h"
+
+#endif

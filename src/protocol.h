@@ -1,101 +1,100 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_PROTOCOL_H_D71405071ACF4137A4B1203899DE80E1
-#define FS_PROTOCOL_H_D71405071ACF4137A4B1203899DE80E1
+#ifndef __OTSERV_PROTOCOL_H__
+#define __OTSERV_PROTOCOL_H__
 
-#include "connection.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/noncopyable.hpp>
+#include <stdint.h>
+#include "protocolconst.h"
 
-class Protocol : public std::enable_shared_from_this<Protocol>
+class RSA;
+class OutputMessage;
+class Connection;
+class NetworkMessage;
+
+typedef boost::shared_ptr<OutputMessage> OutputMessage_ptr;
+typedef boost::shared_ptr<Connection> Connection_ptr;
+
+class Protocol : boost::noncopyable
 {
-	public:
-		explicit Protocol(Connection_ptr connection) : connection(connection) {}
-		virtual ~Protocol() = default;
+public:
+  Protocol(Connection_ptr connection)
+  {
+    m_connection = connection;
+    m_encryptionEnabled = false;
+    m_checksumEnabled = false;
+    m_rawMessages = false;
+    m_key[0] = 0; m_key[1] = 0; m_key[2] = 0; m_key[3] = 0;
+    m_refCount = 0;
+  }
 
-		// non-copyable
-		Protocol(const Protocol&) = delete;
-		Protocol& operator=(const Protocol&) = delete;
+  virtual ~Protocol() {}
 
-		virtual void parsePacket(NetworkMessage&) {}
+  virtual void parsePacket(NetworkMessage& msg){};
 
-		virtual void onSendMessage(const OutputMessage_ptr& msg) const;
-		void onRecvMessage(NetworkMessage& msg);
-		virtual void onRecvFirstMessage(NetworkMessage& msg) = 0;
-		virtual void onConnect() {}
+  void onSendMessage(OutputMessage_ptr msg);
+  void onRecvMessage(NetworkMessage& msg);
+  virtual void onRecvFirstMessage(NetworkMessage& msg) = 0;
+  virtual void onConnect() {} // Used by new gameworld to send first packet to client
 
-		bool isConnectionExpired() const {
-			return connection.expired();
-		}
+  Connection_ptr getConnection() { return m_connection;}
+  const Connection_ptr getConnection() const { return m_connection;}
+  void setConnection(Connection_ptr connection) { m_connection = connection; }
 
-		Connection_ptr getConnection() const {
-			return connection.lock();
-		}
+  uint32_t getIP() const;
+  int32_t addRef() {return ++m_refCount;}
+  int32_t unRef() {return --m_refCount;}
 
-		uint32_t getIP() const;
+protected:
+  //Use this function for autosend messages only
+  OutputMessage_ptr getOutputBuffer();
 
-		//Use this function for autosend messages only
-		OutputMessage_ptr getOutputBuffer(int32_t size);
+  void enableXTEAEncryption() { m_encryptionEnabled = true; }
+  void disableXTEAEncryption() { m_encryptionEnabled = false; }
+  void setXTEAKey(const uint32_t* key){
+    memcpy(&m_key, key, sizeof(uint32_t)*4);
+  }
+  void enableChecksum() { m_checksumEnabled = true; }
+  void disableChecksum() { m_checksumEnabled = false; }
 
-		OutputMessage_ptr& getCurrentBuffer() {
-			return outputBuffer;
-		}
+  void XTEA_encrypt(OutputMessage& msg);
+  bool XTEA_decrypt(NetworkMessage& msg);
+  bool RSA_decrypt(NetworkMessage& msg);
+  bool RSA_decrypt(RSA* rsa, NetworkMessage& msg);
 
-		void send(OutputMessage_ptr msg) const {
-			if (auto connection = getConnection()) {
-				connection->send(msg);
-			}
-		}
+  void setRawMessages(bool value) { m_rawMessages = value; }
 
-	protected:
-		void disconnect() const {
-			if (auto connection = getConnection()) {
-				connection->close();
-			}
-		}
-		void enableXTEAEncryption() {
-			encryptionEnabled = true;
-		}
-		void setXTEAKey(const uint32_t* key) {
-			memcpy(this->key, key, sizeof(*key) * 4);
-		}
-		void disableChecksum() {
-			checksumEnabled = false;
-		}
+  virtual void releaseProtocol();
+  virtual void deleteProtocolTask();
+  friend class Connection;
+private:
 
-		void XTEA_encrypt(OutputMessage& msg) const;
-		bool XTEA_decrypt(NetworkMessage& msg) const;
-		static bool RSA_decrypt(NetworkMessage& msg);
-
-		void setRawMessages(bool value) {
-			rawMessages = value;
-		}
-
-		virtual void release() {}
-		friend class Connection;
-
-		OutputMessage_ptr outputBuffer;
-	private:
-		const ConnectionWeak_ptr connection;
-		uint32_t key[4] = {};
-		bool encryptionEnabled = false;
-		bool checksumEnabled = true;
-		bool rawMessages = false;
+  OutputMessage_ptr m_outputBuffer;
+  Connection_ptr m_connection;
+  bool m_encryptionEnabled;
+  bool m_checksumEnabled;
+  bool m_rawMessages;
+  uint32_t m_key[4];
+  uint32_t m_refCount;
 };
 
 #endif

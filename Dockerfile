@@ -15,6 +15,8 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   luajit-dev \
   make \
   mariadb-connector-c-dev \
+  libxml2-dev \
+  lua-dev \
   pugixml-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/

@@ -1,139 +1,121 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_VOCATION_H_ADCAA356C0DB44CEBA994A0D678EC92D
-#define FS_VOCATION_H_ADCAA356C0DB44CEBA994A0D678EC92D
+#ifndef __OTSERV_VOCATION_H__
+#define __OTSERV_VOCATION_H__
 
+#include <string>
+#include <map>
+#include <stdint.h>
 #include "enums.h"
-#include "item.h"
+#include "const.h"
 
 class Vocation
 {
-	public:
-		explicit Vocation(uint16_t id) : id(id) {}
+  Vocation(uint32_t id);
+  ~Vocation();
 
-		const std::string& getVocName() const {
-			return name;
-		}
-		const std::string& getVocDescription() const {
-			return description;
-		}
-		uint64_t getReqSkillTries(uint8_t skill, uint16_t level);
-		uint64_t getReqMana(uint32_t magLevel);
+public:
+  uint32_t getID() const;
+  const std::string& getVocName() const;
+  const std::string& getVocDescription() const;
+  uint32_t getReqSkillTries(SkillType skill, int32_t level);
+  uint32_t getReqMana(int32_t magLevel);
 
-		uint16_t getId() const {
-			return id;
-		}
+  uint32_t getHPGain() const;
+  uint32_t getManaGain() const;
+  uint32_t getCapGain() const;
 
-		uint8_t getClientId() const {
-			return clientId;
-		}
+  uint32_t getManaGainTicks() const;
+  uint32_t getManaGainAmount() const;
+  uint32_t getHealthGainTicks() const;
+  uint32_t getHealthGainAmount() const;
 
-		uint32_t getHPGain() const {
-			return gainHP;
-		}
-		uint32_t getManaGain() const {
-			return gainMana;
-		}
-		uint32_t getCapGain() const {
-			return gainCap;
-		}
+  uint16_t getSoulMax() const;
+  uint16_t getSoulGainTicks() const;
 
-		uint32_t getManaGainTicks() const {
-			return gainManaTicks;
-		}
-		uint32_t getManaGainAmount() const {
-			return gainManaAmount;
-		}
-		uint32_t getHealthGainTicks() const {
-			return gainHealthTicks;
-		}
-		uint32_t getHealthGainAmount() const {
-			return gainHealthAmount;
-		}
+  float getMeleeBaseDamage(WeaponType weaponType) const;
 
-		uint8_t getSoulMax() const {
-			return soulMax;
-		}
-		uint16_t getSoulGainTicks() const {
-			return gainSoulTicks;
-		}
+  float getMagicBaseDamage() const;
+  float getWandBaseDamage() const;
+  float getHealingBaseDamage() const;
 
-		uint32_t getAttackSpeed() const {
-			return attackSpeed;
-		}
-		uint32_t getBaseSpeed() const {
-			return baseSpeed;
-		}
+  float getBaseDefense() const;
+  float getArmorDefense() const;
 
-		uint32_t getFromVocation() const {
-			return fromVocation;
-		}
+  void debugVocation();
 
-		float meleeDamageMultiplier = 1.0f;
-		float distDamageMultiplier = 1.0f;
-		float defenseMultiplier = 1.0f;
-		float armorMultiplier = 1.0f;
+protected:
+  uint32_t id;
+  std::string name;
+  std::string description;
 
-	protected:
-		friend class Vocations;
+  uint32_t gainHealthTicks;
+  uint32_t gainHealthAmount;
+  uint32_t gainManaTicks;
+  uint32_t gainManaAmount;
 
-		std::map<uint32_t, uint64_t> cacheMana;
-		std::map<uint32_t, uint32_t> cacheSkill[SKILL_LAST + 1];
+  uint32_t gainCap;
+  uint32_t gainMana;
+  uint32_t gainHP;
 
-		std::string name = "none";
-		std::string description;
+  uint16_t maxSoul;
+  uint16_t gainSoulTicks;
 
-		float skillMultipliers[SKILL_LAST + 1] = {1.5f, 2.0f, 2.0f, 2.0f, 2.0f, 1.5f, 1.1f};
-		float manaMultiplier = 4.0f;
+  uint32_t skillBases[SkillType::size];
+  float skillMultipliers[SkillType::size];
+  float manaMultiplier;
 
-		uint32_t gainHealthTicks = 6;
-		uint32_t gainHealthAmount = 1;
-		uint32_t gainManaTicks = 6;
-		uint32_t gainManaAmount = 1;
-		uint32_t gainCap = 500;
-		uint32_t gainMana = 5;
-		uint32_t gainHP = 5;
-		uint32_t fromVocation = VOCATION_NONE;
-		uint32_t attackSpeed = 1500;
-		uint32_t baseSpeed = 220;
-		uint16_t id;
+  float swordBaseDamage;
+  float axeBaseDamage;
+  float clubBaseDamage;
+  float distBaseDamage;
+  float fistBaseDamage;
 
-		uint16_t gainSoulTicks = 120;
+  float magicBaseDamage;
+  float wandBaseDamage;
+  float healingBaseDamage;
 
-		uint8_t soulMax = 100;
-		uint8_t clientId = 0;
+  float baseDefense;
+  float armorDefense;
 
-		static uint32_t skillBase[SKILL_LAST + 1];
+  typedef std::map<uint32_t, uint32_t> cacheMap;
+  cacheMap cacheMana;
+  cacheMap cacheSkill[SkillType::size];
+
+  friend class Vocations;
 };
 
 class Vocations
 {
-	public:
-		bool loadFromXml();
+public:
+  Vocations();
+  ~Vocations();
 
-		Vocation* getVocation(uint16_t id);
-		int32_t getVocationId(const std::string& name) const;
-		uint16_t getPromotedVocation(uint16_t vocationId) const;
+  bool loadFromXml(const std::string& datadir);
+  Vocation* getVocation(uint32_t vocId);
+  int32_t getVocationId(const std::string& name);
 
-	private:
-		std::map<uint16_t, Vocation> vocationsMap;
+private:
+  typedef std::map<uint32_t, Vocation*> VocationsMap;
+  VocationsMap vocationsMap;
 };
 
 #endif

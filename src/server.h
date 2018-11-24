@@ -1,154 +1,164 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_SERVER_H_984DA68ABF744127850F90CC710F281B
-#define FS_SERVER_H_984DA68ABF744127850F90CC710F281B
+#ifndef __OTSERV_SERVER_H__
+#define __OTSERV_SERVER_H__
 
-#include "connection.h"
-#include <memory>
+#include <boost/utility.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ip/address.hpp>
+#include <boost/asio/deadline_timer.hpp>
+#include "classes.h"
 
-class Protocol;
+class ServiceBase;
+class ServicePort;
+typedef boost::shared_ptr<ServiceBase> Service_ptr;
+typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
+typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
+typedef boost::shared_ptr<Connection> Connection_ptr;
 
-class ServiceBase
+typedef boost::asio::ip::address IPAddress;
+typedef std::vector<IPAddress> IPAddressList;
+
+// The Service class is very thin, it's only real job is to create dynamic
+// dispatch of the protocol attributes, which would otherwise be very hard,
+// and require templating of many Service functions
+
+class ServiceBase : boost::noncopyable
 {
-	public:
-		virtual bool is_single_socket() const = 0;
-		virtual bool is_checksummed() const = 0;
-		virtual uint8_t get_protocol_identifier() const = 0;
-		virtual const char* get_protocol_name() const = 0;
+public:
+  virtual ~ServiceBase() {} // Redundant, but stifles compiler warnings
 
-		virtual Protocol_ptr make_protocol(const Connection_ptr& c) const = 0;
+  virtual bool is_single_socket() const = 0;
+  virtual bool is_checksummed() const = 0;
+  virtual uint8_t get_protocol_identifier() const = 0;
+  virtual const char* get_protocol_name() const = 0;
+
+  virtual Protocol* make_protocol(Connection_ptr c) const = 0;
 };
 
 template <typename ProtocolType>
-class Service final : public ServiceBase
+class Service : public ServiceBase
 {
-	public:
-		bool is_single_socket() const final {
-			return ProtocolType::server_sends_first;
-		}
-		bool is_checksummed() const final {
-			return ProtocolType::use_checksum;
-		}
-		uint8_t get_protocol_identifier() const final {
-			return ProtocolType::protocol_identifier;
-		}
-		const char* get_protocol_name() const final {
-			return ProtocolType::protocol_name();
-		}
+public:
+  bool is_single_socket() const {return ProtocolType::server_sends_first;}
+  bool is_checksummed() const {return ProtocolType::use_checksum;}
+  uint8_t get_protocol_identifier() const {return ProtocolType::protocol_identifier;}
+  const char* get_protocol_name() const {return ProtocolType::protocol_name();}
 
-		Protocol_ptr make_protocol(const Connection_ptr& c) const final {
-			return std::make_shared<ProtocolType>(c);
-		}
+  Protocol* make_protocol(Connection_ptr c) const {return new ProtocolType(c);}
 };
 
-class ServicePort : public std::enable_shared_from_this<ServicePort>
+// A Service Port represents a listener on a port.
+// It accepts connections, and asks each Service running
+// on it if it can accept the connection, and if so passes
+// it on to the service
+class ServicePort : boost::noncopyable, public boost::enable_shared_from_this<ServicePort>
 {
-	public:
-		explicit ServicePort(boost::asio::io_service& io_service) : io_service(io_service) {}
-		~ServicePort();
+public:
+  ServicePort(boost::asio::io_service& io_service);
+  ~ServicePort();
 
-		// non-copyable
-		ServicePort(const ServicePort&) = delete;
-		ServicePort& operator=(const ServicePort&) = delete;
+  static void openAcceptor(boost::weak_ptr<ServicePort> weak_service, IPAddress ip, uint16_t port);
+  void open(IPAddressList ips, uint16_t port);
+  void close();
+  bool is_single_socket() const;
+  std::string get_protocol_names() const;
 
-		static void openAcceptor(std::weak_ptr<ServicePort> weak_service, uint16_t port);
-		void open(uint16_t port);
-		void close();
-		bool is_single_socket() const;
-		std::string get_protocol_names() const;
+  bool add_service(Service_ptr);
+  Protocol* make_protocol(bool checksummed, NetworkMessage& msg) const;
 
-		bool add_service(const Service_ptr& new_svc);
-		Protocol_ptr make_protocol(bool checksummed, NetworkMessage& msg, const Connection_ptr& connection) const;
+  void onStopServer();
+  void onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error);
 
-		void onStopServer();
-		void onAccept(Connection_ptr connection, const boost::system::error_code& error);
+protected:
+  void accept(Acceptor_ptr acceptor);
 
-	protected:
-		void accept();
+  boost::asio::io_service& m_io_service;
+  std::vector<Acceptor_ptr> m_tcp_acceptors;
+  std::vector<Service_ptr> m_services;
 
-		boost::asio::io_service& io_service;
-		std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptor;
-		std::vector<Service_ptr> services;
-
-		uint16_t serverPort = 0;
-		bool pendingStart = false;
+  uint16_t m_serverPort;
+  bool m_pendingStart;
+  static bool m_logError;
 };
 
-class ServiceManager
+typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
+
+// The ServiceManager simply manages all services and handles startup/closing
+class ServiceManager : boost::noncopyable
 {
-	public:
-		ServiceManager() = default;
-		~ServiceManager();
+  ServiceManager(const ServiceManager&);
+public:
+  ServiceManager();
+  ~ServiceManager();
 
-		// non-copyable
-		ServiceManager(const ServiceManager&) = delete;
-		ServiceManager& operator=(const ServiceManager&) = delete;
+  // Run and start all servers
+  void run();
+  void stop();
 
-		void run();
-		void stop();
+  // Adds a new service to be managed
+  template <typename ProtocolType>
+  bool add(uint16_t port, IPAddressList ips);
 
-		template <typename ProtocolType>
-		bool add(uint16_t port);
+  bool is_running() const {return m_acceptors.empty() == false;}
+  std::list<uint16_t> get_ports() const;
+protected:
+  void die();
 
-		bool is_running() const {
-			return acceptors.empty() == false;
-		}
+  std::map<uint16_t, ServicePort_ptr> m_acceptors;
 
-	protected:
-		void die();
-
-		std::unordered_map<uint16_t, ServicePort_ptr> acceptors;
-
-		boost::asio::io_service io_service;
-		boost::asio::deadline_timer death_timer { io_service };
-		bool running = false;
+  boost::asio::io_service m_io_service;
+  boost::asio::deadline_timer death_timer;
+  bool running;
 };
 
 template <typename ProtocolType>
-bool ServiceManager::add(uint16_t port)
+bool ServiceManager::add(uint16_t port, IPAddressList ips)
 {
-	if (port == 0) {
-		std::cout << "ERROR: No port provided for service " << ProtocolType::protocol_name() << ". Service disabled." << std::endl;
-		return false;
-	}
+  if(port == 0){
+    std::cout << "NOTICE: No port provided for service " << ProtocolType::protocol_name() << ". Service disabled." << std::endl;
+    return false;
+  }
+  ServicePort_ptr service_port;
 
-	ServicePort_ptr service_port;
+  std::map<uint16_t, ServicePort_ptr>::iterator finder =
+    m_acceptors.find(port);
 
-	auto foundServicePort = acceptors.find(port);
+  if(finder == m_acceptors.end()){
+    service_port.reset(new ServicePort(m_io_service));
+    service_port->open(ips, port);
+    m_acceptors[port] = service_port;
+  }
+  else{
+    service_port = finder->second;
+    if(service_port->is_single_socket() || ProtocolType::server_sends_first){
+      std::cout << "ERROR: " << ProtocolType::protocol_name() <<
+        " and " << service_port->get_protocol_names() <<
+        " cannot use the same port " << port << "." << std::endl;
+      return false;
+    }
+  }
 
-	if (foundServicePort == acceptors.end()) {
-		service_port = std::make_shared<ServicePort>(io_service);
-		service_port->open(port);
-		acceptors[port] = service_port;
-	} else {
-		service_port = foundServicePort->second;
-
-		if (service_port->is_single_socket() || ProtocolType::server_sends_first) {
-			std::cout << "ERROR: " << ProtocolType::protocol_name() <<
-			          " and " << service_port->get_protocol_names() <<
-			          " cannot use the same port " << port << '.' << std::endl;
-			return false;
-		}
-	}
-
-	return service_port->add_service(std::make_shared<Service<ProtocolType>>());
+  return service_port->add_service(Service_ptr(new Service<ProtocolType>()));
 }
 
 #endif

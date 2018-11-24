@@ -1,86 +1,75 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_THING_H_6F16A8E566AF4ACEAE02CF32A7246144
-#define FS_THING_H_6F16A8E566AF4ACEAE02CF32A7246144
+#ifndef __OTSERV_THING_H__
+#define __OTSERV_THING_H__
 
-#include "position.h"
+#include <string>
+#include <stdint.h>
 
-class Tile;
+// Forward declaration
 class Cylinder;
-class Item;
+class Tile;
+class Position;
 class Creature;
-class Container;
+class Item;
 
-class Thing
-{
-	protected:
-		constexpr Thing() = default;
-		~Thing() = default;
+class Thing {
+protected:
+  Thing();
 
-	public:
-		// non-copyable
-		Thing(const Thing&) = delete;
-		Thing& operator=(const Thing&) = delete;
+public:
+  virtual ~Thing();
 
-		virtual std::string getDescription(int32_t lookDistance) const = 0;
+  void addRef();
+  void unRef();
 
-		virtual Cylinder* getParent() const {
-			return nullptr;
-		}
-		virtual Cylinder* getRealParent() const {
-			return getParent();
-		}
+  virtual std::string getDescription(int32_t lookDistance) const = 0;
 
-		virtual void setParent(Cylinder*) {
-			//
-		}
+  Cylinder* getParent();
+  const Cylinder* getParent() const;
 
-		virtual Tile* getTile();
-		virtual const Tile* getTile() const;
+  virtual void setParent(Cylinder* cylinder);
 
-		virtual const Position& getPosition() const;
-		virtual int32_t getThrowRange() const = 0;
-		virtual bool isPushable() const = 0;
+  Cylinder* getTopParent(); //returns Tile/Container or a Player
+  const Cylinder* getTopParent() const;
 
-		virtual Container* getContainer() {
-			return nullptr;
-		}
-		virtual const Container* getContainer() const {
-			return nullptr;
-		}
-		virtual Item* getItem() {
-			return nullptr;
-		}
-		virtual const Item* getItem() const {
-			return nullptr;
-		}
-		virtual Creature* getCreature() {
-			return nullptr;
-		}
-		virtual const Creature* getCreature() const {
-			return nullptr;
-		}
+  virtual Tile* getParentTile();
+  virtual const Tile* getParentTile() const;
 
-		virtual bool isRemoved() const {
-			return true;
-		}
+  virtual Position getPosition() const;
+  virtual int getThrowRange() const = 0;
+  virtual bool isPushable() const = 0;
+
+  virtual Item* getItem();
+  virtual const Item* getItem() const;
+  virtual Tile* getTile();
+  virtual const Tile* getTile() const;
+  virtual Creature* getCreature();
+  virtual const Creature* getCreature() const;
+
+  virtual bool isRemoved() const;
+
+private:
+  Cylinder* parent;
+  int32_t m_refCount;
 };
 
-#endif
+#endif //__THING_H__

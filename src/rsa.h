@@ -1,43 +1,51 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_RSA_H_C4E277DA8E884B578DDBF0566F504E91
-#define FS_RSA_H_C4E277DA8E884B578DDBF0566F504E91
 
-#include <gmp.h>
+#ifndef __OTSERV_RSA_H__
+#define __OTSERV_RSA_H__
 
-class RSA
-{
-	public:
-		RSA();
-		~RSA();
+#include "definitions.h"
+#include "gmp.h"
+#include <boost/thread.hpp>
 
-		// non-copyable
-		RSA(const RSA&) = delete;
-		RSA& operator=(const RSA&) = delete;
+class RSA{
+public:
+  RSA();
+  ~RSA();
+  void setKey(const char* p, const char* q);
+  bool setKey(const std::string& file);
+  bool decrypt(char* msg);
+  bool encrypt(char* msg);
 
-		void setKey(const char* pString, const char* qString);
-		void decrypt(char* msg) const;
+  int32_t getKeySize();
+  void getPublicKey(char* buffer);
 
-	private:
-		//use only GMP
-		mpz_t n, d;
+protected:
+
+  bool m_keySet;
+
+  boost::recursive_mutex rsaLock;
+
+  //use only GMP
+  mpz_t m_p, m_q, m_n, m_d, m_e;
 };
 
 #endif

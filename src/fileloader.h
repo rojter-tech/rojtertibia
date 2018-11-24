@@ -1,247 +1,361 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_FILELOADER_H_9B663D19E58D42E6BFACFE5B09D7A05E
-#define FS_FILELOADER_H_9B663D19E58D42E6BFACFE5B09D7A05E
+#ifndef __OTSERV_FILELOADER_H__
+#define __OTSERV_FILELOADER_H__
 
-#include <limits>
-#include <vector>
-
-struct NodeStruct;
-
-typedef NodeStruct* NODE;
+#include <string>
+#include <cstdio>
+#include <stdint.h>
+#include "classes.h"
 
 struct NodeStruct {
-	uint32_t start = 0;
-	uint32_t propsSize = 0;
-	uint32_t type = 0;
-	NodeStruct* next = nullptr;
-	NodeStruct* child = nullptr;
+  NodeStruct(){
+    start = 0;
+    propsSize = 0;
+    next = 0;
+    child = 0;
+    type = 0;
+  }
+  ~NodeStruct(){
+    //
+  }
+  unsigned long start;
+  unsigned long propsSize;
+  unsigned long type;
+  NodeStruct* next;
+  NodeStruct* child;
 
-	static void clearNet(NodeStruct* root) {
-		if (root) {
-			clearChild(root);
-		}
-	}
+  static void clearNet(NodeStruct* root){
+    if(root){
+      clearChild(root);
+    }
+  }
 
-	private:
-		static void clearNext(NodeStruct* node) {
-			NodeStruct* deleteNode = node;
-			NodeStruct* nextNode;
+private:
+  static void clearNext(NodeStruct* node){
+    NodeStruct* deleteNode = node;
+    NodeStruct* nextNode;
+    while(deleteNode){
+      if(deleteNode->child){
+        clearChild(deleteNode->child);
+      }
+      nextNode = deleteNode->next;
+      delete deleteNode;
+      deleteNode = nextNode;
+    }
+  }
 
-			while (deleteNode) {
-				if (deleteNode->child) {
-					clearChild(deleteNode->child);
-				}
-
-				nextNode = deleteNode->next;
-				delete deleteNode;
-				deleteNode = nextNode;
-			}
-		}
-
-		static void clearChild(NodeStruct* node) {
-			if (node->child) {
-				clearChild(node->child);
-			}
-
-			if (node->next) {
-				clearNext(node->next);
-			}
-
-			delete node;
-		}
+  static void clearChild(NodeStruct* node){
+    if(node->child){
+      clearChild(node->child);
+    }
+    if(node->next){
+      clearNext(node->next);
+    }
+    delete node;
+  }
 };
 
-static constexpr auto NO_NODE = nullptr;
-
-enum FILELOADER_ERRORS {
-	ERROR_NONE,
-	ERROR_INVALID_FILE_VERSION,
-	ERROR_CAN_NOT_OPEN,
-	ERROR_CAN_NOT_CREATE,
-	ERROR_EOF,
-	ERROR_SEEK_ERROR,
-	ERROR_NOT_OPEN,
-	ERROR_INVALID_NODE,
-	ERROR_INVALID_FORMAT,
-	ERROR_TELL_ERROR,
-	ERROR_COULDNOTWRITE,
-	ERROR_CACHE_ERROR,
+enum FILELOADER_ERRORS{
+  ERROR_NONE,
+  ERROR_INVALID_FILE_VERSION,
+  ERROR_CAN_NOT_OPEN,
+  ERROR_CAN_NOT_CREATE,
+  ERROR_EOF,
+  ERROR_SEEK_ERROR,
+  ERROR_NOT_OPEN,
+  ERROR_INVALID_NODE,
+  ERROR_INVALID_FORMAT,
+  ERROR_TELL_ERROR,
+  ERROR_COULDNOTWRITE,
+  ERROR_CACHE_ERROR
 };
 
-class PropStream;
+class FileLoader{
+public:
+  FileLoader();
+  virtual ~FileLoader();
 
-class FileLoader
-{
-	public:
-		FileLoader() = default;
-		~FileLoader();
+  bool openFile(const char* filename, bool write, bool caching = false);
+  const unsigned char* getProps(const NodeStruct* node, unsigned long &size);
+  bool getProps(const NodeStruct*, PropStream& props);
+  NodeStruct* getChildNode(const NodeStruct* parent, unsigned long &type);
+  NodeStruct* getNextNode(const NodeStruct* prev, unsigned long &type);
 
-		// non-copyable
-		FileLoader(const FileLoader&) = delete;
-		FileLoader& operator=(const FileLoader&) = delete;
+  void startNode(unsigned char type);
+  void endNode();
+  int setProps(void* data, unsigned short size);
 
-		bool openFile(const char* filename, const char* identifier);
-		const uint8_t* getProps(const NODE, size_t& size);
-		bool getProps(const NODE, PropStream& props);
-		NODE getChildNode(const NODE parent, uint32_t& type);
-		NODE getNextNode(const NODE prev, uint32_t& type);
+  int getError() const {return m_lastError;}
+  void clearError(){m_lastError = ERROR_NONE;}
 
-		FILELOADER_ERRORS getError() const {
-			return lastError;
-		}
+protected:
+  enum SPECIAL_BYTES{
+    NODE_START = 0xFE,
+    NODE_END = 0xFF,
+    ESCAPE_CHAR = 0xFD
+  };
 
-	protected:
-		enum SPECIAL_BYTES {
-			ESCAPE_CHAR = 0xFD,
-			NODE_START = 0xFE,
-			NODE_END = 0xFF,
-		};
+  bool parseNode(NodeStruct* node);
 
-		bool parseNode(NODE node);
+  inline bool readByte(int &value);
+  inline bool readBytes(unsigned char* buffer, unsigned int size, long pos);
+  inline bool checks(const NodeStruct* node);
+  inline bool safeSeek(unsigned long pos);
+  inline bool safeTell(long &pos);
 
-		inline bool readByte(int32_t& value);
-		inline bool readBytes(uint32_t size, int32_t pos);
-		inline bool safeSeek(uint32_t pos);
-		inline bool safeTell(int32_t& pos);
+public:
+  inline bool writeData(const void* data, int size, bool unescape){
+    for(int i = 0; i < size; ++i) {
+      unsigned char c = *(((unsigned char*)data) + i);
+      if(unescape && (c == NODE_START || c == NODE_END || c == ESCAPE_CHAR)) {
+        unsigned char escape = ESCAPE_CHAR;
+        size_t value = fwrite(&escape, 1, 1, m_file);
+        if(value != 1) {
+          m_lastError = ERROR_COULDNOTWRITE;
+          return false;
+        }
+      }
+      size_t value = fwrite(&c, 1, 1, m_file);
+      if(value != 1) {
+        m_lastError = ERROR_COULDNOTWRITE;
+        return false;
+      }
+    }
 
-	protected:
-		struct cache {
-			uint8_t* data;
-			uint32_t loaded;
-			uint32_t base;
-			uint32_t size;
-		};
+    return true;
+  }
+protected:
+  FILE* m_file;
+  FILELOADER_ERRORS m_lastError;
+  NodeStruct* m_root;
+  unsigned long m_buffer_size;
+  unsigned char* m_buffer;
 
-		static constexpr int32_t CACHE_BLOCKS = 3;
-		cache cached_data[CACHE_BLOCKS] = {};
-
-		uint8_t* buffer = new uint8_t[1024];
-		NODE root = nullptr;
-		FILE* file = nullptr;
-
-		FILELOADER_ERRORS lastError = ERROR_NONE;
-		uint32_t buffer_size = 1024;
-
-		uint32_t cache_size = 0;
-		static constexpr uint32_t NO_VALID_CACHE = std::numeric_limits<uint32_t>::max();
-		uint32_t cache_index = NO_VALID_CACHE;
-		uint32_t cache_offset = NO_VALID_CACHE;
-
-		inline uint32_t getCacheBlock(uint32_t pos);
-		int32_t loadCacheBlock(uint32_t pos);
+  bool m_use_cache;
+  struct _cache{
+    unsigned long loaded;
+    unsigned long base;
+    unsigned char* data;
+    size_t size;
+  };
+  #define CACHE_BLOCKS 3
+  unsigned long m_cache_size;
+  _cache m_cached_data[CACHE_BLOCKS];
+  #define NO_VALID_CACHE 0xFFFFFFFF
+  unsigned long m_cache_index;
+  unsigned long m_cache_offset;
+  inline unsigned long getCacheBlock(unsigned long pos);
+  long loadCacheBlock(unsigned long pos);
 };
 
-class PropStream
-{
-	public:
-		void init(const char* a, size_t size) {
-			p = a;
-			end = a + size;
-		}
+class PropStream{
+public:
+  PropStream(){end = NULL; p = NULL;}
+  ~PropStream(){};
 
-		size_t size() const {
-			return end - p;
-		}
+  void init(const char* a, unsigned long size){
+    p = a;
+    end = a + size;
+  }
 
-		template <typename T>
-		bool read(T& ret) {
-			if (size() < sizeof(T)) {
-				return false;
-			}
+  int64_t size() const {return end-p;}
 
-			memcpy(&ret, p, sizeof(T));
-			p += sizeof(T);
-			return true;
-		}
+  template <typename T>
+  inline bool GET_STRUCT(T* &ret){
+    if(size() < (long)sizeof(T)){
+      ret = NULL;
+      return false;
+    }
+    ret = (T*)p;
+    p = p + sizeof(T);
+    return true;
+  }
 
-		bool readString(std::string& ret) {
-			uint16_t strLen;
-			if (!read<uint16_t>(strLen)) {
-				return false;
-			}
+  template <typename T>
+  inline bool GET_VALUE(T &ret){
+    if(size() < (long)sizeof(T)){
+      return false;
+    }
+    ret = *((T*)p);
+    p = p + sizeof(T);
+    return true;
+  }
 
-			if (size() < strLen) {
-				return false;
-			}
+  inline bool GET_ULONG(uint32_t &ret){
+    return GET_VALUE(ret);
+  }
 
-			char* str = new char[strLen + 1];
-			memcpy(str, p, strLen);
-			str[strLen] = 0;
-			ret.assign(str, strLen);
-			delete[] str;
-			p += strLen;
-			return true;
-		}
+  inline bool GET_USHORT(uint16_t &ret){
+    return GET_VALUE(ret);
+  }
 
-		bool skip(size_t n) {
-			if (size() < n) {
-				return false;
-			}
+  inline bool GET_UCHAR(uint8_t &ret){
+    return GET_VALUE(ret);
+  }
 
-			p += n;
-			return true;
-		}
+  inline bool GET_STRING(std::string& ret){
+    char* str;
+    uint16_t str_len;
 
-	protected:
-		const char* p = nullptr;
-		const char* end = nullptr;
+    if(!GET_USHORT(str_len)){
+      return false;
+    }
+    if(size() < (int32_t)str_len){
+      return false;
+    }
+    str = new char[str_len+1];
+    memcpy(str, p, str_len);
+    str[str_len] = 0;
+    ret.assign(str, str_len);
+    delete[] str;
+    p = p + str_len;
+    return true;
+  }
+
+  inline bool GET_LSTRING(std::string& ret){
+    char* str;
+    uint32_t str_len;
+
+    if(!GET_ULONG(str_len)){
+      return false;
+    }
+    if(size() < (int32_t)str_len){
+      return false;
+    }
+    str = new char[str_len+1];
+    memcpy(str, p, str_len);
+    str[str_len] = 0;
+    ret.assign(str, str_len);
+    delete[] str;
+    p = p + str_len;
+    return true;
+  }
+
+  inline bool GET_NSTRING(unsigned short str_len, std::string& ret){
+    char* str;
+
+    if(size() < (int32_t)str_len){
+      return false;
+    }
+    str = new char[str_len+1];
+    memcpy(str, p, str_len);
+    str[str_len] = 0;
+    ret.assign(str, str_len); // String can contain 0s
+    delete[] str;
+    p = p + str_len;
+    return true;
+  }
+
+  inline bool SKIP_N(int32_t n){
+    if(size() < n){
+      return false;
+    }
+    p = p + n;
+    return true;
+  }
+
+
+protected:
+  const char* p;
+  const char* end;
 };
 
-class PropWriteStream
-{
-	public:
-		PropWriteStream() = default;
+class PropWriteStream{
+public:
+  PropWriteStream(){buffer = (char*)malloc(32*sizeof(char)); buffer_size = 32; size = 0; memset(buffer, 0, 32*sizeof(char));}
+  ~PropWriteStream(){free(buffer);}
 
-		// non-copyable
-		PropWriteStream(const PropWriteStream&) = delete;
-		PropWriteStream& operator=(const PropWriteStream&) = delete;
+  const char* getStream(uint32_t& _size) const{
+    _size = size;
+    return buffer;
+  }
 
-		const char* getStream(size_t& size) const {
-			size = buffer.size();
-			return buffer.data();
-		}
+  //TODO: might need temp buffer and zero fill the memory chunk allocated by realloc
+  template <typename T>
+  inline void ADD_TYPE(T* add){
+    if((buffer_size - size) < sizeof(T)){
+      buffer_size = buffer_size + ((sizeof(T) + 0x1F) & 0xFFFFFFE0);
+      buffer = (char*)realloc(buffer, buffer_size);
+    }
 
-		void clear() {
-			buffer.clear();
-		}
+    memcpy(&buffer[size], (char*)add, sizeof(T));
+    size = size + sizeof(T);
+  }
 
-		template <typename T>
-		void write(T add) {
-			char* addr = reinterpret_cast<char*>(&add);
-			std::copy(addr, addr + sizeof(T), std::back_inserter(buffer));
-		}
+  template <typename T>
+  inline void ADD_VALUE(T add){
+    if((buffer_size - size) < sizeof(T)){
+      buffer_size = buffer_size + ((sizeof(T) + 0x1F) & 0xFFFFFFE0);
+      buffer = (char*)realloc(buffer,buffer_size);
+    }
 
-		void writeString(const std::string& str) {
-			size_t strLength = str.size();
-			if (strLength > std::numeric_limits<uint16_t>::max()) {
-				write<uint16_t>(0);
-				return;
-			}
+    memcpy(&buffer[size], &add, sizeof(T));
+    size = size + sizeof(T);
+  }
 
-			write(static_cast<uint16_t>(strLength));
-			std::copy(str.begin(), str.end(), std::back_inserter(buffer));
-		}
+  inline void ADD_ULONG(uint32_t ret){
+    ADD_VALUE(ret);
+  }
 
-	protected:
-		std::vector<char> buffer;
+  inline void ADD_USHORT(uint16_t ret){
+    ADD_VALUE(ret);
+  }
+
+  inline void ADD_UCHAR(uint8_t ret){
+    ADD_VALUE(ret);
+  }
+
+  inline void ADD_STRING(const std::string& add){
+    uint16_t str_len = (uint16_t)add.size();
+
+    ADD_USHORT(str_len);
+
+    if((buffer_size - size) < str_len){
+      buffer_size = buffer_size + ((str_len + 0x1F) & 0xFFFFFFE0);
+      buffer = (char*)realloc(buffer, buffer_size);
+    }
+
+    memcpy(&buffer[size], add.c_str(), str_len);
+    size = size + str_len;
+  }
+
+  inline void ADD_LSTRING(const std::string& add){
+    uint32_t str_len = (uint32_t)add.size();
+
+    ADD_ULONG(str_len);
+
+    if((buffer_size - size) < str_len){
+      buffer_size = buffer_size + ((str_len + 0x1F) & 0xFFFFFFE0);
+      buffer = (char*)realloc(buffer, buffer_size);
+    }
+
+    memcpy(&buffer[size], add.c_str(), str_len);
+    size = size + str_len;
+  }
+
+protected:
+  char* buffer;
+  uint32_t buffer_size;
+  uint32_t size;
 };
 
 #endif

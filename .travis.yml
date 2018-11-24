@@ -1,23 +1,11 @@
-sudo: required
-dist: trusty
 language: cpp
 compiler:
-  - clang
   - gcc
-env:
-  - LUAJIT=OFF
-  - LUAJIT=ON
-cache: apt
-addons:
-  apt:
-    packages:
-      - libboost-dev
-      - libboost-system-dev
-      - liblua5.2-dev
-      - libluajit-5.1-dev
-      - libmysqlclient-dev
-      - libpugixml-dev
 before_script:
-  - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DUSE_LUAJIT=${LUAJIT} ..
-script: make -j8
+ - sudo apt-get install libgmp3-dev libboost-thread-dev libboost-regex-dev libboost-system-dev libboost-filesystem-dev liblua5.1-dev libxml2-dev libsqlite3-dev libmysqlclient-dev liblzma-dev zlib1g-dev libticonv-dev
+script: |
+  cmake -DCMAKE_BUILD_TYPE=Performance -DUSE_MYSQL=On -DUSE_SQLITE=On .
+  make
+notifications:
+  irc:
+#    - "irc.quakenet.org#otserv"

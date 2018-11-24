@@ -1,17 +1,104 @@
-forgottenserver [![Build Status](https://travis-ci.org/otland/forgottenserver.svg?branch=master)](https://travis-ci.org/otland/forgottenserver)
-===============
+# Open Tibia Server [![Build Status](https://travis-ci.org/opentibia/server.svg?branch=master)](https://travis-ci.org/opentibia/server)
 
-The Forgotten Server is a free and open-source MMORPG server emulator written in C++. It is a fork of the [OpenTibia Server](https://github.com/opentibia/server) project. To connect to the server, you can use [OTClient](https://github.com/edubart/otclient).
+OTServ is a free MMORPG emulation, that creates a own gameworld server,
+based on the CIPSoft's Tibia.
 
-### Getting Started
+This version of OpenTibia is based on the revscriptsys branch of OTServ,
+and is as such NOT backwards-compatible with old distributions like TFS or
+OTServ 0.6.3. This has been done to greatly enhance the scripting system,
+moving to a much more flexible and dynamic system that allows much more
+control.
 
-* [Compiling](https://github.com/otland/forgottenserver/wiki/Compiling), alternatively download [nightly builds for Windows](http://nightlies.otland.net/)
-* [Scripting Reference](https://github.com/otland/forgottenserver/wiki/Script-Interface)
+# How does it work?
 
-### Support
+This version of OTServ is targeted towards Tibia 8.7.
 
-If you need help, please visit the [support forum on OTLand](https://otland.net/forums/support.16/). Our issue tracker is not a support forum, and using it as one will result in your issue being closed. If you were unable to get assistance in the support forum, you should consider [becoming a premium user on OTLand](https://otland.net/account/upgrades) which grants you access to the premium support forum and supports OTLand financially.
+You have to execute some sql queries from schema.mysql, schema.pgsql or even schema.sqlite.
+And check it out. Once you are done, have a look around in the folders
+and take a look at the config.lua
 
-### Issues
+NEVER ever enter your real acc# and/or password when not connecting to the CIP servers.
+Then you are logged in.
 
-We use the [issue tracker on GitHub](https://github.com/otland/forgottenserver/issues). Keep in mind that everyone who is watching the repository gets notified by e-mail when there is activity, so be thoughtful and avoid writing comments that aren't meaningful for an issue (e.g. "+1"). If you'd like for an issue to be fixed faster, you should either fix it yourself and submit a pull request, or place a bounty on the issue.
+
+# Contributors
+
+- Project Admins
+
+    - iryont (inactive)
+    - marksamman (inactive)
+    - Remere / hjnilsson (inactive)
+
+
+- Inactive Developers
+
+    - assassina
+    - hackerpotato
+    - kilouco / aseverino
+    - SimOne / xeroc81
+    - Tliff
+    - Spin
+    - Shi'Voc
+    - Nostradamus
+    - rafaelhamdan
+    - Acrimon
+    - Haktivex
+    - Fandoras
+    - Reebow
+    - Privateer
+    - Aire
+    - Anstice
+    - Arkold Thos
+    - bruno
+    - Heliton
+    - Jiddo
+    - Winghawk
+    - Blackdemon
+    - FightingElf
+    - Gecko
+    - Pedro B.
+    - Matkus
+    - OsoSangre
+    - Smygflik
+    - Snack
+    - TiMMit
+    - Primer
+    - j4K3xBl4sT3r
+    - Wrzasq
+    - nfries88
+    - the fike
+    - Vitor
+    - Decar
+    - Torvik
+    - GriZzm0
+    - Stormer
+    - Mackan
+    - Tythor Zeth
+    - Tliff
+    - Yorick
+    - Pekay
+    - Nuker
+    - verkon
+    - Evo
+
+
+- Contributors
+
+adakraz, Bennet, Dored, Pietia10, Quintinon, Fusion666, Joffily, Ispiro, slawkens, Umby, Rogier1337, pajlada,
+Fernando Coutinho, Sapphire, Lithium, Proglin, LooS!k, Jason, nicaw, Xidaozu, The Chaos, Junkfood,
+Beet Da Brat, honux, Ruly, Steeled Blade, Xera, BurnMc, Cayan, BlackKnight, Thomac, mike2k1, SuperGillis,
+wik, Tijn, _X_Dead_X_, Skulldiggers, NeWsOfTzzz, kijano, Rex, DimiGhost, dark-bart, DeathClaw, Steelberg, Jero,
+TechnoPirate, Mozila, Thax, Ashganek, RicarDog, ZeroCoolz, K-Zodron, gerax, Urmel, Cip, wasabi, Jovial, Yurez,
+Rebell, Ilidian, blaxskull, dabobath, Mindrage, Eventide, MedionAktiver, Czepek, krt, mmb, Iyashii, Mazen, Figgi, 
+Rith, Rizz, Vinny, YobaK, Nexoz, Ferrus
+
+And special thanks to all otfans.net moderators.
+
+Note that only websites mentioned in this document are treated as official support of OTServ.
+
+No other websites are officialy affiliated with OTServ.
+
+# Anything else
+Yes! There are utilities available as a seperate projects under the opentibia organization
+
+This includes an IP changer, a remote administration tool, an item editor and more.

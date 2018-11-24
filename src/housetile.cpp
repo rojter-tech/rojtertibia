@@ -1,122 +1,130 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
-
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 #include "otpch.h"
 
 #include "housetile.h"
 #include "house.h"
+#include "player.h"
 #include "game.h"
 
 extern Game g_game;
 
-HouseTile::HouseTile(int32_t x, int32_t y, int32_t z, House* house) :
-	DynamicTile(x, y, z), house(house) {}
-
-void HouseTile::addThing(int32_t index, Thing* thing)
+HouseTile::HouseTile(uint16_t x, uint16_t y, uint16_t z, House* _house) :
+  IndexedTile(x, y, z)
 {
-	Tile::addThing(index, thing);
-
-	if (!thing->getParent()) {
-		return;
-	}
-
-	if (Item* item = thing->getItem()) {
-		updateHouse(item);
-	}
+  house = _house;
+  setFlag(TILEPROP_HOUSE_TILE);
 }
 
-void HouseTile::internalAddThing(uint32_t index, Thing* thing)
+HouseTile::~HouseTile()
 {
-	Tile::internalAddThing(index, thing);
+  //
+}
 
-	if (!thing->getParent()) {
-		return;
-	}
+void HouseTile::__addThing(Creature* actor, int32_t index, Thing* thing)
+{
+  Tile::__addThing(actor, index, thing);
 
-	if (Item* item = thing->getItem()) {
-		updateHouse(item);
-	}
+  if(Item* item = thing->getItem()){
+    updateHouse(item);
+  }
+}
+
+void HouseTile::__internalAddThing(uint32_t index, Thing* thing)
+{
+  Tile::__internalAddThing(index, thing);
+
+  if(Item* item = thing->getItem()){
+    updateHouse(item);
+  }
 }
 
 void HouseTile::updateHouse(Item* item)
 {
-	if (item->getParent() != this) {
-		return;
-	}
+  if(item->getParentTile() == this){
+    Door* door = item->getDoor();
+    if(door && door->getDoorId() != 0){
+      house->addDoor(door);
+    }
 
-	Door* door = item->getDoor();
-	if (door) {
-		if (door->getDoorId() != 0) {
-			house->addDoor(door);
-		}
-	} else {
-		BedItem* bed = item->getBed();
-		if (bed) {
-			house->addBed(bed);
-		}
-	}
+    //[ added for beds system
+    if(!door)
+    {
+      BedItem* bed = item->getBed();
+      if(bed)
+      {
+        // next, add it to the house
+        house->addBed(bed);
+      }
+    }
+    //]
+  }
 }
 
-ReturnValue HouseTile::queryAdd(int32_t index, const Thing& thing, uint32_t count, uint32_t flags, Creature* actor/* = nullptr*/) const
+ReturnValue HouseTile::__queryAdd(int32_t index, const Thing* thing, uint32_t count,
+  uint32_t flags) const
 {
-	if (const Creature* creature = thing.getCreature()) {
-		if (const Player* player = creature->getPlayer()) {
-			if (!house->isInvited(player)) {
-				return RETURNVALUE_PLAYERISNOTINVITED;
-			}
-		} else {
-			return RETURNVALUE_NOTPOSSIBLE;
-		}
-	} else if (thing.getItem() && actor) {
-		Player* actorPlayer = actor->getPlayer();
-		if (!house->isInvited(actorPlayer)) {
-			return RETURNVALUE_CANNOTTHROW;
-		}
-	}
-	return Tile::queryAdd(index, thing, count, flags, actor);
+  if(const Creature* creature = thing->getCreature()){
+    if(const Player* player = creature->getPlayer()){
+      if(!house->isInvited(player) && !player->hasFlag(PlayerFlag_CanEditHouses))
+        return RET_PLAYERISNOTINVITED;
+    }
+    else{
+      return RET_NOTPOSSIBLE;
+    }
+  }
+
+  return Tile::__queryAdd(index, thing, count, flags);
 }
 
-Tile* HouseTile::queryDestination(int32_t& index, const Thing& thing, Item** destItem, uint32_t& flags)
+Cylinder* HouseTile::__queryDestination(int32_t& index, const Thing* thing, Item** destItem,
+  uint32_t& flags)
 {
-	if (const Creature* creature = thing.getCreature()) {
-		if (const Player* player = creature->getPlayer()) {
-			if (!house->isInvited(player)) {
-				const Position& entryPos = house->getEntryPosition();
-				Tile* destTile = g_game.map.getTile(entryPos);
-				if (!destTile) {
-					std::cout << "Error: [HouseTile::queryDestination] House entry not correct"
-					          << " - Name: " << house->getName()
-					          << " - House id: " << house->getId()
-					          << " - Tile not found: " << entryPos << std::endl;
+  if(const Creature* creature = thing->getCreature()){
+    if(const Player* player = creature->getPlayer()){
+      if(!house->isInvited(player)){
+        const Position& entryPos = house->getEntryPosition();
+        Tile* destTile = g_game.getParentTile(entryPos.x, entryPos.y, entryPos.z);
+        
+        if(!destTile){
+#ifdef __DEBUG__
+          assert(destTile != NULL);
+#endif
+          std::cout << "Error: [HouseTile::__queryDestination] House entry not correct"
+            << " - Name: " << house->getName()
+            << " - House id: " << house->getHouseId()
+            << " - Tile not found: " << entryPos << std::endl;
+          
+          const Position& templePos = player->getTemplePosition();
+          destTile = g_game.getParentTile(templePos.x, templePos.y, templePos.z);
+          if(!destTile){
+            destTile = &(Tile::null_tile);
+          }
+        }
 
-					destTile = g_game.map.getTile(player->getTemplePosition());
-					if (!destTile) {
-						destTile = &(Tile::nullptr_tile);
-					}
-				}
+        index = -1;
+        *destItem = NULL;
+        return destTile;
+      }
+    }
+  }
 
-				index = -1;
-				*destItem = nullptr;
-				return destTile;
-			}
-		}
-	}
-
-	return Tile::queryDestination(index, thing, destItem, flags);
+  return Tile::__queryDestination(index, thing, destItem, flags);
 }

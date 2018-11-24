@@ -1,42 +1,83 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+// Base class for the map serialization
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_IOMAPSERIALIZE_H_7E903658F34E44F9BE03A713B55A3D6D
-#define FS_IOMAPSERIALIZE_H_7E903658F34E44F9BE03A713B55A3D6D
+#ifndef __OTSERV_IOMAPSERIALIZE_H__
+#define __OTSERV_IOMAPSERIALIZE_H__
 
-#include "database.h"
-#include "map.h"
+#include "classes.h"
+#include "database_driver.h"
 
-class IOMapSerialize
-{
-	public:
-		static void loadHouseItems(Map* map);
-		static bool saveHouseItems();
-		static bool loadHouseInfo();
-		static bool saveHouseInfo();
+class IOMapSerialize{
+public:
+  static IOMapSerialize* getInstance();
 
-	protected:
-		static void saveItem(PropWriteStream& stream, const Item* item);
-		static void saveTile(PropWriteStream& stream, const Tile* tile);
+  /** Load the map from a data storage
+    * \param map pointer to the Map class
+    * \return Returns true if the map was loaded successfully
+  */
+  bool loadMap(Map* map);
 
-		static bool loadContainer(PropStream& propStream, Container* container);
-		static bool loadItem(PropStream& propStream, Cylinder* parent);
+  /** Save the map to a data storage
+    * \param map pointer to the Map class
+    * \return Returns true if the map was saved successfully
+  */
+  bool saveMap(Map* map);
+
+  /** Synchronize the house information from the map
+    * \return Returns true if all houses where updated correctly
+  */
+  bool updateHouseInfo();
+
+  /** Checks if any house auctions has ended and update to the new owner
+    * \return Returns true if all houses where updated successfully
+  */
+  bool processHouseAuctions();
+
+  /** Load the house access list from a data storage
+    * \param map pointer to the Map class
+    * \return Returns true if the house access list was opened successfully
+  */
+  bool loadHouseInfo(Map* map);
+
+  /** Save the house access list to a data storage
+    * \param map pointer to the Map class
+    * \return Returns true if the house access list was saved successfully
+  */
+  bool saveHouseInfo(Map* map);
+
+protected:
+  // Relational storage uses a row for each item/tile
+  bool loadMapRelational(Map* map);
+  bool saveMapRelational(Map* map);
+
+  bool saveItems(DatabaseDriver* db, uint32_t houseId, const Tile* tile);
+  bool loadItems(DatabaseDriver* db, DBResult* result, Cylinder* parent, bool depotTransfer = false);
+
+  // Binary storage uses a giant BLOB field for storing everything
+  bool loadMapBinary(Map* map);
+  bool saveMapBinary(Map* map);
+
+  bool saveItem(PropWriteStream& stream, const Item* item);
+  bool saveTile(PropWriteStream& stream, const Tile* tile);
+  bool loadItem(PropStream& propStream, Cylinder* parent, bool depotTransfer = false);
+  bool loadContainer(PropStream& propStream, Container* container);
 };
 
 #endif

@@ -1,57 +1,60 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_WAITLIST_H_7E4299E552E44F10BC4F4E50BF3D7241
-#define FS_WAITLIST_H_7E4299E552E44F10BC4F4E50BF3D7241
+#ifndef __OTSERV_WAITLIST_H__
+#define __OTSERV_WAITLIST_H__
 
-#include "player.h"
+#include <string>
+#include <list>
+#include <stdint.h>
 
-struct Wait {
-	constexpr Wait(int64_t timeout, uint32_t playerGUID) :
-		timeout(timeout), playerGUID(playerGUID) {}
+class Player;
 
-	int64_t timeout;
-	uint32_t playerGUID;
+struct Wait{
+  uint32_t acc;
+  uint32_t ip;
+  std::string name;
+  bool premium;
+  int64_t timeout;
 };
 
-typedef std::list<Wait> WaitList;
+typedef std::list<Wait*> WaitList;
 typedef WaitList::iterator WaitListIterator;
 
 class WaitingList
 {
-	public:
-		static WaitingList* getInstance() {
-			static WaitingList waitingList;
-			return &waitingList;
-		}
+public:
+  ~WaitingList();
 
-		bool clientLogin(const Player* player);
-		uint32_t getClientSlot(const Player* player);
-		static uint32_t getTime(uint32_t slot);
+  static WaitingList* getInstance();
 
-	protected:
-		WaitList priorityWaitList;
-		WaitList waitList;
+  bool clientLogin(const Player* player);
+  int32_t getClientSlot(const Player* player);
+  static int32_t getTime(int32_t slot);
 
-		static uint32_t getTimeout(uint32_t slot);
-		WaitListIterator findClient(const Player* player, uint32_t& slot);
-		static void cleanupList(WaitList& list);
+protected:
+  WaitList priorityWaitList;
+  WaitList waitList;
+
+  int32_t getTimeOut(int32_t slot);
+  WaitListIterator findClient(const Player* player, uint32_t& slot);
+  void cleanUpList();
 };
-
 #endif

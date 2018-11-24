@@ -1,103 +1,111 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_SPAWN_H_1A86089E080846A9AE53ED12E7AE863B
-#define FS_SPAWN_H_1A86089E080846A9AE53ED12E7AE863B
+#ifndef __OTSERV_SPAWN_H__
+#define __OTSERV_SPAWN_H__
 
-#include "tile.h"
+#include <string>
+#include <list>
+#include <map>
+#include <stdint.h>
+#include "enums.h"
 #include "position.h"
 
-class Monster;
-class MonsterType;
-class Npc;
+// Forward declaration
+class CreatureType;
+class Spawn;
+class Actor;
 
-struct spawnBlock_t {
-	Position pos;
-	MonsterType* mType;
-	int64_t lastSpawn;
-	uint32_t interval;
-	Direction direction;
+typedef std::list<Spawn*> SpawnList;
+
+struct spawnBlock_t{
+  CreatureType* mType;
+  Direction direction;
+  Position pos;
+  uint32_t interval;
+  int64_t lastSpawn;
 };
 
-class Spawn
-{
-	public:
-		Spawn(Position pos, int32_t radius) : centerPos(std::move(pos)), radius(radius) {}
-		~Spawn();
+class Spawns{
+public:
+  Spawns();
+  ~Spawns();
 
-		// non-copyable
-		Spawn(const Spawn&) = delete;
-		Spawn& operator=(const Spawn&) = delete;
+  static Spawns* getInstance();
 
-		bool addMonster(const std::string& name, const Position& pos, Direction dir, uint32_t interval);
-		void removeMonster(Monster* monster);
+  bool isInZone(const Position& centerPos, int32_t radius, const Position& pos);
 
-		uint32_t getInterval() const {
-			return interval;
-		}
-		void startup();
+  bool loadFromXml(const std::string& datadir);
+  void startup();
+  void clear();
 
-		void startSpawnCheck();
-		void stopEvent();
+  bool isLoaded() const;
+  bool isStarted() const;
 
-		bool isInSpawnZone(const Position& pos);
-		void cleanup();
+private:
+  SpawnList spawnList;
 
-	private:
-		//map of the spawned creatures
-		typedef std::multimap<uint32_t, Monster*> SpawnedMap;
-		typedef SpawnedMap::value_type spawned_pair;
-		SpawnedMap spawnedMap;
-
-		//map of creatures in the spawn
-		std::map<uint32_t, spawnBlock_t> spawnMap;
-
-		Position centerPos;
-		int32_t radius;
-
-		uint32_t interval = 60000;
-		uint32_t checkSpawnEvent = 0;
-
-		static bool findPlayer(const Position& pos);
-		bool spawnMonster(uint32_t spawnId, MonsterType* mType, const Position& pos, Direction dir, bool startup = false);
-		void checkSpawn();
+  bool loaded;
+  bool started;
+  std::string filename;
 };
 
-class Spawns
-{
-	public:
-		static bool isInZone(const Position& centerPos, int32_t radius, const Position& pos);
+class Spawn{
+public:
+  Spawn(const Position& pos, int32_t radius);
+  ~Spawn();
 
-		bool loadFromXml(const std::string& filename);
-		void startup();
-		void clear();
+  bool addMonster(const std::string& name, const Position& pos, Direction dir, uint32_t interval);
+  bool addNPC(const std::string& name, const Position& pos, Direction dir);
+  void removeMonster(Actor* monster);
 
-		bool isStarted() const {
-			return started;
-		}
+  uint32_t getInterval() const;
+  void startup();
 
-	private:
-		std::forward_list<Npc*> npcList;
-		std::forward_list<Spawn> spawnList;
-		std::string filename;
-		bool loaded = false;
-		bool started = false;
+  void startSpawnCheck();
+  void stopEvent();
+
+  bool isInSpawnZone(const Position& pos);
+  void cleanup();
+
+private:
+  Position centerPos;
+  int32_t radius;
+  int32_t despawnRange;
+  int32_t despawnRadius;
+
+  //map of creatures in the spawn
+  typedef std::map<uint32_t, spawnBlock_t> SpawnMap;
+  SpawnMap spawnMap;
+
+  //map of the spawned creatures
+  typedef std::multimap<uint32_t, Actor*, std::less<uint32_t> > SpawnedMap;
+  typedef SpawnedMap::value_type spawned_pair;
+  SpawnedMap spawnedMap;
+
+  uint32_t interval;
+  uint32_t checkSpawnEvent;
+
+  bool findPlayer(const Position& pos);
+  bool spawnMonster(uint32_t spawnId, CreatureType* mType, const Position& pos, Direction dir, bool startup = false);
+  void checkSpawn();
 };
 
 #endif

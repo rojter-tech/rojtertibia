@@ -1,78 +1,77 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+// various definitions needed by most files
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_DEFINITIONS_H_877452FEC245450C9F96B8FD268D8963
-#define FS_DEFINITIONS_H_877452FEC245450C9F96B8FD268D8963
+#ifndef __OTSERV_DEFINITIONS_H__
+#define __OTSERV_DEFINITIONS_H__
 
-static constexpr auto STATUS_SERVER_NAME = "rOjter Tibia Server";
-static constexpr auto STATUS_SERVER_VERSION = "1.2";
-static constexpr auto STATUS_SERVER_DEVELOPERS = "Mark Samman, modified by rOjter";
 
-static constexpr auto CLIENT_VERSION_MIN = 1097;
-static constexpr auto CLIENT_VERSION_MAX = 1098;
-static constexpr auto CLIENT_VERSION_STR = "10.98";
+#define OTSERV_VERSION "0.7.0"
+#define OTSERV_NAME "OTServ"
+#define CURRENT_SCHEMA_VERSION 25
 
-static constexpr auto AUTHENTICATOR_DIGITS = 6U;
-static constexpr auto AUTHENTICATOR_PERIOD = 30U;
+#define CLIENT_VERSION_MIN 870
+#define CLIENT_VERSION_MAX 870
+#define CLIENT_VERSION_STRING "8.70"
 
-#ifndef __FUNCTION__
-#define __FUNCTION__ __func__
+#ifdef __USE_SQLITE__
+  #define SINGLE_SQL_DRIVER
 #endif
 
-#ifndef _USE_MATH_DEFINES
-#define _USE_MATH_DEFINES
+#ifdef __USE_MYSQL__
+  #ifdef SINGLE_SQL_DRIVER
+    #define MULTI_SQL_DRIVERS
+  #else
+    #define SINGLE_SQL_DRIVER
+  #endif
 #endif
 
-#include <cmath>
-
-#ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
+#ifdef __USE_ODBC__
+  #ifdef SINGLE_SQL_DRIVER
+    #define MULTI_SQL_DRIVERS
+  #else
+    #define SINGLE_SQL_DRIVER
+  #endif
 #endif
 
-#define WIN32_LEAN_AND_MEAN
-
-#ifdef _MSC_VER
-#ifdef NDEBUG
-#define _SECURE_SCL 0
-#define HAS_ITERATOR_DEBUGGING 0
+#ifdef __USE_PGSQL__
+  #ifdef SINGLE_SQL_DRIVER
+    #define MULTI_SQL_DRIVERS
+  #else
+    #define SINGLE_SQL_DRIVER
+  #endif
 #endif
 
-#pragma warning(disable:4127) // conditional expression is constant
-#pragma warning(disable:4244) // 'argument' : conversion from 'type1' to 'type2', possible loss of data
-#pragma warning(disable:4250) // 'class1' : inherits 'class2::member' via dominance
-#pragma warning(disable:4267) // 'var' : conversion from 'size_t' to 'type', possible loss of data
-#pragma warning(disable:4351) // new behavior: elements of array will be default initialized
-#pragma warning(disable:4458) // declaration hides class member
+//Default sql driver
+#if !defined(SINGLE_SQL_DRIVER) && !defined(MULTI_SQL_DRIVERS)
+  #define SINGLE_SQL_DRIVER
 #endif
 
-#define strcasecmp _stricmp
-#define strncasecmp _strnicmp
+enum passwordType_t{
+  PASSWORD_TYPE_PLAIN = 0,
+  PASSWORD_TYPE_MD5,
+  PASSWORD_TYPE_SHA1
+};
 
-#ifndef _WIN32_WINNT
-// 0x0602: Windows 7
-#define _WIN32_WINNT 0x0602
-#endif
-#endif
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
+// OpenTibia configuration
+#if !defined(__NO_SKULLSYSTEM__) && !defined(__SKULLSYSTEM__)
+  #define __SKULLSYSTEM__
 #endif
 
 #endif

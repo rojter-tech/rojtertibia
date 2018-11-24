@@ -1,204 +1,397 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
-
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 #include "otpch.h"
 
+#include <iostream>
 #include "configmanager.h"
-#include "game.h"
+#include "definitions.h"
 
-#if LUA_VERSION_NUM >= 502
-#undef lua_strlen
-#define lua_strlen lua_rawlen
-#endif
-
-extern Game g_game;
-
-bool ConfigManager::load()
+ConfigManager::ConfigManager()
 {
-	lua_State* L = luaL_newstate();
-	if (!L) {
-		throw std::runtime_error("Failed to allocate memory");
-	}
+  L = NULL;
 
-	luaL_openlibs(L);
+  m_isLoaded = false;
 
-	if (luaL_dofile(L, "config.lua")) {
-		std::cout << "[Error - ConfigManager::load] " << lua_tostring(L, -1) << std::endl;
-		lua_close(L);
-		return false;
-	}
+  m_confString[IP] = "";
+  m_confInteger[ADMIN_PORT] = 0;
+  m_confInteger[WORLD_ID] = 1;
+  m_confInteger[LOGIN_PORT] = 0;
+  m_confInteger[STATUS_PORT] = 0;
+}
 
-	//parse config
-	if (!loaded) { //info that must be loaded one time (unless we reset the modules involved)
-		boolean[BIND_ONLY_GLOBAL_ADDRESS] = getGlobalBoolean(L, "bindOnlyGlobalAddress", false);
-		boolean[OPTIMIZE_DATABASE] = getGlobalBoolean(L, "startupDatabaseOptimization", true);
+ConfigManager::~ConfigManager()
+{
+  //
+}
 
-		string[IP] = getGlobalString(L, "ip", "127.0.0.1");
-		string[MAP_NAME] = getGlobalString(L, "mapName", "forgotten");
-		string[MAP_AUTHOR] = getGlobalString(L, "mapAuthor", "Unknown");
-		string[HOUSE_RENT_PERIOD] = getGlobalString(L, "houseRentPeriod", "never");
-		string[MYSQL_HOST] = getGlobalString(L, "mysqlHost", "127.0.0.1");
-		string[MYSQL_USER] = getGlobalString(L, "mysqlUser", "forgottenserver");
-		string[MYSQL_PASS] = getGlobalString(L, "mysqlPass", "");
-		string[MYSQL_DB] = getGlobalString(L, "mysqlDatabase", "forgottenserver");
-		string[MYSQL_SOCK] = getGlobalString(L, "mysqlSock", "");
+bool ConfigManager::loadFile(const std::string& _filename)
+{
+  if(L)
+    lua_close(L);
 
-		integer[SQL_PORT] = getGlobalNumber(L, "mysqlPort", 3306);
-		integer[GAME_PORT] = getGlobalNumber(L, "gameProtocolPort", 7172);
-		integer[LOGIN_PORT] = getGlobalNumber(L, "loginProtocolPort", 7171);
-		integer[STATUS_PORT] = getGlobalNumber(L, "statusProtocolPort", 7171);
+  L = lua_open();
 
-		integer[MARKET_OFFER_DURATION] = getGlobalNumber(L, "marketOfferDuration", 30 * 24 * 60 * 60);
-	}
+  if(!L) return false;
 
-	boolean[ALLOW_CHANGEOUTFIT] = getGlobalBoolean(L, "allowChangeOutfit", true);
-	boolean[ONE_PLAYER_ON_ACCOUNT] = getGlobalBoolean(L, "onePlayerOnlinePerAccount", true);
-	boolean[AIMBOT_HOTKEY_ENABLED] = getGlobalBoolean(L, "hotkeyAimbotEnabled", true);
-	boolean[REMOVE_RUNE_CHARGES] = getGlobalBoolean(L, "removeChargesFromRunes", true);
-	boolean[EXPERIENCE_FROM_PLAYERS] = getGlobalBoolean(L, "experienceByKillingPlayers", false);
-	boolean[FREE_PREMIUM] = getGlobalBoolean(L, "freePremium", false);
-	boolean[REPLACE_KICK_ON_LOGIN] = getGlobalBoolean(L, "replaceKickOnLogin", true);
-	boolean[ALLOW_CLONES] = getGlobalBoolean(L, "allowClones", false);
-	boolean[MARKET_PREMIUM] = getGlobalBoolean(L, "premiumToCreateMarketOffer", true);
-	boolean[EMOTE_SPELLS] = getGlobalBoolean(L, "emoteSpells", false);
-	boolean[STAMINA_SYSTEM] = getGlobalBoolean(L, "staminaSystem", true);
-	boolean[WARN_UNSAFE_SCRIPTS] = getGlobalBoolean(L, "warnUnsafeScripts", true);
-	boolean[CONVERT_UNSAFE_SCRIPTS] = getGlobalBoolean(L, "convertUnsafeScripts", true);
-	boolean[CLASSIC_EQUIPMENT_SLOTS] = getGlobalBoolean(L, "classicEquipmentSlots", false);
+  if(luaL_dofile(L, _filename.c_str()))
+  {
+    lua_close(L);
+    L = NULL;
+    return false;
+  }
 
-	string[DEFAULT_PRIORITY] = getGlobalString(L, "defaultPriority", "high");
-	string[SERVER_NAME] = getGlobalString(L, "serverName", "");
-	string[OWNER_NAME] = getGlobalString(L, "ownerName", "");
-	string[OWNER_EMAIL] = getGlobalString(L, "ownerEmail", "");
-	string[URL] = getGlobalString(L, "url", "");
-	string[LOCATION] = getGlobalString(L, "location", "");
-	string[MOTD] = getGlobalString(L, "motd", "");
-	string[WORLD_TYPE] = getGlobalString(L, "worldType", "pvp");
+  // parse config
+  if(!m_isLoaded) // info that must be loaded one time (unless we reset the modules involved)
+  {
+    m_confString[CONFIG_FILE] = _filename;
 
-	integer[MAX_PLAYERS] = getGlobalNumber(L, "maxPlayers");
-	integer[PZ_LOCKED] = getGlobalNumber(L, "pzLocked", 60000);
-	integer[DEFAULT_DESPAWNRANGE] = getGlobalNumber(L, "deSpawnRange", 2);
-	integer[DEFAULT_DESPAWNRADIUS] = getGlobalNumber(L, "deSpawnRadius", 50);
-	integer[RATE_EXPERIENCE] = getGlobalNumber(L, "rateExp", 5);
-	integer[RATE_SKILL] = getGlobalNumber(L, "rateSkill", 3);
-	integer[RATE_LOOT] = getGlobalNumber(L, "rateLoot", 2);
-	integer[RATE_MAGIC] = getGlobalNumber(L, "rateMagic", 3);
-	integer[RATE_SPAWN] = getGlobalNumber(L, "rateSpawn", 1);
-	integer[HOUSE_PRICE] = getGlobalNumber(L, "housePriceEachSQM", 1000);
-	integer[KILLS_TO_RED] = getGlobalNumber(L, "killsToRedSkull", 3);
-	integer[KILLS_TO_BLACK] = getGlobalNumber(L, "killsToBlackSkull", 6);
-	integer[ACTIONS_DELAY_INTERVAL] = getGlobalNumber(L, "timeBetweenActions", 200);
-	integer[EX_ACTIONS_DELAY_INTERVAL] = getGlobalNumber(L, "timeBetweenExActions", 1000);
-	integer[MAX_MESSAGEBUFFER] = getGlobalNumber(L, "maxMessageBuffer", 4);
-	integer[KICK_AFTER_MINUTES] = getGlobalNumber(L, "kickIdlePlayerAfterMinutes", 15);
-	integer[PROTECTION_LEVEL] = getGlobalNumber(L, "protectionLevel", 1);
-	integer[DEATH_LOSE_PERCENT] = getGlobalNumber(L, "deathLosePercent", -1);
-	integer[STATUSQUERY_TIMEOUT] = getGlobalNumber(L, "statusTimeout", 5000);
-	integer[FRAG_TIME] = getGlobalNumber(L, "timeToDecreaseFrags", 24 * 60 * 60 * 1000);
-	integer[WHITE_SKULL_TIME] = getGlobalNumber(L, "whiteSkullTime", 15 * 60 * 1000);
-	integer[STAIRHOP_DELAY] = getGlobalNumber(L, "stairJumpExhaustion", 2000);
-	integer[EXP_FROM_PLAYERS_LEVEL_RANGE] = getGlobalNumber(L, "expFromPlayersLevelRange", 75);
-	integer[CHECK_EXPIRED_MARKET_OFFERS_EACH_MINUTES] = getGlobalNumber(L, "checkExpiredMarketOffersEachMinutes", 60);
-	integer[MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER] = getGlobalNumber(L, "maxMarketOffersAtATimePerPlayer", 100);
-	integer[MAX_PACKETS_PER_SECOND] = getGlobalNumber(L, "maxPacketsPerSecond", 25);
+    // These settings might have been set from command line
+    if(m_confString[IP] == "")
+      m_confString[IP] = getGlobalString(L, "server_ip", "127.0.0.1");
+    if(m_confInteger[WORLD_ID] == 0)
+      m_confInteger[WORLD_ID] = getGlobalNumber(L, "world_id");
+    if(m_confInteger[ADMIN_PORT] == 0)
+      m_confInteger[ADMIN_PORT] = getGlobalNumber(L, "admin_port");
+    if(m_confInteger[LOGIN_PORT] == 0)
+      m_confInteger[LOGIN_PORT] = getGlobalNumber(L, "login_port");
+    if(m_confInteger[STATUS_PORT] == 0)
+      m_confInteger[STATUS_PORT] = getGlobalNumber(L, "status_port");
 
-	loaded = true;
-	lua_close(L);
-	return true;
+#if defined __CONFIG_V2__
+    unsigned int pos = _filename.rfind("/");
+    std::string configPath = "";
+    if(pos != std::string::npos)
+      configPath = _filename.substr(0, pos+1);
+
+    m_confString[DATA_DIRECTORY] = configPath + getGlobalString(L, "data_directory", "data/");
+    m_confString[MAP_FILE] = m_confString[DATA_DIRECTORY] + getGlobalString(L, "map_file");
+#else
+    m_confString[DATA_DIRECTORY] = getGlobalString(L, "data_directory");
+    m_confString[MAP_FILE] = getGlobalString(L, "map_file");
+#endif
+    m_confString[HOUSE_RENT_PERIOD] = getGlobalString(L, "house_rent_period", "monthly");
+    if(getGlobalString(L, "md5passwords") != ""){
+      std::cout << "Warning: [ConfigManager] md5passwords is deprecated. Use passwordtype instead." << std::endl;
+    }
+    m_confString[PASSWORD_TYPE_STR] = getGlobalString(L, "password_type");
+    m_confString[PASSWORD_SALT] = getGlobalString(L, "password_salt", "");
+    m_confString[WORLD_TYPE] = getGlobalString(L, "game_world_type");
+    m_confString[SQL_HOST] = getGlobalString(L, "database_host");
+    m_confString[SQL_USER] = getGlobalString(L, "database_username");
+    m_confString[SQL_PASS] = getGlobalString(L, "database_password");
+    m_confString[SQL_DB] = getGlobalString(L, "database_schema");
+    m_confString[SQL_TYPE] = getGlobalString(L, "database_type", "sqlite");
+    m_confInteger[SQL_PORT] = getGlobalNumber(L, "database_port");
+  }
+
+  m_confString[LOGIN_MSG] = getGlobalString(L, "loginmsg", "Welcome.");
+  m_confString[SERVER_NAME] = getGlobalString(L, "servername");
+  m_confString[OWNER_NAME] = getGlobalString(L, "ownername");
+  m_confString[OWNER_EMAIL] = getGlobalString(L, "owneremail");
+  m_confString[URL] = getGlobalString(L, "url");
+  m_confString[LOCATION] = getGlobalString(L, "location");
+  m_confString[MAP_STORAGE_TYPE] = getGlobalString(L, "map_store_type", "relational");
+  m_confInteger[LOGIN_TRIES] = getGlobalNumber(L, "maximum_login_tries", 5);
+  m_confInteger[RETRY_TIMEOUT] = getGlobalNumber(L, "login_retry_timeout", 30 * 1000);
+  m_confInteger[LOGIN_TIMEOUT] = getGlobalNumber(L, "login_unlock_timeout", 5 * 1000);
+  m_confString[MOTD] = getGlobalString(L, "message_of_the_day");
+  m_confInteger[MOTD_NUM] = getGlobalNumber(L, "message_of_the_day_number");
+  m_confInteger[MAX_PLAYERS] = getGlobalNumber(L, "maximum_players");
+  m_confInteger[EXHAUSTED] = getGlobalNumber(L, "yell_exhausted", 1000);
+  m_confInteger[EXHAUSTED_ADD] = getGlobalNumber(L, "exhausted_add", 200);
+  m_confInteger[COMBAT_EXHAUSTED] = getGlobalNumber(L, "fight_exhausted", 2000);
+  m_confInteger[HEAL_EXHAUSTED] = getGlobalNumber(L, "heal_exhausted", 1000);
+  m_confInteger[STAIRHOP_EXHAUSTED] = getGlobalNumber(L, "stairhop_exhausted", 2*1000);
+  m_confInteger[IN_FIGHT_DURATION] = getGlobalNumber(L, "in_fight_duration", 60 * 1000);
+  m_confInteger[HUNTING_KILL_DURATION] = getGlobalNumber(L, "hunting_kill_duration", 60 * 1000);
+  m_confInteger[FIELD_OWNERSHIP_DURATION] = getGlobalNumber(L, "field_ownership_duration", 5 * 1000);
+  m_confInteger[MIN_ACTIONTIME] = getGlobalNumber(L, "minimum_action_interval", 200);
+  m_confInteger[MIN_ACTIONEXTIME] = getGlobalNumber(L, "minimum_extended_action_interval", 1000);
+  m_confInteger[DEFAULT_DESPAWNRANGE] = getGlobalNumber(L, "monster_despawn_range", 2);
+  m_confInteger[DEFAULT_DESPAWNRADIUS] = getGlobalNumber(L, "monster_despawn_radius", 50);
+  m_confInteger[ALLOW_CLONES] = getGlobalBoolean(L, "allow_character_clones", false);
+  m_confInteger[PARTY_MEMBER_EXP_BONUS] = getGlobalNumber(L, "party_experience_multiplier", 5);
+  m_confInteger[RATE_EXPERIENCE] = getGlobalNumber(L, "rate_experience", 1);
+  m_confInteger[RATE_SKILL] = getGlobalNumber(L, "rate_skill", 1);
+  m_confInteger[RATE_LOOT] = getGlobalNumber(L, "rate_monster_loot", 1);
+  m_confInteger[RATE_MAGIC] = getGlobalNumber(L, "rate_magic_level", 1);
+  m_confInteger[RATE_SPAWN] = getGlobalNumber(L, "rate_monster_spawn", 1);
+  m_confInteger[RATE_STAMINA_LOSS] = getGlobalNumber(L, "rate_stamina_loss", 1);
+  m_confInteger[RATE_STAMINA_GAIN] = getGlobalNumber(L, "rate_stamina_gain", 334);
+  m_confInteger[SLOW_RATE_STAMINA_GAIN] = getGlobalNumber(L, "rate_stamina_gain_slow", 84);
+  m_confInteger[STAMINA_EXTRA_EXPERIENCE_DURATION] = getGlobalNumber(L, "stamina_extra_experience_duration", 60 * 60 * 1000);
+  m_confInteger[STAMINA_EXTRA_EXPERIENCE_ONLYPREM] = getGlobalBoolean(L, "stamina_extra_experience_onlyprem", true);
+  m_confFloat[STAMINA_EXTRA_EXPERIENCE_RATE] = getGlobalFloat(L, "stamina_extra_experience_rate", 0.5);
+  m_confInteger[HOTKEYS] = getGlobalBoolean(L, "enable_hotkeys", false);
+  m_confInteger[MAX_MESSAGEBUFFER] = getGlobalNumber(L, "maximum_message_buffer", 4);
+  m_confInteger[SAVE_CLIENT_DEBUG_ASSERTIONS] = getGlobalBoolean(L, "save_client_debug", true);
+  m_confInteger[CHECK_ACCOUNTS] = getGlobalBoolean(L, "one_player_per_account", true);
+  m_confInteger[USE_ACCBALANCE] = getGlobalBoolean(L, "use_account_balance", true);
+  m_confInteger[PREMIUM_ONLY_BEDS] = getGlobalBoolean(L, "bed_only_premium", true);
+  m_confInteger[UNJUST_SKULL_DURATION] = getGlobalNumber(L, "unjust_skull_duration", 15*60*1000);
+  m_confInteger[KILLS_PER_DAY_RED_SKULL] = getGlobalNumber(L, "kills_per_day_red_skull", 3);
+  m_confInteger[KILLS_PER_WEEK_RED_SKULL] = getGlobalNumber(L, "kills_per_week_red_skull", 5);
+  m_confInteger[KILLS_PER_MONTH_RED_SKULL] = getGlobalNumber(L, "kills_per_month_red_skull", 10);
+  m_confInteger[KILLS_PER_DAY_BLACK_SKULL] = getGlobalNumber(L, "kills_per_day_black_skull", 6);
+  m_confInteger[KILLS_PER_WEEK_BLACK_SKULL] = getGlobalNumber(L, "kills_per_week_black_skull", 10);
+  m_confInteger[KILLS_PER_MONTH_BLACK_SKULL] = getGlobalNumber(L, "kills_per_month_black_skull", 20);
+  m_confInteger[RED_SKULL_DURATION] = getGlobalNumber(L, "red_skull_duration", 30*24*60*60);
+  m_confInteger[BLACK_SKULL_DURATION] = getGlobalNumber(L, "black_skull_duration", 45*24*60*60);
+  m_confInteger[REMOVE_AMMUNITION] = getGlobalBoolean(L, "remove_ammunition", true);
+  m_confInteger[REMOVE_RUNE_CHARGES] = getGlobalBoolean(L, "remove_rune_charges", true);
+  m_confInteger[REMOVE_WEAPON_CHARGES] = getGlobalBoolean(L, "remove_weapon_charges", true);
+  m_confInteger[MAXIMUM_SCRIPT_RECURSION_DEPTH] = getGlobalNumber(L, "script_recursion_depth", 16);
+  m_confInteger[DETAIL_SCRIPT_ERRORS] = getGlobalBoolean(L, "detailed_script_errors", false);
+  m_confInteger[LOGIN_ATTACK_DELAY] = getGlobalNumber(L, "login_attack_delay", 10*1000);
+  m_confInteger[SHOW_CRASH_WINDOW] = getGlobalBoolean(L, "show_crash_window", true);
+  m_confInteger[IDLE_TIME] = getGlobalNumber(L, "maximum_idle_time", 16*60*1000);
+  m_confInteger[IDLE_TIME_WARNING] = getGlobalNumber(L, "maximum_idle_time_warning", 15*60*1000);
+  m_confInteger[ATTACK_SPEED] = getGlobalNumber(L, "attack_speed", 2000);
+  m_confInteger[HOUSE_ONLY_PREMIUM] = getGlobalBoolean(L, "house_only_premium", true);
+  m_confInteger[HOUSE_LEVEL] = getGlobalNumber(L, "house_level", 1);
+  m_confInteger[HOUSE_TILE_PRICE] = getGlobalNumber(L, "house_tile_price", 100);
+  m_confInteger[SHOW_HOUSE_PRICES] = getGlobalBoolean(L, "show_house_prices", false);
+  m_confInteger[BROADCAST_BANISHMENTS] = getGlobalBoolean(L, "broadcast_banishments", false);
+  m_confInteger[NOTATIONS_TO_BAN] = getGlobalNumber(L, "notations_to_banishment", 3);
+  m_confInteger[WARNINGS_TO_FINALBAN] = getGlobalNumber(L, "warnings_to_final_banishment", 4);
+  m_confInteger[WARNINGS_TO_DELETION] = getGlobalNumber(L, "warnings_to_deletion", 5);
+  m_confInteger[BAN_LENGTH] = getGlobalNumber(L, "banishment_length", 7 * 86400);
+  m_confInteger[FINALBAN_LENGTH] = getGlobalNumber(L, "final_banishment_length", 30 * 86400);
+  m_confInteger[IPBANISHMENT_LENGTH] = getGlobalNumber(L, "ip_banishment_length", 86400);
+  m_confInteger[ALLOW_GAMEMASTER_MULTICLIENT] = getGlobalBoolean(L, "allow_gamemaster_multiclient", false);
+  m_confInteger[DEATH_ASSIST_COUNT] = getGlobalNumber(L, "death_assist_count", 1);
+  m_confInteger[DEFENSIVE_PZ_LOCK] = getGlobalBoolean(L, "defensive_pz_lock", false);
+  m_confInteger[NPC_MAX_NONESTACKABLE_SELL_AMOUNT] = getGlobalNumber(L, "npc_maximum_nonestackable_sell_amount", 100);
+  m_confInteger[DISTANCE_WEAPON_INTERRUPT_SWING] = getGlobalBoolean(L, "distance_weapon_interrupt_swing", true);
+  m_confInteger[RATES_FOR_PLAYER_KILLING] = getGlobalBoolean(L, "rates_for_player_killing", false);
+  m_confInteger[RATE_EXPERIENCE_PVP] = getGlobalNumber(L, "rate_experience_pvp", 1);
+  m_confInteger[ADDONS_ONLY_FOR_PREMIUM] = getGlobalBoolean(L, "addons_only_for_premium", true);
+
+  m_confInteger[PASSWORD_TYPE] = PASSWORD_TYPE_PLAIN;
+  m_confInteger[STATUSQUERY_TIMEOUT] = getGlobalNumber(L, "status_information_timeout", 30 * 1000);
+
+  m_isLoaded = true;
+  return true;
 }
 
 bool ConfigManager::reload()
 {
-	bool result = load();
-	if (transformToSHA1(getString(ConfigManager::MOTD)) != g_game.getMotdHash()) {
-		g_game.incrementMotdNum();
-	}
-	return result;
+  if(!m_isLoaded)
+    return false;
+
+  return loadFile(m_confString[CONFIG_FILE]);
 }
 
-const std::string& ConfigManager::getString(string_config_t what) const
+const std::string& ConfigManager::getString(uint32_t _what) const
 {
-	if (what >= LAST_STRING_CONFIG) {
-		std::cout << "[Warning - ConfigManager::getString] Accessing invalid index: " << what << std::endl;
-		return string[DUMMY_STR];
-	}
-	return string[what];
+  if(m_isLoaded && _what < LAST_STRING_CONFIG){
+    return m_confString[_what];
+  }
+  else{
+    std::cout << "Warning: [ConfigManager::getString] " << _what << std::endl;
+    return m_confString[DUMMY_STR];
+  }
 }
 
-int32_t ConfigManager::getNumber(integer_config_t what) const
+int64_t ConfigManager::getNumber(uint32_t _what) const
 {
-	if (what >= LAST_INTEGER_CONFIG) {
-		std::cout << "[Warning - ConfigManager::getNumber] Accessing invalid index: " << what << std::endl;
-		return 0;
-	}
-	return integer[what];
+  if(m_isLoaded && _what < LAST_INTEGER_CONFIG){
+    return m_confInteger[_what];
+  }
+  else{
+    std::cout << "Warning: [ConfigManager::getNumber] " << _what << std::endl;
+    return 0;
+  }
 }
 
-bool ConfigManager::getBoolean(boolean_config_t what) const
+double ConfigManager::getFloat(uint32_t _what) const
 {
-	if (what >= LAST_BOOLEAN_CONFIG) {
-		std::cout << "[Warning - ConfigManager::getBoolean] Accessing invalid index: " << what << std::endl;
-		return false;
-	}
-	return boolean[what];
+  if(m_isLoaded && _what < LAST_FLOAT_CONFIG){
+    return m_confFloat[_what];
+  }
+  else{
+    std::cout << "Warning: [ConfigManager::getFloat] " << _what << std::endl;
+    return 0;
+  }
 }
 
-std::string ConfigManager::getGlobalString(lua_State* L, const char* identifier, const char* defaultValue)
+bool ConfigManager::setNumber(uint32_t _what, int64_t _value)
 {
-	lua_getglobal(L, identifier);
-	if (!lua_isstring(L, -1)) {
-		return defaultValue;
-	}
-
-	size_t len = lua_strlen(L, -1);
-	std::string ret(lua_tostring(L, -1), len);
-	lua_pop(L, 1);
-	return ret;
+  if(_what < LAST_INTEGER_CONFIG){
+    m_confInteger[_what] = _value;
+    return true;
+  }
+  else{
+    std::cout << "Warning: [ConfigManager::setNumber] " << _what << std::endl;
+    return false;
+  }
 }
 
-int32_t ConfigManager::getGlobalNumber(lua_State* L, const char* identifier, const int32_t defaultValue)
+std::vector<std::string> ConfigManager::getIPServerList()
 {
-	lua_getglobal(L, identifier);
-	if (!lua_isnumber(L, -1)) {
-		return defaultValue;
-	}
+  lua_getglobal(L, "ip_server_list");
 
-	int32_t val = lua_tonumber(L, -1);
-	lua_pop(L, 1);
-	return val;
+  if(!lua_istable(L, -1))
+    return std::vector<std::string>();
+
+  std::vector<std::string> servers;
+
+  lua_pushnil(L);
+  while (lua_next(L, -2)){
+    std::string s(lua_tostring(L, -1), lua_strlen(L, -1));
+    servers.push_back(s);
+    lua_pop(L, 1);
+  }
+  lua_pop(L, 1);
+
+  return servers;
 }
 
-bool ConfigManager::getGlobalBoolean(lua_State* L, const char* identifier, const bool defaultValue)
+bool ConfigManager::setString(uint32_t _what, const std::string& _value)
 {
-	lua_getglobal(L, identifier);
-	if (!lua_isboolean(L, -1)) {
-		if (!lua_isstring(L, -1)) {
-			return defaultValue;
-		}
+  if(_what < LAST_STRING_CONFIG){
+    m_confString[_what] = _value;
+    return true;
+  }
+  else{
+    std::cout << "Warning: [ConfigManager::setString] " << _what << std::endl;
+    return false;
+  }
+}
 
-		size_t len = lua_strlen(L, -1);
-		std::string ret(lua_tostring(L, -1), len);
-		lua_pop(L, 1);
-		return booleanString(ret);
-	}
+std::string ConfigManager::getGlobalString(lua_State* _L, const std::string& _identifier, const std::string& _default) const
+{
+  lua_getglobal(_L, _identifier.c_str());
 
-	int val = lua_toboolean(L, -1);
-	lua_pop(L, 1);
-	return val != 0;
+  if(!lua_isstring(_L, -1)){
+    lua_pop(_L, 1);
+    return _default;
+  }
+
+  int len = (int)lua_strlen(_L, -1);
+  std::string ret(lua_tostring(_L, -1), len);
+  lua_pop(_L,1);
+
+  return ret;
+}
+
+int64_t ConfigManager::getGlobalNumber(lua_State* _L, const std::string& _identifier, int64_t _default) const
+{
+  lua_getglobal(_L, _identifier.c_str());
+
+  if(!lua_isnumber(_L, -1)){
+    lua_pop(_L, 1);
+    return _default;
+  }
+
+  int64_t val = (int64_t)lua_tonumber(_L, -1);
+  lua_pop(_L,1);
+
+  return val;
+}
+
+double ConfigManager::getGlobalFloat(lua_State* _L, const std::string& _identifier, double _default) const
+{
+  lua_getglobal(_L, _identifier.c_str());
+
+  if(!lua_isnumber(_L, -1)){
+    lua_pop(_L, 1);
+    return _default;
+  }
+
+  double val = lua_tonumber(_L, -1);
+  lua_pop(_L,1);
+
+  return val;
+}
+
+bool ConfigManager::getGlobalBoolean(lua_State* _L, const std::string& _identifier, bool _default) const
+{
+  lua_getglobal(_L, _identifier.c_str());
+
+  if(lua_isnumber(_L, -1)){
+    int val = (int)lua_tonumber(_L, -1);
+    lua_pop(_L, 1);
+    return val != 0;
+  }
+  else if(lua_isstring(_L, -1)){
+    std::string val = lua_tostring(_L, -1);
+    lua_pop(_L, 1);
+    return val == "yes";
+  }
+  else if(lua_isboolean(_L, -1)){
+    bool v = lua_toboolean(_L, -1) != 0;
+    lua_pop(_L, 1);
+    return v;
+  }
+
+  return _default;
+}
+
+void ConfigManager::getConfigValue(const std::string& key, lua_State* toL)
+{
+  lua_getglobal(L, key.c_str());
+  moveValue(L, toL);
+}
+
+void ConfigManager::moveValue(lua_State* from, lua_State* to)
+{
+  switch(lua_type(from, -1)){
+    case LUA_TNIL:
+      lua_pushnil(to);
+      break;
+    case LUA_TBOOLEAN:
+      lua_pushboolean(to, lua_toboolean(from, -1));
+      break;
+    case LUA_TNUMBER:
+      lua_pushnumber(to, lua_tonumber(from, -1));
+      break;
+    case LUA_TSTRING:
+    {
+      size_t len;
+      const char* str = lua_tolstring(from, -1, &len);
+      lua_pushlstring(to, str, len);
+    }
+      break;
+    case LUA_TTABLE:
+      lua_newtable(to);
+
+      lua_pushnil(from); // First key
+      while(lua_next(from, -2)){
+        // Move value to the other state
+        moveValue(from, to);
+        // Value is popped, key is left
+
+        // Move key to the other state
+        lua_pushvalue(from, -1); // Make a copy of the key to use for the next iteration
+        moveValue(from, to);
+        // Key is in other state.
+        // We still have the key in the 'from' state ontop of the stack
+
+        lua_insert(to, -2); // Move key above value
+        lua_settable(to, -3); // Set the key
+      }
+      break;
+    default:
+      break;
+  }
+  // Pop the value we just read
+  lua_pop(from, 1);
 }

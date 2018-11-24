@@ -1,108 +1,173 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_OUTPUTMESSAGE_H_C06AAED85C7A43939F22D229297C0CC1
-#define FS_OUTPUTMESSAGE_H_C06AAED85C7A43939F22D229297C0CC1
+#ifndef __OTSERV_OUTPUTMESSAGE_H__
+#define __OTSERV_OUTPUTMESSAGE_H__
 
+#include <cstddef>
+#include <list>
+#include <stdint.h>
+#include <boost/thread/recursive_mutex.hpp>
 #include "networkmessage.h"
-#include "connection.h"
-#include "tools.h"
 
+class Connection;
 class Protocol;
 
-class OutputMessage : public NetworkMessage
+typedef boost::shared_ptr<Connection> Connection_ptr;
+
+#define OUTPUT_POOL_SIZE 100
+
+class OutputMessage : public NetworkMessage, boost::noncopyable
 {
-	public:
-		OutputMessage() = default;
+  friend class OutputMessagePool;
 
-		// non-copyable
-		OutputMessage(const OutputMessage&) = delete;
-		OutputMessage& operator=(const OutputMessage&) = delete;
+  OutputMessage();
 
-		uint8_t* getOutputBuffer() {
-			return buffer + outputBufferStart;
-		}
+public:
+  ~OutputMessage();
 
-		void writeMessageLength() {
-			add_header(info.length);
-		}
+  char* getOutputBuffer();
+  void writeMessageLength();
+  void addCryptoHeader(bool addChecksum);
 
-		void addCryptoHeader(bool addChecksum) {
-			if (addChecksum) {
-				add_header(adlerChecksum(buffer + outputBufferStart, info.length));
-			}
+  enum OutputMessageState{
+    STATE_FREE,
+    STATE_ALLOCATED,
+    STATE_ALLOCATED_NO_AUTOSEND,
+    STATE_WAITING
+  };
 
-			writeMessageLength();
-		}
+  Protocol* getProtocol();
+  Connection_ptr getConnection();
+  uint64_t getFrame() const;
 
-		inline void append(const NetworkMessage& msg) {
-			auto msgLen = msg.getLength();
-			memcpy(buffer + info.position, msg.getBuffer() + 8, msgLen);
-			info.length += msgLen;
-			info.position += msgLen;
-		}
+#ifdef __TRACK_NETWORK__
+  virtual void Track(std::string file, long line, std::string func)
+  {
+    if(last_uses.size() >= 25) {
+      last_uses.pop_front();
+    }
+    std::ostringstream os;
+    os << /*file << ":"*/ "line " << line << " " << func;
+    last_uses.push_back(os.str());
+  }
 
-		inline void append(const OutputMessage_ptr& msg) {
-			auto msgLen = msg->getLength();
-			memcpy(buffer + info.position, msg->getBuffer() + 8, msgLen);
-			info.length += msgLen;
-			info.position += msgLen;
-		}
+  virtual void clearTrack()
+  {
+    last_uses.clear();
+  }
 
-	protected:
-		template <typename T>
-		inline void add_header(T add) {
-			assert(outputBufferStart >= sizeof(T));
-			outputBufferStart -= sizeof(T);
-			memcpy(buffer + outputBufferStart, &add, sizeof(T));
-			//added header size to the message size
-			info.length += sizeof(T);
-		}
+  void PrintTrace()
+  {
+    int n = 1;
+    for(std::list<std::string>::const_reverse_iterator iter = last_uses.rbegin(); iter != last_uses.rend(); ++iter, ++n) {
+      std::cout << "\t" << n << ".\t" << *iter << std::endl;
+    }
+  }
+#endif
 
-		MsgSize_t outputBufferStart = INITIAL_BUFFER_POSITION;
+protected:
+
+#ifdef __TRACK_NETWORK__
+  std::list<std::string> last_uses;
+#endif
+
+  template <typename T>
+  inline void add_header(T add){
+    if((int32_t)m_outputBufferStart - (int32_t)sizeof(T) < 0){
+      std::cout << "Error: [OutputMessage::add_header] m_outputBufferStart(" << m_outputBufferStart <<
+          ") < " << sizeof(T) << std::endl;
+      return;
+    }
+    m_outputBufferStart = m_outputBufferStart - sizeof(T);
+    *(T*)(m_MsgBuf + m_outputBufferStart) = add;
+    //added header size to the message size
+    m_MsgSize = m_MsgSize + sizeof(T);
+  }
+
+  void freeMessage();
+
+  void setProtocol(Protocol* protocol);
+  void setConnection(Connection_ptr connection);
+
+  void setState(OutputMessageState state);
+  OutputMessageState getState() const;
+
+  void setFrame(uint64_t frame);
+
+  Protocol* m_protocol;
+  Connection_ptr m_connection;
+
+  uint32_t m_outputBufferStart;
+  uint64_t m_frame;
+
+  OutputMessageState m_state;
 };
+
+typedef boost::shared_ptr<OutputMessage> OutputMessage_ptr;
 
 class OutputMessagePool
 {
-	public:
-		// non-copyable
-		OutputMessagePool(const OutputMessagePool&) = delete;
-		OutputMessagePool& operator=(const OutputMessagePool&) = delete;
+public:
+  OutputMessagePool();
+  ~OutputMessagePool();
 
-		static OutputMessagePool& getInstance() {
-			static OutputMessagePool instance;
-			return instance;
-		}
+  static OutputMessagePool* getInstance();
 
-		void sendAll();
-		void scheduleSendAll();
+#ifdef __ENABLE_SERVER_DIAGNOSTIC__
+  static uint32_t OutputMessagePoolCount;
+#endif
 
-		static OutputMessage_ptr getOutputMessage();
+  void send(OutputMessage_ptr msg);
+  void sendAll();
+  void stop();
+  OutputMessage_ptr getOutputMessage(Protocol* protocol, bool autosend = true);
+  void startExecutionFrame();
 
-		void addProtocolToAutosend(Protocol_ptr protocol);
-		void removeProtocolFromAutosend(const Protocol_ptr& protocol);
-	private:
-		OutputMessagePool() = default;
-		//NOTE: A vector is used here because this container is mostly read
-		//and relatively rarely modified (only when a client connects/disconnects)
-		std::vector<Protocol_ptr> bufferedProtocols;
+  size_t getTotalMessageCount() const;
+  size_t getAvailableMessageCount() const;
+  size_t getAutoMessageCount() const;
+  void addToAutoSend(OutputMessage_ptr msg);
+
+protected:
+
+  void configureOutputMessage(OutputMessage_ptr msg, Protocol* protocol, bool autosend);
+  void releaseMessage(OutputMessage* msg);
+  void internalReleaseMessage(OutputMessage* msg);
+
+  typedef std::list<OutputMessage*> InternalOutputMessageList;
+  typedef std::list<OutputMessage_ptr> OutputMessageMessageList;
+
+  InternalOutputMessageList m_outputMessages;
+  InternalOutputMessageList m_allOutputMessages;
+  OutputMessageMessageList m_autoSendOutputMessages;
+  OutputMessageMessageList m_toAddQueue;
+  boost::recursive_mutex m_outputPoolLock;
+  uint64_t m_frameTime;
+  bool m_isOpen;
 };
 
+#ifdef __TRACK_NETWORK__
+#define TRACK_MESSAGE(omsg) (omsg)->Track(__FILE__, __LINE__, __FUNCTION__)
+#else
+#define TRACK_MESSAGE(omsg)
+#endif
 
 #endif

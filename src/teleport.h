@@ -1,72 +1,80 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_TELEPORT_H_873B7F7F1DB24101A7ACFB54B25E0ABC
-#define FS_TELEPORT_H_873B7F7F1DB24101A7ACFB54B25E0ABC
+#ifndef __OTSERV_TELEPORT_H__
+#define __OTSERV_TELEPORT_H__
 
-#include "tile.h"
+#include <stdint.h>
+#include "position.h"
+#include "cylinder.h"
+#include "item.h"
 
-class Teleport final : public Item, public Cylinder
+class Teleport : public Item, public Cylinder
 {
-	public:
-		explicit Teleport(uint16_t type) : Item(type) {};
+public:
+  Teleport(uint16_t _type);
+  ~Teleport();
 
-		Teleport* getTeleport() final {
-			return this;
-		}
-		const Teleport* getTeleport() const final {
-			return this;
-		}
+  virtual Teleport* getTeleport();
+  virtual const Teleport* getTeleport() const;
 
-		//serialization
-		Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream) final;
-		void serializeAttr(PropWriteStream& propWriteStream) const final;
+  //serialization
+  virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
+  virtual bool serializeAttr(PropWriteStream& propWriteStream) const;
 
-		const Position& getDestPos() const {
-			return destPos;
-		}
-		void setDestPos(Position pos) {
-			destPos = std::move(pos);
-		}
+  void setDestPos(const Position& pos);
+  const Position& getDestPos() const;
 
-		//cylinder implementations
-		ReturnValue queryAdd(int32_t index, const Thing& thing, uint32_t count,
-				uint32_t flags, Creature* actor = nullptr) const final;
-		ReturnValue queryMaxCount(int32_t index, const Thing& thing, uint32_t count,
-				uint32_t& maxQueryCount, uint32_t flags) const final;
-		ReturnValue queryRemove(const Thing& thing, uint32_t count, uint32_t flags) const final;
-		Cylinder* queryDestination(int32_t& index, const Thing& thing, Item** destItem,
-				uint32_t& flags) final;
+  //cylinder implementations
+  virtual Cylinder* getParent();
+  virtual const Cylinder* getParent() const;
+  virtual bool isRemoved() const;
+  virtual Position getPosition() const;
+  virtual Tile* getTile();
+  virtual const Tile* getTile() const;
+  virtual Item* getItem();
+  virtual const Item* getItem() const;
+  virtual Creature* getCreature();
+  virtual const Creature* getCreature() const;
+  virtual Tile* getParentTile();
+  virtual const Tile* getParentTile() const;
 
-		void addThing(Thing* thing) final;
-		void addThing(int32_t index, Thing* thing) final;
+  virtual ReturnValue __queryAdd(int32_t index, const Thing* thing, uint32_t count,
+    uint32_t flags) const;
+  virtual ReturnValue __queryMaxCount(int32_t index, const Thing* thing, uint32_t count,
+    uint32_t& maxQueryCount, uint32_t flags) const;
+  virtual ReturnValue __queryRemove(const Thing* thing, uint32_t count, uint32_t flags) const;
+  virtual Cylinder* __queryDestination(int32_t& index, const Thing* thing, Item** destItem,
+    uint32_t& flags);
 
-		void updateThing(Thing* thing, uint16_t itemId, uint32_t count) final;
-		void replaceThing(uint32_t index, Thing* thing) final;
+  virtual void __addThing(Creature* actor, Thing* thing);
+  virtual void __addThing(Creature* actor, int32_t index, Thing* thing);
+  virtual void __updateThing(Creature* actor, Thing* thing, uint16_t itemId, uint32_t count);
+  virtual void __replaceThing(Creature* actor, uint32_t index, Thing* thing);
+  virtual void __removeThing(Creature* actor, Thing* thing, uint32_t count);
 
-		void removeThing(Thing* thing, uint32_t count) final;
+  virtual void postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t link = LINK_OWNER);
+  virtual void postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t link = LINK_OWNER);
 
-		void postAddNotification(Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t link = LINK_OWNER) final;
-		void postRemoveNotification(Thing* thing, const Cylinder* newParent, int32_t index, cylinderlink_t link = LINK_OWNER) final;
-
-	private:
-		Position destPos;
+private:
+  Position destPos;
 };
 
 #endif

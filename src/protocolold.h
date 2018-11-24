@@ -1,46 +1,75 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 
-#ifndef FS_PROTOCOLOLD_H_5487B862FE144AE0904D098A3238E161
-#define FS_PROTOCOLOLD_H_5487B862FE144AE0904D098A3238E161
+#ifndef __OTSERV_PROTOCOLOLD_H__
+#define __OTSERV_PROTOCOLOLD_H__
 
+#include <stdint.h>
 #include "protocol.h"
 
 class NetworkMessage;
 
-class ProtocolOld final : public Protocol
+class ProtocolOld : public Protocol
 {
-	public:
-		// static protocol information
-		enum {server_sends_first = false};
-		enum {protocol_identifier = 0x01};
-		enum {use_checksum = false};
-		static const char* protocol_name() {
-			return "old login protocol";
-		}
+public:
+  // static protocol information
+  enum {server_sends_first = false};
+  // Ident is added in subclass
+  enum {use_checksum = false};
 
-		explicit ProtocolOld(Connection_ptr connection) : Protocol(connection) {}
+#ifdef __ENABLE_SERVER_DIAGNOSTIC__
+  static uint32_t protocolOldCount;
+#endif
 
-		void onRecvFirstMessage(NetworkMessage& msg) final;
+  ProtocolOld(Connection_ptr connection);
+  virtual ~ProtocolOld();
 
-	protected:
-		void disconnectClient(const std::string& message);
+  virtual void onRecvFirstMessage(NetworkMessage& msg);
+
+protected:
+  void disconnectClient(uint8_t error, const char* message);
+
+  bool parseFirstPacket(NetworkMessage& msg);
+
+  #ifdef __DEBUG_NET_DETAIL__
+  virtual void deleteProtocolTask();
+  #endif
+};
+
+class ProtocolOldLogin : public ProtocolOld
+{
+public:
+  enum {protocol_identifier = 0x01};
+
+  ProtocolOldLogin(Connection_ptr connection);
+
+  static const char* protocol_name();
+};
+
+class ProtocolOldGame : public ProtocolOld
+{
+public:
+  enum {protocol_identifier = 0x0A};
+  static const char* protocol_name();
+
+  ProtocolOldGame(Connection_ptr connection);
 };
 
 #endif

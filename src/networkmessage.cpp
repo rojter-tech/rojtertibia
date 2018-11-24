@@ -1,138 +1,272 @@
-/**
- * The Forgotten Server - a free and open-source MMORPG server emulator
- * Copyright (C) 2016  Mark Samman <mark.samman@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
-
+//////////////////////////////////////////////////////////////////////
+// OpenTibia - an opensource roleplaying game
+//////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software Foundation,
+// Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//////////////////////////////////////////////////////////////////////
 #include "otpch.h"
 
 #include "networkmessage.h"
-
-#include "container.h"
 #include "creature.h"
+#include "position.h"
+#include "item.h"
 
-std::string NetworkMessage::getString(uint16_t stringLen/* = 0*/)
+NetworkMessage::NetworkMessage()
 {
-	if (stringLen == 0) {
-		stringLen = get<uint16_t>();
-	}
-
-	if (!canRead(stringLen)) {
-		return std::string();
-	}
-
-	char* v = reinterpret_cast<char*>(buffer) + info.position; //does not break strict aliasing
-	info.position += stringLen;
-	return std::string(v, stringLen);
+  Reset();
 }
 
-Position NetworkMessage::getPosition()
+NetworkMessage::~NetworkMessage()
 {
-	Position pos;
-	pos.x = get<uint16_t>();
-	pos.y = get<uint16_t>();
-	pos.z = getByte();
-	return pos;
+
 }
 
-void NetworkMessage::addString(const std::string& value)
+uint8_t NetworkMessage::GetByte()
 {
-	size_t stringLen = value.length();
-	if (!canAdd(stringLen + 2) || stringLen > 8192) {
-		return;
-	}
-
-	add<uint16_t>(stringLen);
-	memcpy(buffer + info.position, value.c_str(), stringLen);
-	info.position += stringLen;
-	info.length += stringLen;
+  return m_MsgBuf[m_ReadPos++];
 }
 
-void NetworkMessage::addDouble(double value, uint8_t precision/* = 2*/)
+uint16_t NetworkMessage::GetU16()
 {
-	addByte(precision);
-	add<uint32_t>((value * std::pow(static_cast<float>(10), precision)) + std::numeric_limits<int32_t>::max());
+  uint16_t v = *(uint16_t*)(m_MsgBuf + m_ReadPos);
+  m_ReadPos += 2;
+  return v;
 }
 
-void NetworkMessage::addBytes(const char* bytes, size_t size)
+uint16_t NetworkMessage::GetSpriteId()
 {
-	if (!canAdd(size) || size > 8192) {
-		return;
-	}
-
-	memcpy(buffer + info.position, bytes, size);
-	info.position += size;
-	info.length += size;
+  return GetU16();
 }
 
-void NetworkMessage::addPaddingBytes(size_t n)
+uint32_t NetworkMessage::GetU32()
 {
-	if (!canAdd(n)) {
-		return;
-	}
-
-	memset(buffer + info.position, 0x33, n);
-	info.length += n;
+  uint32_t v = *(uint32_t*)(m_MsgBuf + m_ReadPos);
+  m_ReadPos += 4;
+  return v;
 }
 
-void NetworkMessage::addPosition(const Position& pos)
+uint32_t NetworkMessage::PeekU32() const
 {
-	add<uint16_t>(pos.x);
-	add<uint16_t>(pos.y);
-	addByte(pos.z);
+  uint32_t v = *(uint32_t*)(m_MsgBuf + m_ReadPos);
+  return v;
 }
 
-void NetworkMessage::addItem(uint16_t id, uint8_t count)
+uint64_t NetworkMessage::GetU64() const
 {
-	const ItemType& it = Item::items[id];
-
-	add<uint16_t>(it.clientId);
-
-	addByte(0xFF); // MARK_UNMARKED
-
-	if (it.stackable) {
-		addByte(count);
-	} else if (it.isSplash() || it.isFluidContainer()) {
-		addByte(fluidMap[count & 7]);
-	}
-
-	if (it.isAnimation) {
-		addByte(0xFE); // random phase (0xFF for async)
-	}
+  uint64_t v = *(uint64_t*)(m_MsgBuf + m_ReadPos);
+  return v;
 }
 
-void NetworkMessage::addItem(const Item* item)
+std::string NetworkMessage::GetString()
 {
-	const ItemType& it = Item::items[item->getID()];
+  uint16_t stringlen = GetU16();
+  if(stringlen >= (NETWORKMESSAGE_MAXSIZE - m_ReadPos))
+    return std::string();
 
-	add<uint16_t>(it.clientId);
-	addByte(0xFF); // MARK_UNMARKED
-
-	if (it.stackable) {
-		addByte(std::min<uint16_t>(0xFF, item->getItemCount()));
-	} else if (it.isSplash() || it.isFluidContainer()) {
-		addByte(fluidMap[item->getFluidType() & 7]);
-	}
-
-	if (it.isAnimation) {
-		addByte(0xFE); // random phase (0xFF for async)
-	}
+  char* v = (char*)(m_MsgBuf + m_ReadPos);
+  m_ReadPos += stringlen;
+  return std::string(v, stringlen);
 }
 
-void NetworkMessage::addItemId(uint16_t itemId)
+std::string NetworkMessage::GetRaw()
 {
-	add<uint16_t>(Item::items[itemId].clientId);
+  uint16_t stringlen = m_MsgSize- m_ReadPos;
+  if(stringlen >= (NETWORKMESSAGE_MAXSIZE - m_ReadPos))
+    return std::string();
+
+  char* v = (char*)(m_MsgBuf + m_ReadPos);
+  m_ReadPos += stringlen;
+  return std::string(v, stringlen);
+}
+
+Position NetworkMessage::GetPosition()
+{
+  Position pos;
+  pos.x = GetU16();
+  pos.y = GetU16();
+  pos.z = GetByte();
+  return pos;
+}
+
+void NetworkMessage::SkipBytes(int count)
+{
+  m_ReadPos += count;
+}
+
+void NetworkMessage::AddByte(uint8_t value)
+{
+  if(!canAdd(1))
+    return;
+  m_MsgBuf[m_ReadPos++] = value;
+  m_MsgSize++;
+}
+
+void NetworkMessage::AddU16(uint16_t value)
+{
+  if(!canAdd(2))
+    return;
+  *(uint16_t*)(m_MsgBuf + m_ReadPos) = value;
+  m_ReadPos += 2; m_MsgSize += 2;
+}
+
+void NetworkMessage::AddU32(uint32_t value)
+{
+  if(!canAdd(4))
+    return;
+  *(uint32_t*)(m_MsgBuf + m_ReadPos) = value;
+  m_ReadPos += 4; m_MsgSize += 4;
+}
+
+void NetworkMessage::AddU64(uint64_t value)
+{
+  if(!canAdd(8))
+    return;
+  *(uint64_t*)(m_MsgBuf + m_ReadPos) = value;
+  m_ReadPos += 8; m_MsgSize += 8;
+}
+
+void NetworkMessage::AddString(const char* value)
+{
+  uint32_t stringlen = (uint32_t)strlen(value);
+  if(!canAdd(stringlen+2) || stringlen > 8192)
+    return;
+
+  AddU16(stringlen);
+  strcpy((char*)(m_MsgBuf + m_ReadPos), value);
+  m_ReadPos += stringlen;
+  m_MsgSize += stringlen;
+}
+
+void NetworkMessage::AddBytes(const char* bytes, uint32_t size)
+{
+  if(!canAdd(size) || size > 8192)
+    return;
+
+  memcpy(m_MsgBuf + m_ReadPos, bytes, size);
+  m_ReadPos += size;
+  m_MsgSize += size;
+}
+
+void NetworkMessage::AddPaddingBytes(uint32_t n)
+{
+  if(!canAdd(n))
+    return;
+
+  memset((void*)&m_MsgBuf[m_ReadPos], 0x33, n);
+  m_MsgSize = m_MsgSize + n;
+}
+
+void NetworkMessage::AddString(const std::string &value)
+{
+  AddString(value.c_str());
+}
+
+void NetworkMessage::AddPosition(const Position& pos)
+{
+  AddU16(pos.x);
+  AddU16(pos.y);
+  AddByte(pos.z);
+}
+
+void NetworkMessage::AddItem(uint16_t id, uint8_t count)
+{
+  const ItemType &it = Item::items[id];
+
+  AddU16(it.clientId);
+
+  if(it.stackable){
+    AddByte(count);
+  }
+  else if(it.isSplash() || it.isFluidContainer()){
+    uint32_t fluidIndex = count % 8;
+    AddByte(fluidMap[fluidIndex].value());
+  }
+}
+
+void NetworkMessage::AddItem(const Item* item)
+{
+  const ItemType &it = Item::items[item->getID()];
+
+  AddU16(it.clientId);
+
+  if(it.stackable){
+    AddByte(item->getSubType());
+  }
+  else if(it.isSplash() || it.isFluidContainer()){
+    uint32_t fluidIndex = item->getSubType() % 8;
+    AddByte(fluidMap[fluidIndex].value());
+  }
+}
+
+void NetworkMessage::AddItemId(const Item *item)
+{
+  const ItemType &it = Item::items[item->getID()];
+  AddU16(it.clientId);
+}
+
+void NetworkMessage::AddItemId(uint16_t itemId)
+{
+  const ItemType &it = Item::items[itemId];
+  AddU16(it.clientId);
+}
+
+int32_t NetworkMessage::getMessageLength() const
+{
+  return m_MsgSize;
+}
+
+void NetworkMessage::setMessageLength(int32_t newSize)
+{
+  m_MsgSize = newSize;
+}
+
+int32_t NetworkMessage::getReadPos() const
+{
+  return m_ReadPos;
+}
+
+void NetworkMessage::setReadPos(int32_t pos)
+{
+  m_ReadPos = pos;
+}
+
+int32_t NetworkMessage::decodeHeader()
+{
+  int32_t size = (int32_t)(m_MsgBuf[0] | m_MsgBuf[1] << 8);
+  m_MsgSize = size;
+  return size;
+}
+
+char* NetworkMessage::getBuffer()
+{
+  return (char*)&m_MsgBuf[0];
+}
+
+char* NetworkMessage::getBodyBuffer()
+{
+  m_ReadPos = 2; return (char*)&m_MsgBuf[header_length];
+}
+
+void NetworkMessage::Reset()
+{
+  m_MsgSize = 0;
+  m_ReadPos = 8;
+}
+
+bool NetworkMessage::canAdd(uint32_t size) const
+{
+  return size + m_ReadPos < max_body_length;
 }
