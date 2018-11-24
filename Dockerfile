@@ -1,22 +1,17 @@
-FROM alpine:edge AS build
-# pugixml-dev is in edge/testing
+FROM ubuntu:latest AS build
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
-  boost-dev=1.62.0-r5
-
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-  binutils \
-  build-base \
-  clang \
+RUN apt-get install -y \
+  git \
   cmake \
-  make \
-  crypto++-dev \
-  gcc \
-  gmp-dev \
-  luajit-dev \
-  mariadb-connector-c-dev \
-  libxml2-dev \
-  lua-dev
+  build-essential \
+  liblua5.2-dev \
+  libgmp3-dev \
+  libmysqlclient-dev \
+  libboost-system-dev \
+  libboost-iostreams-dev \
+  libpugixml-dev \
+  libcrypto++-dev \
+  libluajit-5.1-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
@@ -24,18 +19,15 @@ COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
 
-FROM alpine:edge
-# pugixml-dev is in edge/testing
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
-  boost-iostreams=1.62.0-r5 \
-  boost-system=1.62.0-r5
+FROM ubuntu:latest
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-  crypto++ \
-  gmp \
-  luajit \
-  mariadb-connector-c \
-  pugixml
+RUN apt-get install -y \
+  libboost-system \
+  libboost-iostreams \
+  libcrypto++ \
+  libluajit-5.1-common \
+  libmysqlclient \
+  libpugixml
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
