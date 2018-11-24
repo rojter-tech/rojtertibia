@@ -3,8 +3,8 @@
 #  LUAJIT_INCLUDE_DIR - the luajit include directory
 #  LUAJIT_LIBRARY - the luajit library
 
-FIND_PATH(LUAJIT_INCLUDE_DIR NAMES lua.h PATH_SUFFIXES luajit-2.0)
-SET(_LUAJIT_STATIC_LIBS libluajit51.a libluajit5.1.a libluajit-5.1.a libluajit.a)
+FIND_PATH(LUAJIT_INCLUDE_DIR NAMES lua.h PATH_SUFFIXES luajit-5.1)
+SET(_LUAJIT_STATIC_LIBS libluajit51.a libluajit5.1.a libluajit-5.1.a libluajit.a libluajit-5.1.a)
 SET(_LUAJIT_SHARED_LIBS luajit51 luajit5.1 luajit-5.1 luajit)
 IF(USE_STATIC_LIBS)
     FIND_LIBRARY(LUAJIT_LIBRARY NAMES ${_LUAJIT_STATIC_LIBS} ${_LUAJIT_SHARED_LIBS})
