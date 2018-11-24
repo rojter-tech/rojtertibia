@@ -25,5 +25,5 @@ COPY config.lua.dist /usr/src/rojtertibia/config.lua
 EXPOSE 7173 7174
 WORKDIR /usr/src/rojtertibia/
 VOLUME /usr/src/rojtertibia/
-RUN adduser -u 1000 oldtibia
+RUN adduser -u 1000 -p 1000 oldtibia
 ENTRYPOINT ["/usr/src/rojtertibia/build/src/otserv"]
