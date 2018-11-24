@@ -12,7 +12,7 @@ RUN apt-get update -y && apt-get install -y \
   libxml2-dev \
   liblzma-dev \
   libluajit-5.1-dev
-clear
+
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
 COPY CMakeLists.txt /usr/src/rojtertibia/
