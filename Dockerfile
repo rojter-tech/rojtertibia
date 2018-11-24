@@ -19,7 +19,7 @@ COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
 COPY data /usr/src/rojtertibia/data/
-COPY LICENSE README.md *.dist *.sql key.pem /usr/src/rojtertibia/
+COPY LICENSE README.md *.dist *.sql /usr/src/rojtertibia/
 COPY config.lua.dist /usr/src/rojtertibia/config.lua
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
