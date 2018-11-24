@@ -24,7 +24,6 @@ FROM ubuntu:latest
 RUN apt-get update -y && apt-get install -y \
   libboost-system1.65.1 \
   libboost-iostreams1.65.1 \
-  libcrypto++9 \
   libluajit-5.1-common \
   libmysqlclient20 \
   libxml2
