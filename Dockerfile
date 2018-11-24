@@ -1,6 +1,6 @@
 FROM ubuntu:latest AS build
 
-RUN apt-get install -y \
+RUN apt-get update -y && apt-get install -y \
   git \
   cmake \
   build-essential \
@@ -21,7 +21,7 @@ RUN cmake .. && make -j8
 
 FROM ubuntu:latest
 
-RUN apt-get install -y \
+RUN apt-get update -y && apt-get install -y \
   libboost-system \
   libboost-iostreams \
   libcrypto++ \
