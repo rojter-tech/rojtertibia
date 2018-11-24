@@ -22,7 +22,7 @@ COPY data /usr/src/rojtertibia/data/
 COPY LICENSE README.md *.dist *.sql /usr/src/rojtertibia/
 COPY config.lua.dist /usr/src/rojtertibia/config.lua
 
-EXPOSE 7172 7173
+EXPOSE 7171 7172
 WORKDIR /usr/src/rojtertibia/
 VOLUME /usr/src/rojtertibia/
 ENTRYPOINT ["/usr/src/rojtertibia/build/src/otserv"]
