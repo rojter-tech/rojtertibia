@@ -16,9 +16,9 @@ option(USE_SQLITE "Use SQLite" OFF)
 option(USE_ODBC "Use ODBC" OFF)
 option(USE_PGSQL "Use PGSQL" OFF)
 option(USE_LUAJIT "Use LuaJIT" ON)
-option(USE_DIAGNOSTIC "Use server diagnostic" OFF)
+option(USE_DIAGNOSTIC "Use server diagnostic" ON)
 option(USE_SKULLSYSTEM "Skull system" ON)
-option(USE_STATIC_LIBS "Static linking" OFF)
+option(USE_STATIC_LIBS "Static linking" ON)
 
 # Status
 message(STATUS "MySQL: " ${USE_MYSQL})

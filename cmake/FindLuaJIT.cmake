@@ -7,7 +7,7 @@
 
 ## Copied from default CMake FindLua51.cmake
 
-find_path(LUA_INCLUDE_DIR luajit.h
+find_path(LUA_INCLUDE_DIR luajit.h lua.h
   HINTS
     ENV LUA_DIR
   PATH_SUFFIXES include/luajit-2.0 include/luajit-2.1 include
