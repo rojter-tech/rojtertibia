@@ -1,8 +1,8 @@
 FROM alpine:edge AS build
 # pugixml-dev is in edge/testing
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.1/main/ \
-  boost-dev=1.56.0-r0
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
+  boost-dev=boost-dev-1.62.0-r5
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
   binutils \
@@ -26,9 +26,9 @@ RUN cmake .. && make -j8
 
 FROM alpine:edge
 # pugixml-dev is in edge/testing
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.1/main/ \
-  boost-iostreams=1.56.0-r0 \
-  boost-system=1.56.0-r0
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
+  boost-iostreams=boost-dev-1.62.0-r5 \
+  boost-system=boost-dev-1.62.0-r5
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
   crypto++ \
