@@ -20,6 +20,7 @@ WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j8
 
 FROM ubuntu:latest
+COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
 
 RUN apt-get update -y && apt-get install -y \
   libboost-system1.65.1 \
@@ -29,7 +30,6 @@ RUN apt-get update -y && apt-get install -y \
   libxml2
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
-COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
 COPY data /srv/data/
 COPY LICENSE README.md *.dist *.sql key.pem /srv/
 COPY config.lua.dist /srv/config.lua
