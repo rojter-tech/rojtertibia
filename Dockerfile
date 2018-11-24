@@ -7,9 +7,8 @@ RUN apt-get update -y && apt-get install -y \
   liblua5.2-dev \
   libgmp3-dev \
   libmysqlclient-dev \
-  libboost-system-dev \
-  libboost-iostreams-dev \
-  libpugixml-dev \
+  libboost-all-dev \
+  libxml2-dev \
   libcrypto++-dev \
   libluajit-5.1-dev
 
@@ -27,7 +26,7 @@ RUN apt-get update -y && apt-get install -y \
   libcrypto++ \
   libluajit-5.1-common \
   libmysqlclient \
-  libpugixml
+  libxml2
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
