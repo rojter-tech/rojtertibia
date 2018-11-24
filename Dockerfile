@@ -9,15 +9,14 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
   build-base \
   clang \
   cmake \
+  make \
   crypto++-dev \
   gcc \
   gmp-dev \
   luajit-dev \
-  make \
   mariadb-connector-c-dev \
   libxml2-dev \
   lua-dev \
-  pugixml-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
