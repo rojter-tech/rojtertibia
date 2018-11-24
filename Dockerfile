@@ -3,13 +3,15 @@ FROM ubuntu:latest AS build
 RUN apt-get update -y && apt-get install -y \
   git \
   cmake \
-  build-essential \
-  liblua5.2-dev \
+  make \
+  gcc \
+  liblua5.1-dev \
   libgmp3-dev \
   libmysqlclient-dev \
   libboost-all-dev \
   libxml2-dev \
   libcrypto++-dev \
+  libgmp-dev \
   libluajit-5.1-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
@@ -21,11 +23,11 @@ RUN cmake .. && make -j8
 FROM ubuntu:latest
 
 RUN apt-get update -y && apt-get install -y \
-  libboost-system \
-  libboost-iostreams \
-  libcrypto++ \
+  libboost-system1.65.1 \
+  libboost-iostreams1.65.1 \
+  libcrypto++9 \
   libluajit-5.1-common \
-  libmysqlclient \
+  libmysqlclient20 \
   libxml2
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
