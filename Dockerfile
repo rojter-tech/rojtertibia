@@ -17,7 +17,7 @@ COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
 COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
-RUN cmake .. && make -j4
+RUN cmake .. && make -j16
 COPY data /usr/src/rojtertibia/data/
 COPY LICENSE README.md *.dist *.sql /usr/src/rojtertibia/
 COPY config.lua.dist /usr/src/rojtertibia/config.lua
