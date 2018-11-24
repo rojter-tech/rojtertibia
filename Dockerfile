@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 RUN apt-get update -y && apt-get install -y \
   git \
@@ -22,7 +22,7 @@ COPY data /usr/src/rojtertibia/data/
 COPY LICENSE README.md *.dist *.sql /usr/src/rojtertibia/
 COPY config.lua.dist /usr/src/rojtertibia/config.lua
 
-EXPOSE 7173 7174
+EXPOSE 7173
 WORKDIR /usr/src/rojtertibia/
 VOLUME /usr/src/rojtertibia/
 ENTRYPOINT ["/usr/src/rojtertibia/build/src/otserv"]
