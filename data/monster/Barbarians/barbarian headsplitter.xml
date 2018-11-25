@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 	<monster name="Barbarian Headsplitter" nameDescription="a barbarian headsplitter" race="blood" experience="85" speed="270" manacost="450">
 	<health now="100" max="100"/>
 	<look type="253" head="115" body="105" legs="119" feet="132" corpse="6080"/>
@@ -19,9 +19,9 @@
 		<flag runonhealth="0"/>
 	</flags>
 	<attacks>
-		<attack name="melee" interval="2000" min="-50" max="-150"/>
-		<attack name="physical" interval="1000" chance="34" range="7" radius="1" target="1" min="-10" max="-60">
-			<attribute key="shootEffect" value="infernalbolt"/>
+		<attack name="melee" interval="2000" skill="40" attack="20"/>
+		<attack name="physical" interval="2000" chance="20" range="7" radius="1" target="1" min="-0" max="-60">
+			<attribute key="shootEffect" value="whirlwindaxe"/>
 		</attack>
 	</attacks>
 	<defenses armor="30" defense="30"/>
@@ -29,8 +29,8 @@
 		<element icePercent="50"/>
 		<element holyPercent="20"/>
 		<element energyPercent="20"/>
-		<element earthPercent="-13"/>
-		<element deathPercent="-7"/>
+		<element earthPercent="-10"/>
+		<element deathPercent="-10"/>
 	</elements>
 	<immunities>
 		<immunity paralyze="1"/>
@@ -41,17 +41,22 @@
 		<voice sentence="Its you or me!"/>
 	</voices>
 	<loot>
-		<item id="2148" countmax="30" chance="33333"/><!-- gold coin -->
-		<item id="2111" countmax="6" chance="10000"/><!-- snowball -->
-		<item id="2473" chance="10000"/><!-- viking helmet -->
-		<item id="7457" chance="10000"/><!-- fur boots -->
-		<item id="2460" chance="10000"/><!-- brass helmet -->
-		<item id="2403" chance="10000"/><!-- knife -->
-		<item id="2473" chance="10000"/><!-- viking helmet -->
-		<item id="5913" chance="10000"/><!-- brown piece of cloth -->
-		<item id="2050" chance="10000"/><!-- torch -->
-		<item id="7449" chance="10000"/><!-- crystal sword -->
-		<item id="7461" chance="1000"/><!-- krimhorn helmet -->
-		<item id="2320" chance="10000"/><!-- skull -->
+		<item id="2148" countmax="30" chance="39000"/><!-- gold coin -->
+		<item id="2050" chance="61750"/><!-- torch -->
+		<item id="2403" chance="15000"/><!-- knife -->
+		<item id="2460" chance="22000"/><!-- brass helmet -->
+		<item id="2483" chance="4550"/><!-- scale armor -->
+		<item id="2473" chance="4650"/><!-- viking helmet -->
+		<item id="2320" chance="3600"/><!-- skull -->
+		<item id="1987" chance="100000"><!-- bag -->
+			<inside>
+		<item id="5913" chance="1000"/><!-- brown piece of cloth -->
+		<item id="7618" chance="400"/><!-- health potion -->
+		<item id="2168" chance="260"/><!-- life ring-->
+		<item id="7461" chance="130"/><!-- krimhorn helmet -->
+		<item id="7449" chance="50"/><!-- crystal sword -->
+		<item id="7457" chance="90"/><!-- fur boots -->
+			</inside>
+		</item>
 	</loot>
 </monster>

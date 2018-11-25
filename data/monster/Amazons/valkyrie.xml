@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<monster name="Valkyrie" nameDescription="a valkyrie" race="blood" experience="85" speed="176" manacost="450">
+<monster name="Valkyrie" nameDescription="a valkyrie" race="blood" experience="85" speed="200" manacost="450">
 	<health now="190" max="190"/>
 	<look type="139" head="113" body="57" legs="95" feet="113" corpse="6081"/>
 	<targetchange interval="5000" chance="8"/>
@@ -18,8 +18,8 @@
 		<flag runonhealth="10"/>
 	</flags>
 	<attacks>
-		<attack name="melee" interval="2000" skill="35" attack="20"/>
-		<attack name="physical" interval="1000" chance="15" range="7" min="-5" max="-50">
+		<attack name="melee" interval="2000" skill="25" attack="40"/>
+		<attack name="physical" interval="2000" chance="20" range="7" min="-0" max="-50">
 			<attribute key="shootEffect" value="spear"/>
 		</attack>
 	</attacks>
@@ -27,9 +27,9 @@
 	<elements>
 		<element icePercent="10"/>
 		<element firePercent="10"/>
-		<element holyPercent="7"/>
-		<element deathPercent="-7"/>
-		<element physicalPercent="-6"/>
+		<element holyPercent="5"/>
+		<element deathPercent="-5"/>
+		<element physicalPercent="-10"/>
 	</elements>
 	<voices interval="5000" chance="10">
 		<voice sentence="Another head for me!"/>
@@ -39,22 +39,24 @@
 		<voice sentence="One more head for me!"/>
 	</voices>
 	<loot>
-		<item id="2148" countmax="12" chance="100000"/><!-- gold coin -->
-		<item id="2464" chance="8000"/><!-- chain armor -->
-		<item id="2125" chance="2500"/><!-- crystal necklace -->
-		<item id="2387" chance="3333"/><!-- double axe -->
-		<item id="2389" countmax="3" chance="8333"/><!-- spear -->
-		<item id="3965" chance="1333"/><!-- hunting spear -->
-		<item id="2458" chance="7000"/><!-- chain helmet -->
+		<item id="2148" countmax="12" chance="225000"/><!-- gold coin -->
+		<item id="2666" chance="30000"/><!-- meat -->
+		<item id="2674" countmax="2" chance="10000"/><!-- apple -->
+		<item id="2229" countmax="2" chance="55000"/><!-- skull -->
+		<item id="2379" chance="22500"/><!-- dagger -->
+		<item id="2458" chance="3000"/><!-- chain helmet -->
+		<item id="2464" chance="11000"/><!-- chain armor -->
 		<item id="1987" chance="100000"><!-- bag -->
 			<inside>
-				<item id="2674" countmax="4" chance="10000"/><!-- red apple -->
-				<item id="2666" countmax="4" chance="20000"/><!-- meat -->
-				<item id="2147" countmax="2" chance="3500"/><!-- small ruby -->
-				<item id="2145" countmax="2" chance="3500"/><!-- small diamond -->
-				<item id="2200" chance="3000"/><!-- protection amulet -->
-				<item id="2463" chance="2333"/><!-- plate armor -->
-				<item id="7618" chance="2400"/><!-- health potion -->
+		<item id="2389" countmax="3" chance="37500"/><!-- spear -->
+		<item id="3965" chance="6000"/><!-- hunting spear -->
+		<item id="2463" chance="1000"/><!-- plate armor -->
+		<item id="2125" chance="750"/><!-- crystal necklace -->
+		<item id="2387" chance="700"/><!-- double axe -->
+		<item id="2200" chance="1800"/><!-- protection amulet -->
+		<item id="7618" chance="200"/><!-- health potion -->
+		<item id="2147" chance="100"/><!-- small ruby -->
+		<item id="2145" chance="50"/><!-- small diamond -->		
 			</inside>
 		</item>
 	</loot>

@@ -1,0 +1,36 @@
+----- 14/1/2014 18:1:39 - Kit Nelson (187.50.123.2) -----
+
+Graphic Engine: DirectX9 (2)
+Operating System: Windows 7 Ultimate Edition 64 Bit in BRA
+Processor: Intel Core i5 -2310 @ 2
+Video Card: Intel (R) HD GR
+Last Packet Types: 023 010 000 000 000 000 000 000 000 000
+Last Packet: 023 019 195 180 225 194 115 116 032 083 121 115 116 101 109 093
+Player.cpp 361: exception occurred, reason:
+Network.cpp 946: exception occurred (ErrorCode = 0), reason:
+Control.cpp 1331: exception occurred (Type = 23) (MainWindow = 9379168), reason:
+Control.cpp 1239: unknown packet type during login (Type = 23)
+Tue Jan 14 17:57:06 2014
+Debug Assertion 8.60 Control.cpp 1239
+
+----- 27/2/2014 18:9:18 - Aaronzinho (187.50.123.2) -----
+Comment: 
+Graphic Engine: DirectX9 (2)
+Operating System: Windows 7 Ultimate Edition 64 Bit in BRA
+Processor: Intel Core i5 -2310 @ 2
+Video Card: Intel (R) HD GR
+Last Packet Types: 110 132 132 131 131 132 131 131 109 030
+Last Packet: 110 000 038 011 008 000 098 097 099 107 112 097 099 107 020 000
+Player Position: [32369,32238,7]
+Player Name: Aaronzinho (Offensive)
+Player Action: 049 057 050 046 057 053 046 049 048 046 054 050 058 055 049 055 050
+Player.cpp 361: exception occurred, reason:
+Network.cpp 946: exception occurred (ErrorCode = 0), reason:
+Control.cpp 1331: exception occurred (Type = 110) (MainWindow = 38796080), reason:
+Communication.cpp 2177: exception occurred (Container = 0), reason:
+Objects.cpp 280: exception occurred (Type = 58208) (Flag = 10), reason:
+Objects.cpp 277: assertion failed (Type = 58208) (ObjectProperties->high() = 11709), reason:
+In(Type,ObjectProperties->low(),ObjectProperties->high())
+Thu Feb 27 18:05:30 2014
+Debug Assertion 8.60 Objects.cpp 277
+

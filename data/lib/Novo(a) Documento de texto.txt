@@ -1,0 +1,4 @@
+add isso dentro da lib 000-constant.lua
+
+WAR_GUILD = 0
+WAR_ENEMY = 1

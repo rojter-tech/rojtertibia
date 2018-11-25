@@ -1,0 +1,12 @@
+<raid>
+<announce delay="1000" type="event" message="The rutless of Hell have sended the Morgaroth to Goroma!" />
+
+  <!--Area Spawns-->
+  <areaspawn delay="3000" fromx="31890" fromy="32628" fromz="14" tox="31891" toy="32629" toz="14">
+    <monster name="morgaroth" amount="1" />
+    <monster name="demon" amount="10" />
+  </areaspawn>
+ 
+
+
+</raid>

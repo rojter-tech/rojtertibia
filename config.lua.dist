@@ -6,7 +6,7 @@
 data_directory = "data/"
 
 -- map location
-map_file = "data/world/map.otbm"
+map_file = "data/world/realmap.otbm"
 
 -- Type of map storage,
 -- 'relational' - Slower, but possible to run database queries to change all items to another id for example.
@@ -20,7 +20,7 @@ use_local_ip = true
 
 -- server ip (the ip that this server on)
 -- Can be "auto" to fetch the global ip automatically
-server_ip = "127.0.0.1"
+server_ip = "83.250.0.97"
 
 -- ID of the world in the database, world name / port is fetched from the database
 world_id = 1

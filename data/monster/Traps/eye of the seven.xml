@@ -30,6 +30,7 @@
 		<immunity holy="1"/>
 		<immunity death="1"/>
 		<immunity lifedrain="1"/>
+		<immunity manadrain="1"/>
 		<immunity paralyze="1"/>
 		<immunity drunk="1"/>
 		<immunity outfit="1"/>

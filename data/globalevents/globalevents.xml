@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<globalevents>
+	<globalevent name="offtrain_add_minutes" interval="60000" event="script" value="offtrain_addMinutes.lua"/>
+	<!-- Offensive Global Scripts -->
+	<!-- BATTLEFIELD -->
+	<globalevent name="lottery" interval="10800000" event="script" value="lottery.lua"/>
+	<globalevent name="cleanhouses" type="start" event="script" value="houseclean.lua"/>
+	<globalevent name="information" interval="1800000" event="script" value="autobroadcast.lua"/>
+	<globalevent name="save" interval="3600000" event="script" value="save.lua"/>
+	<globalevent name="clean" interval="7200000" event="script" value="clean.lua"/>
+	<globalevent name="serverstart" type="start" event="script" value="start.lua"/>
+	<globalevent name="playersrecord" type="record" event="script" value="record.lua"/>
+	<globalevent name="shop" interval="10000" script="shop.lua"/>
+	<globalevent name="Guardias" interval="1000" event="script" value="guardias.lua"/>
+	<globalevent name="texto" interval="2000" script="texto.lua" />
+	<globalevent name="textodois" interval="2000" script="texto2.lua" />	
+</globalevents>

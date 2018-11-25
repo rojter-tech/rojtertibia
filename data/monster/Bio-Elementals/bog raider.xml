@@ -19,15 +19,16 @@
 		<flag runonhealth="1"/>
 	</flags>
 	<attacks>
-		<attack name="melee" interval="2000" min="-20" max="-145" poison="40"/>
-		<attack name="lifedrain" interval="2000" min="-90" max="-140" target="1">
+		<attack name="melee" interval="2000" skill="59" attack="60" poison="80"/>
+		<attack name="lifedrain" interval="3000" chance="10" min="-90" max="-140" target="1">
 			<attribute key="areaEffect" value="redshimmer"/>
 		</attack>
-		<attack name="physical" interval="1000" chance="40" radius="2" target="0" min="-100" max="-175">
+		<attack name="physical" interval="1000" chance="100" radius="2" target="0" min="-100" max="-175">
 			<attribute key="shootEffect" value="smallearth"/>
 		</attack>
-		<attack name="paralyze" interval="3000" chance="40" target="1">
-			<attribute key="areaEffect" value="redshimmer"/>
+		<attack name="speed" interval="5000" chance="10" range="7" speedchange="-220" duration="5000">
+			<attribute key="shootEffect" value="poison"/>
+			<attribute key="areaEffect" value="smallplants"/>
 		</attack>
 	</attacks>
 	<defenses armor="10" defense="15">
@@ -55,13 +56,19 @@
 		<voice sentence="Slurp!"/>
 	</voices>
 	<loot>
-		<item id="2148" countmax="121" chance="100000"/><!-- gold coin -->
-		<item id="2647" chance="5000"/><!-- plate legs -->
-		<item id="8872" chance="2000"/><!-- belted cape -->
-		<item id="8912" chance="5000"/><!-- springsprout rod -->
-		<item id="8472" chance="5000"/><!-- great spirit potion -->
-		<item id="8473" chance="3000"/><!-- ultimate health potion -->
-		<item id="8873" chance="2500"/><!-- hibiscus dress -->
-		<item id="8891" chance="2800"/><!-- paladin armor -->
+		<item id="2148" countmax="65" chance="28000"/><!-- gold coin -->
+		<item id="2148" countmax="64" chance="28000"/><!-- gold coin -->
+		<item id="7591" chance="5500"/><!-- great health potion -->
+		<item id="2647" chance="2000"/><!-- plate legs -->
+		<item id="8473" chance="3500"/><!-- ultimate health potion -->
+		<item id="1987" chance="100000"><!-- bag -->
+			<inside>
+		<item id="8472" chance="3500"/><!-- great spirit potion -->
+		<item id="8872" chance="1000"/><!-- belted cape -->
+		<item id="8912" chance="800"/><!-- springsprout rod -->
+		<item id="8873" chance="300"/><!-- hibiscus dress -->
+		<item id="8891" chance="200"/><!-- paladin armor -->
+			</inside>
+		</item>
 	</loot>
 </monster>

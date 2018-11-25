@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<raid>
+  <!--Announcements-->
+  <announce delay="1000" type="Event" message="Santa Clauses sledge has been seen near Yalahar.. " />
+  <announce delay="10000" type="Event" message="He is here to revenge dead goblins" />
+  <announce delay="30000" type="Event" message="CITIZENS! Kill Santa Claus and obatin lots of nice items and donation items.. TEAM UP AND KILL HIM" />
+  <announce delay="60000" type="Event" message="A red clothed man with white beard has landed in Yalahar centre.." />
+  <!--Single Spawns-->
+  <singlespawn delay="60000" name="Santa Claus" x="599" y="613" z="7" />
+</raid>
