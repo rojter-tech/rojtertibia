@@ -1,13 +1,13 @@
 FROM base/devel:latest
-RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' >> /etc/pacman.conf
-RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 RUN pacman -Sy --noconfirm \
-  git \
   cmake \
   lua51 \
   libmariadbclient \
-  boost \
   luajit
+
+RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' >> /etc/pacman.conf
+RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+RUN pacman -Sy --noconfirm boost
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
