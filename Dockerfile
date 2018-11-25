@@ -4,6 +4,8 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.6/main
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
       lua-dev=5.1.5-r4 && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+      binutils \
+      build-base \
       make \
       cmake \
       clang \
@@ -23,14 +25,14 @@ RUN cmake .. && make -j16
 
 FROM alpine:edge
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
-  boost-iostreams=1.62.0-r5 \
-  boost-system=1.62.0-r5 \
-  lua5.1
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
-  gmp \
-  luajit \
-  mariadb-connector-c \
-  libxml2
+      boost-iostreams=1.62.0-r5 \
+      boost-system=1.62.0-r5 \
+      lua5.1 && \
+    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+      gmp \
+      luajit \
+      mariadb-connector-c \
+      libxml2
 
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
 COPY data /srv/data/
