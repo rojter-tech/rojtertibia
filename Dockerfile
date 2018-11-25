@@ -32,7 +32,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main
   mariadb-connector-c \
   libxml2
 
-COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
+COPY --from=tmp /usr/src/rojtertibia/build/tfs /bin/tfs
 COPY data /srv/data/
 COPY LICENSE README.md *.dist *.sql key.pem /srv/
 COPY config.lua.dist /srv/config.lua
