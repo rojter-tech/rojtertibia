@@ -1,6 +1,6 @@
 FROM base/devel:latest
-RUN pacman -Syuu
-RUN pacman -S --noconfirm \
+RUN echo 'Server=https://archive.archlinux.org/repos/2018/1/1/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+RUN pacman -Sy --noconfirm \
   cmake \
   lua51 \
   libmariadbclient \
