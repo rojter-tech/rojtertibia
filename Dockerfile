@@ -6,7 +6,6 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   binutils \
   build-base \
-  clang \
   cmake \
   libxml2-dev \
   gcc \
@@ -19,7 +18,7 @@ COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
 COPY CMakeLists.txt /usr/src/rojtertibia/
 WORKDIR /usr/src/rojtertibia/build
-RUN cmake .. && make -j8
+RUN cmake .. && make -j16
 
 FROM alpine:edge
 
@@ -28,11 +27,10 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main
   boost-system=1.66.0-r0 
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
-  crypto++ \
   gmp \
   luajit \
   mariadb-connector-c \
-  pugixml
+  libxml2
 
 RUN ln -s /usr/lib/libcryptopp.so /usr/lib/libcryptopp.so.5.6
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
