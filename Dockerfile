@@ -1,7 +1,8 @@
 FROM alpine:edge AS build
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-  boost-dev=1.66.0-r0
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
+  boost-dev=1.59.0-r0 \
+  lua-dev=5.1.5-r4
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   binutils \
@@ -22,9 +23,10 @@ RUN cmake .. && make -j16
 
 FROM alpine:edge
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-  boost-iostreams=1.66.0-r0 \
-  boost-system=1.66.0-r0 
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
+  boost-iostreams=1.59.0-r0 \
+  boost-system=1.59.0-r0 \
+  lua=5.1.5-r4
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   gmp \
