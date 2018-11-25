@@ -1,19 +1,19 @@
-FROM alpine:edge AS tmp
+FROM alpine:edge AS build
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.6/main/ \
-  boost-dev=1.62.0-r5
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
-  lua-dev=5.1.5-r4
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
-  make \
-  cmake \
-  clang \
-  libxml2-dev \
-  gcc \
-  gmp-dev \
-  lua5.1-dev \
-  luajit-dev \
-  make \
-  mariadb-connector-c-dev
+      boost-dev=1.62.0-r5 && \
+    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
+      lua-dev=5.1.5-r4 && \
+    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+      make \
+      cmake \
+      clang \
+      libxml2-dev \
+      gcc \
+      gmp-dev \
+      lua5.1-dev \
+      luajit-dev \
+      make \
+      mariadb-connector-c-dev
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
@@ -32,7 +32,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main
   mariadb-connector-c \
   libxml2
 
-COPY --from=tmp /usr/src/rojtertibia/build/tfs /bin/tfs
+COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
 COPY data /srv/data/
 COPY LICENSE README.md *.dist *.sql key.pem /srv/
 COPY config.lua.dist /srv/config.lua
