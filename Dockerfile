@@ -6,6 +6,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   make \
   cmake \
+  clang \
   libxml2-dev \
   gcc \
   gmp-dev \
