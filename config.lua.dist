@@ -16,11 +16,11 @@ map_file = "data/world/map.otbm"
 map_store_type = "binary"
 
 -- Bind to all available local IP addresses
-use_local_ip = false
+use_local_ip = true
 
 -- server ip (the ip that this server on)
 -- Can be "auto" to fetch the global ip automatically
-server_ip = "auto"
+server_ip = "127.0.0.1"
 
 -- ID of the world in the database, world name / port is fetched from the database
 world_id = 1
@@ -39,13 +39,13 @@ status_port = 7171
 admin_port = 7171
 
 -- server url
-server_url = "http://otfans.net"
+server_url = "http://rojter.tech/tibia"
 
 -- server owner name
-server_owner_name = "Tliff"
+server_owner_name = "Daniel Reuter"
 
 -- server owner email
-server_owner_email = "otserv@tibia.de"
+server_owner_email = "dreuter@kth.se"
 
 -- world type
 -- options: pvp, no-pvp, pvp-enforced
@@ -249,7 +249,7 @@ status_information_timeout = 30 * 1000
 
 -- accounts password type
 -- options: plain, md5, sha1
-password_type = "plain"
+password_type = "sha1"
 
 -- Password salt
 -- Offers better security against rainbow table attacks etc.
@@ -282,16 +282,16 @@ detailed_script_errors = true
 
 -- Database configuration
 -- options: mysql, sqlite, odbc or pgsql
-database_type = "sqlite"
+database_type = "mysql"
 
 -- SQL connection part
-database_schema = "db.s3db"
+database_schema = "oldtibia"
 -- database_schema = "otserv" -- use this for MySQL/PgSQL
 -- database_schema = "Your Source" -- ODBC
 
 -- there settings are not used by SQLite
-database_host = "localhost"
+database_host = "192.168.10.20"
 database_port = 3306
 -- database_port = 5432 -- use this for PgSQL
-database_username = "root"
-database_password = ""
+database_username = "oldtibia"
+database_password = "12321"
