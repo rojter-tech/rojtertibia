@@ -1,17 +1,18 @@
-FROM ubuntu:16.04
-
-RUN apt-get update -y && apt-get install -y \
+FROM base/devel:latest
+RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' >> /etc/pacman.conf
+RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+RUN pacman -Sy --noconfirm \
   git \
   cmake \
   make \
   gcc \
-  liblua5.1-dev \
-  libgmp3-dev \
-  libmysqlclient-dev \
-  libboost-all-dev \
-  libxml2-dev \
-  liblzma-dev \
-  libluajit-5.1-dev
+  lua51 \
+  gmp \
+  libmariadbclient \
+  boost \
+  libxml2 \
+  luajit \
+  p7zip
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
