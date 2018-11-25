@@ -1,5 +1,5 @@
 FROM alpine:edge AS build
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.6/main/ \
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
       boost-dev=1.62.0-r5 && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
       lua-dev=5.1.5-r4 && \
