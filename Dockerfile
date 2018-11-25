@@ -1,7 +1,9 @@
 FROM alpine:edge AS build
 
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
+  boost-dev=1.62.0-r5
+
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
-  boost-dev=1.59.0-r0 \
   lua-dev=5.1.5-r4
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
@@ -11,6 +13,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main
   libxml2-dev \
   gcc \
   gmp-dev \
+  lua5.1-dev \
   luajit-dev \
   make \
   mariadb-connector-c-dev
@@ -25,10 +28,10 @@ FROM alpine:edge
 
 COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
 
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
-  boost-iostreams=1.59.0-r0 \
-  boost-system=1.59.0-r0 \
-  lua=5.1.5-r4
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
+  boost-iostreams=1.62.0-r5 \
+  boost-system=1.62.0-r5 \
+  lua5.1=5.1.5-r3
 
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   gmp \
