@@ -25,7 +25,7 @@ RUN cmake .. && make -j16
 
 FROM alpine:edge
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-      boost \
+      boost=1.66.0-r0 \
       lua5.1 && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
       gmp \
