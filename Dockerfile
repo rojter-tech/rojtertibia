@@ -1,5 +1,6 @@
 FROM base/devel:latest
-RUN pacman -Sy --noconfirm \
+RUN pacman -Syuu
+RUN pacman -S --noconfirm \
   cmake \
   lua51 \
   libmariadbclient \
@@ -7,7 +8,8 @@ RUN pacman -Sy --noconfirm \
 
 RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' >> /etc/pacman.conf
 RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' > /etc/pacman.d/mirrorlist
-RUN pacman -Sy --noconfirm boost
+RUN pacman -Sy
+RUN pacman -S --noconfirm boost
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
