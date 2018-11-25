@@ -36,7 +36,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main
 
 COPY --from=otbuild /usr/src/rojtertibia/build/src/otserv /bin/otserv
 COPY data /srv/data/
-COPY LICENSE README.md *.dist *.sql key.pem /srv/
+COPY LICENSE README.md /srv/
 COPY config.lua.dist /srv/config.lua
 
 EXPOSE 7171 7172
