@@ -4,15 +4,10 @@ RUN echo 'Server=https://archive.archlinux.org/repos/2016/01/01/$repo/os/$arch' 
 RUN pacman -Sy --noconfirm \
   git \
   cmake \
-  make \
-  gcc \
   lua51 \
-  gmp \
   libmariadbclient \
   boost \
-  libxml2 \
-  luajit \
-  p7zip
+  luajit
 
 COPY cmake /usr/src/rojtertibia/cmake/
 COPY src /usr/src/rojtertibia/src/
