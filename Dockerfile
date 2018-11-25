@@ -1,4 +1,4 @@
-FROM alpine:edge AS build
+FROM alpine:edge AS otbuild
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
       boost-dev=1.66.0-r0 && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
@@ -34,7 +34,7 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main
       mariadb-connector-c \
       libxml2
 
-COPY --from=build /usr/src/rojtertibia/build/tfs /bin/tfs
+COPY --from=otbuild /usr/src/rojtertibia/build/otserv /bin/otserv
 COPY data /srv/data/
 COPY LICENSE README.md *.dist *.sql key.pem /srv/
 COPY config.lua.dist /srv/config.lua
@@ -42,4 +42,4 @@ COPY config.lua.dist /srv/config.lua
 EXPOSE 7171 7172
 WORKDIR /srv
 VOLUME /srv
-ENTRYPOINT ["/bin/tfs"]
+ENTRYPOINT ["/bin/otserv"]
