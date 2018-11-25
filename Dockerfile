@@ -25,7 +25,7 @@ FROM alpine:edge
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
   boost-iostreams=1.66.0-r0 \
   boost-system=1.66.0-r0 \
-  lua5.1=5.1.5-r3
+  lua5.1
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   gmp \
   luajit \
