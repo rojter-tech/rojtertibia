@@ -1,6 +1,6 @@
 FROM alpine:edge AS tmp
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-  boost-dev=1.66.0-r0
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.6/main/ \
+  boost-dev=1.62.0-r5
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.3/main/ \
   lua-dev=5.1.5-r4
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
@@ -22,9 +22,9 @@ WORKDIR /usr/src/rojtertibia/build
 RUN cmake .. && make -j16
 
 FROM alpine:edge
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.8/main/ \
-  boost-iostreams=1.66.0-r0 \
-  boost-system=1.66.0-r0 \
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/v3.7/main/ \
+  boost-iostreams=1.62.0-r5 \
+  boost-system=1.62.0-r5 \
   lua5.1
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   gmp \
